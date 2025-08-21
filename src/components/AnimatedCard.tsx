@@ -53,13 +53,13 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({
         stiffness: 260,
         damping: 20,
         delay: delay
-      }}
-    >
+      }}>
+
       <Card className={cn(variants[variant], className)}>
         {children}
       </Card>
-    </motion.div>
-  );
+    </motion.div>);
+
 };
 
 export { AnimatedCard };

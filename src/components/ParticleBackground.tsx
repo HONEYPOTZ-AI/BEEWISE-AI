@@ -30,7 +30,7 @@ const ParticleBackground: React.FC = () => {
     };
 
     const createParticles = () => {
-      const particleCount = Math.min(50, Math.floor((canvas.width * canvas.height) / 15000));
+      const particleCount = Math.min(50, Math.floor(canvas.width * canvas.height / 15000));
       particlesRef.current = [];
 
       for (let i = 0; i < particleCount; i++) {
@@ -47,7 +47,7 @@ const ParticleBackground: React.FC = () => {
     };
 
     const updateParticles = () => {
-      particlesRef.current.forEach(particle => {
+      particlesRef.current.forEach((particle) => {
         particle.x += particle.vx;
         particle.y += particle.vy;
 
@@ -65,8 +65,8 @@ const ParticleBackground: React.FC = () => {
 
     const drawParticles = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      particlesRef.current.forEach(particle => {
+
+      particlesRef.current.forEach((particle) => {
         // Draw particle
         ctx.beginPath();
         ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
@@ -74,9 +74,9 @@ const ParticleBackground: React.FC = () => {
         ctx.fill();
 
         // Draw connections
-        particlesRef.current.forEach(otherParticle => {
+        particlesRef.current.forEach((otherParticle) => {
           const distance = Math.sqrt(
-            Math.pow(particle.x - otherParticle.x, 2) + 
+            Math.pow(particle.x - otherParticle.x, 2) +
             Math.pow(particle.y - otherParticle.y, 2)
           );
 
@@ -122,9 +122,9 @@ const ParticleBackground: React.FC = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0"
-      style={{ opacity: 0.6 }}
-    />
-  );
+      style={{ opacity: 0.6 }} />);
+
+
 };
 
 export default ParticleBackground;
