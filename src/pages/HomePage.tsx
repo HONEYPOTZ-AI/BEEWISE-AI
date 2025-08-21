@@ -601,6 +601,9 @@ const HomePage = () => {
             <p className="text-slate-400 text-sm">
               © 2024 BEEWISE-AI. All rights reserved. | Built with cutting-edge AI technology
             </p>
+            <p className="text-slate-400 text-sm mt-2">
+              Developed with love by Honeypotz Inc in Greenwich CT
+            </p>
           </div>
         </div>
       </footer>
