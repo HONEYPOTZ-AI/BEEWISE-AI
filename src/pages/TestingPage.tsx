@@ -15,12 +15,21 @@ import {
   CheckCircle,
   Camera,
   Search,
-  Clock } from
+  Clock,
+  Play,
+  Square,
+  RefreshCw,
+  XCircle,
+  BarChart3,
+  Download,
+  Zap } from
 'lucide-react';
 import ApiConfigTestRunner from '@/components/ApiConfigTestRunner';
 import TestDocumentationGenerator from '@/components/TestDocumentationGenerator';
 import ApiConfigTestSuite from '@/components/ApiConfigTestSuite';
 import { useToast } from '@/hooks/use-toast';
+import LearnMoreButton from '@/components/LearnMoreButton';
+import ContextualHelp from '@/components/ContextualHelp';
 
 const TestingPage: React.FC = () => {
   const navigate = useNavigate();
@@ -181,6 +190,15 @@ const TestingPage: React.FC = () => {
           <p className="text-muted-foreground">
             Comprehensive test suite for API configuration CRUD operations
           </p>
+          <div className="mt-3">
+            <LearnMoreButton
+              section="testing"
+              tooltip="Learn about comprehensive testing strategies and automated test generation"
+              mode="link"
+              size="sm"
+              label="Testing Guide" />
+
+          </div>
         </div>
       </div>
 
@@ -204,16 +222,67 @@ const TestingPage: React.FC = () => {
           </TabsTrigger>
         </TabsList>
 
+        <TabsContent value="crud" className="space-y-6">
+          <ApiConfigTestSuite tableId={apiTableId} />
+        </TabsContent>
+
         <TabsContent value="runner" className="space-y-6">
           <ApiConfigTestRunner tableId={apiTableId} />
         </TabsContent>
 
         <TabsContent value="documentation" className="space-y-6">
+          <ContextualHelp
+            title="Comprehensive Testing Suite"
+            description="Learn about our testing methodology and how to effectively validate API configurations."
+            tips={[
+            "Run tests in a staging environment before production deployment",
+            "Use automated testing for consistent validation across configurations",
+            "Monitor test results for performance degradation over time",
+            "Set up alerts for critical test failures in production"]
+            }
+            warnings={[
+            "Some tests may create temporary data - ensure cleanup is enabled",
+            "Performance tests may impact production if run with high load parameters"]
+            }
+            relatedSections={[
+            {
+              section: "testing",
+              label: "Testing Documentation",
+              description: "Complete testing guide and methodologies"
+            },
+            {
+              section: "best-practices",
+              label: "Testing Best Practices",
+              description: "Guidelines for effective API testing"
+            },
+            {
+              section: "api-reference",
+              label: "API Reference",
+              description: "Understanding API endpoints for testing"
+            }]
+            }
+            examples={[
+            {
+              title: "Basic Connectivity Test",
+              description: "Simple test to verify API endpoint accessibility",
+              code: `// Test connectivity to API endpoint
+const testConnectivity = async (endpoint) => {
+  try {
+    const response = await fetch(endpoint + '/health');
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+};`
+            }]
+            } />
+
+          
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                Test Documentation
+                Test Categories
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -233,6 +302,12 @@ const TestingPage: React.FC = () => {
                             {testIndex + 1}
                           </Badge>
                           <span className="text-sm">{test}</span>
+                          <LearnMoreButton
+                        section="testing"
+                        mode="icon"
+                        tooltip="View test details"
+                        className="ml-auto" />
+
                         </div>
                     )}
                     </div>
@@ -295,6 +370,15 @@ const TestingPage: React.FC = () => {
                   <p>• Production data is never modified without explicit test markers</p>
                   <p>• Test configurations use clearly identifiable naming patterns</p>
                   <p>• Validation tests do not persist invalid data</p>
+                </div>
+                <div className="mt-4">
+                  <LearnMoreButton
+                    section="best-practices"
+                    tooltip="Learn about testing safety measures and best practices"
+                    mode="link"
+                    size="sm"
+                    label="Safety Guidelines" />
+
                 </div>
               </div>
             </CardContent>

@@ -10,7 +10,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { toast } from '@/hooks/use-toast';
+import { useToast } from '@/hooks/use-toast';
+import LearnMoreButton from '@/components/LearnMoreButton';
+import ContextualHelp from '@/components/ContextualHelp';
 import {
   Search,
   Plus,
@@ -373,6 +375,26 @@ const ApiConfigPage = () => {
             <p className="text-muted-foreground mt-2">
               Manage your API integrations, test connections, and monitor status
             </p>
+            <div className="flex items-center gap-4 mb-6">
+              <Badge variant="outline">
+                <Settings className="h-4 w-4 mr-1" />
+                Configuration Management
+              </Badge>
+              <LearnMoreButton
+                section="features"
+                mode="link"
+                label="Configuration Guide"
+                tooltip="Learn about API configuration management best practices"
+                className="text-muted-foreground" />
+
+              <LearnMoreButton
+                section="getting-started"
+                mode="link"
+                label="Quick Start"
+                tooltip="Get started with your first API configuration"
+                className="text-muted-foreground" />
+
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <input
@@ -393,13 +415,27 @@ const ApiConfigPage = () => {
               <Download className="h-4 w-4 mr-2" />
               Export
             </Button>
-            <Button onClick={() => {
-              resetForm();
-              setIsFormOpen(true);
-            }}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add API
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => {
+                resetForm();
+                setIsFormOpen(true);
+              }}>
+                <Plus className="h-4 w-4 mr-2" />
+                Add API
+              </Button>
+              <LearnMoreButton
+                section="features"
+                mode="icon"
+                tooltip="Learn how to create and manage API configurations"
+                variant="outline" />
+
+              <LearnMoreButton
+                section="api-reference"
+                mode="icon"
+                tooltip="View API reference documentation and examples"
+                variant="outline" />
+
+            </div>
           </div>
         </div>
 
@@ -445,7 +481,17 @@ const ApiConfigPage = () => {
                   <p className="text-sm text-muted-foreground">Providers</p>
                   <p className="text-2xl font-bold">{new Set(configs.map((c) => c.provider)).size}</p>
                 </div>
-                <Key className="h-8 w-8 text-purple-500" />
+                <div className="flex flex-col items-center gap-2">
+                  <Key className="h-8 w-8 text-purple-500" />
+                  <LearnMoreButton
+                    section="api-reference"
+                    tooltip="Learn about API authentication and endpoint management"
+                    mode="icon"
+                    size="sm" />
+
+
+
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -485,6 +531,58 @@ const ApiConfigPage = () => {
         </div>
       </div>
 
+      {/* Contextual Help Section */}
+      {configs.length === 0 &&
+      <div className="mb-8">
+          <ContextualHelp
+          title="Getting Started with API Configuration"
+          description="Learn how to set up and manage your first API configuration effectively."
+          tips={[
+          "Start with a simple REST API to get familiar with the system",
+          "Use descriptive names that clearly identify the service and environment",
+          "Test your configuration immediately after creation to ensure it works",
+          "Keep your API keys secure and rotate them regularly"]
+          }
+          warnings={[
+          "Never store production API keys in development configurations",
+          "Always test configurations in a safe environment before deploying"]
+          }
+          relatedSections={[
+          {
+            section: "getting-started",
+            label: "Quick Start Guide",
+            description: "Step-by-step setup instructions"
+          },
+          {
+            section: "features",
+            label: "Configuration Features",
+            description: "Learn about all available features"
+          },
+          {
+            section: "best-practices",
+            label: "Security Best Practices",
+            description: "Keep your APIs secure"
+          }]
+          }
+          examples={[
+          {
+            title: "Basic REST API Configuration",
+            description: "A simple example for a user service API",
+            code: `{
+  "name": "User Service API",
+  "provider": "Custom",
+  "endpoint_url": "https://api.example.com/v1",
+  "config_parameters": {
+    "timeout": 5000,
+    "retries": 3
+  }
+}`
+          }]
+          } />
+
+        </div>
+      }
+
       {/* API Cards */}
       {filteredConfigs.length === 0 ?
       <Card>
@@ -498,13 +596,33 @@ const ApiConfigPage = () => {
             }
             </p>
             {configs.length === 0 &&
-          <Button onClick={() => {
-            resetForm();
-            setIsFormOpen(true);
-          }}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Your First API
-              </Button>
+          <div className="space-y-3">
+            <Button onClick={() => {
+              resetForm();
+              setIsFormOpen(true);
+            }}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Your First API
+            </Button>
+            <LearnMoreButton
+              section="getting-started"
+              tooltip="Learn how to get started with API configuration management"
+              mode="button"
+              variant="outline"
+              size="sm"
+              className="w-full"
+              label="View Setup Guide" />
+
+            <LearnMoreButton
+              section="api-reference"
+              tooltip="View API reference and examples"
+              mode="button"
+              variant="ghost"
+              size="sm"
+              className="w-full"
+              label="API Reference" />
+
+          </div>
           }
           </CardContent>
         </Card> :
@@ -581,6 +699,13 @@ const ApiConfigPage = () => {
 
                       <Trash2 className="h-4 w-4" />
                     </Button>
+                    <LearnMoreButton
+                  section="best-practices"
+                  tooltip="Learn best practices for API configuration management"
+                  mode="icon"
+                  variant="ghost"
+                  size="sm" />
+
                   </div>
                   <Button
                 variant="outline"
@@ -610,9 +735,18 @@ const ApiConfigPage = () => {
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>
-              {isEditing ? 'Edit API Configuration' : 'Add New API Configuration'}
-            </DialogTitle>
+            <div className="flex items-center justify-between">
+              <DialogTitle>
+                {isEditing ? 'Edit API Configuration' : 'Add New API Configuration'}
+              </DialogTitle>
+              <LearnMoreButton
+                section="features"
+                mode="icon"
+                tooltip="Learn about API configuration fields and best practices"
+                variant="ghost"
+                size="sm" />
+
+            </div>
           </DialogHeader>
           
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -653,7 +787,16 @@ const ApiConfigPage = () => {
             </div>
 
             <div>
-              <Label htmlFor="api_key_token">API Key/Token</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="api_key_token">API Key/Token</Label>
+                <LearnMoreButton
+                  section="best-practices"
+                  mode="icon"
+                  tooltip="Learn about secure API key management and authentication best practices"
+                  variant="ghost"
+                  size="sm" />
+
+              </div>
               <Input
                 id="api_key_token"
                 type="password"
@@ -664,7 +807,16 @@ const ApiConfigPage = () => {
             </div>
 
             <div>
-              <Label htmlFor="config_parameters">Configuration Parameters (JSON)</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="config_parameters">Configuration Parameters (JSON)</Label>
+                <LearnMoreButton
+                  section="api-reference"
+                  mode="icon"
+                  tooltip="Learn about configuration parameters and JSON formatting"
+                  variant="ghost"
+                  size="sm" />
+
+              </div>
               <Textarea
                 id="config_parameters"
                 value={formData.config_parameters}
