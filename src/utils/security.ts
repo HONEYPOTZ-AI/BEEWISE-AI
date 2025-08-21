@@ -20,12 +20,12 @@ class SecurityManager {
       enableContentTypeSniffing: true,
       enableHSTS: import.meta.env.VITE_APP_ENV === 'production',
       trustedDomains: [
-        'self',
-        import.meta.env.VITE_API_BASE_URL || '',
-        '*.unsplash.com',
-        '*.googleapis.com',
-        '*.gstatic.com'
-      ].filter(Boolean)
+      'self',
+      import.meta.env.VITE_API_BASE_URL || '',
+      '*.unsplash.com',
+      '*.googleapis.com',
+      '*.gstatic.com'].
+      filter(Boolean)
     };
 
     this.initializeSecurity();
@@ -42,20 +42,20 @@ class SecurityManager {
     if (!this.config.enableCSP) return;
 
     const cspDirectives = [
-      `default-src 'self'`,
-      `script-src 'self' 'unsafe-inline' 'unsafe-eval' https:`,
-      `style-src 'self' 'unsafe-inline' https:`,
-      `img-src 'self' data: https:`,
-      `font-src 'self' https:`,
-      `connect-src 'self' ${this.config.trustedDomains.join(' ')} https:`,
-      `frame-src 'self'`,
-      `object-src 'none'`,
-      `base-uri 'self'`,
-      `form-action 'self'`
-    ];
+    `default-src 'self'`,
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https:`,
+    `style-src 'self' 'unsafe-inline' https:`,
+    `img-src 'self' data: https:`,
+    `font-src 'self' https:`,
+    `connect-src 'self' ${this.config.trustedDomains.join(' ')} https:`,
+    `frame-src 'self'`,
+    `object-src 'none'`,
+    `base-uri 'self'`,
+    `form-action 'self'`];
+
 
     const csp = cspDirectives.join('; ');
-    
+
     // Set CSP via meta tag (runtime)
     const meta = document.createElement('meta');
     meta.httpEquiv = 'Content-Security-Policy';
@@ -74,14 +74,14 @@ class SecurityManager {
         // Keep only essential localStorage items
         const essentialKeys = ['theme', 'language'];
         const itemsToKeep: Record<string, string> = {};
-        
-        essentialKeys.forEach(key => {
+
+        essentialKeys.forEach((key) => {
           const value = localStorage.getItem(key);
           if (value) itemsToKeep[key] = value;
         });
-        
+
         localStorage.clear();
-        
+
         Object.entries(itemsToKeep).forEach(([key, value]) => {
           localStorage.setItem(key, value);
         });
@@ -154,7 +154,7 @@ class SecurityManager {
 
       // Check domain if it's an absolute URL
       if (parsedURL.hostname) {
-        const isAllowed = allowedDomains.some(domain => {
+        const isAllowed = allowedDomains.some((domain) => {
           if (domain === 'self') return false; // Skip 'self' for this check
           if (domain.startsWith('*.')) {
             const baseDomain = domain.substring(2);
@@ -193,7 +193,7 @@ class SecurityManager {
   }
 
   // Rate limiting for API calls
-  private rateLimits = new Map<string, { count: number; resetTime: number }>();
+  private rateLimits = new Map<string, {count: number;resetTime: number;}>();
 
   checkRateLimit(endpoint: string, maxRequests: number = 100, windowMs: number = 60000): boolean {
     const now = Date.now();
@@ -263,7 +263,7 @@ export const withSecurity = {
     }
 
     const headers = securityManager.getSecureHeaders();
-    
+
     try {
       const response = await fetch(endpoint, {
         method: 'POST',

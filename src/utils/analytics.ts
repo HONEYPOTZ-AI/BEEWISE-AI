@@ -35,15 +35,15 @@ class AnalyticsManager {
     try {
       // Initialize Google Analytics 4
       await this.initializeGoogleAnalytics();
-      
+
       // Initialize Sentry (if enabled)
       await this.initializeSentry();
-      
+
       this.isInitialized = true;
-      
+
       // Process queued events
       this.processEventQueue();
-      
+
       logger.info('Analytics initialized successfully');
     } catch (error) {
       logger.error('Failed to initialize analytics', error instanceof Error ? error : new Error('Analytics initialization failed'));
@@ -85,7 +85,7 @@ class AnalyticsManager {
 
     // Load Sentry SDK dynamically to avoid bundle size impact
     const Sentry = await import('@sentry/browser');
-    
+
     Sentry.init({
       dsn: sentryDSN,
       environment: import.meta.env.VITE_APP_ENV,
@@ -230,9 +230,9 @@ class AnalyticsManager {
   }
 
   trackFormSubmit(formName: string, success: boolean) {
-    this.track('form_submit', { 
+    this.track('form_submit', {
       form_name: formName,
-      success 
+      success
     });
   }
 
@@ -279,10 +279,10 @@ export const useAnalytics = () => {
 };
 
 // HOC for automatic component tracking
-export const withAnalytics = <P extends object>(
-  Component: React.ComponentType<P>,
-  componentName?: string
-) => {
+export const withAnalytics = <P extends object,>(
+Component: React.ComponentType<P>,
+componentName?: string) =>
+{
   const WrappedComponent = (props: P) => {
     const { trackView } = useAnalytics();
 

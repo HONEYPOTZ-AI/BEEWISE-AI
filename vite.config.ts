@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => {
   // Load env file based on mode
   const env = loadEnv(mode, process.cwd(), '');
   const isProd = mode === 'production';
-  
+
   return {
     server: {
       host: '::',
@@ -18,31 +18,31 @@ export default defineConfig(({ mode }) => {
         // Security headers for development
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block',
+        'X-XSS-Protection': '1; mode=block'
       }
     },
     plugins: [
-      react(),
-      // Generate bundle analysis in production
-      isProd && visualizer({
-        filename: './dist/stats.html',
-        open: false,
-        gzipSize: true,
-        brotliSize: true,
-      }),
-      // Compress static assets for production
-      isProd && compression({
-        algorithm: 'brotliCompress',
-        exclude: [/\.(br)$/, /\.(gz)$/, /\.(png|jpe?g|gif|webp)$/i],
-        threshold: 10240, // Only compress files > 10kb
-      }),
-      // Additional gzip compression for older browsers
-      isProd && compression({
-        algorithm: 'gzip',
-        exclude: [/\.(br)$/, /\.(gz)$/, /\.(png|jpe?g|gif|webp)$/i],
-        threshold: 10240,
-      }),
-    ].filter(Boolean),
+    react(),
+    // Generate bundle analysis in production
+    isProd && visualizer({
+      filename: './dist/stats.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true
+    }),
+    // Compress static assets for production
+    isProd && compression({
+      algorithm: 'brotliCompress',
+      exclude: [/\.(br)$/, /\.(gz)$/, /\.(png|jpe?g|gif|webp)$/i],
+      threshold: 10240 // Only compress files > 10kb
+    }),
+    // Additional gzip compression for older browsers
+    isProd && compression({
+      algorithm: 'gzip',
+      exclude: [/\.(br)$/, /\.(gz)$/, /\.(png|jpe?g|gif|webp)$/i],
+      threshold: 10240
+    })].
+    filter(Boolean),
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src')
@@ -114,13 +114,13 @@ export default defineConfig(({ mode }) => {
     // Cache dependencies for faster builds
     optimizeDeps: {
       include: [
-        'react', 
-        'react-dom', 
-        'react-router-dom',
-        '@tanstack/react-query',
-        'framer-motion',
-        'lucide-react'
-      ],
+      'react',
+      'react-dom',
+      'react-router-dom',
+      '@tanstack/react-query',
+      'framer-motion',
+      'lucide-react'],
+
       exclude: ['@sentry/browser'] // Sentry should be loaded separately
     }
   };

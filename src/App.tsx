@@ -1,81 +1,71 @@
-import React from 'react';
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import ErrorBoundary from "@/components/ErrorBoundary";
-import HomePage from "./pages/HomePage";
-import NotFound from "./pages/NotFound";
-import ApiConfigPage from "./pages/ApiConfigPage";
-import { useEffect } from "react";
-import { analytics } from "@/utils/analytics";
-import { logger } from "@/utils/logger";
-import { securityManager } from "@/utils/security";
+import { Suspense, lazy, useEffect } from 'react';
+import { Toaster } from '@/components/ui/toaster';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { ThemeProvider } from '@/contexts/ThemeContext';
+import ErrorBoundary from  '@/components/ErrorBoundary';
 
-// Initialize query client with error handling
+// Page imports
+import HomePage from '@/pages/HomePage';
+const NotFound = lazy(() => import('@/pages/NotFound'));
+const ApiConfigPage = lazy(() => import('@/pages/ApiConfigPage'));
+const ApiTestingPage = lazy(() => import('@/pages/ApiTestingPage'));
+const TestingPage = lazy(() => import('@/pages/TestingPage'));
+
+// Utilities
+import { analytics } from '@/utils/analytics';
+import { logger } from '@/utils/logger';
+import { securityManager } from '@/utils/security';
+
+// Initialize query client for API data fetching
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
+      refetchOnWindowFocus: false,
       retry: 1,
-      refetchOnWindowFocus: import.meta.env.VITE_APP_ENV === 'production',
       staleTime: 5 * 60 * 1000, // 5 minutes
-      onError: (error: Error) => {
-        logger.error('Query error', error);
-      }
     },
-    mutations: {
-      retry: 0,
-      onError: (error: Error) => {
-        logger.error('Mutation error', error);
-      }
-    }
-  }
+  },
 });
 
-// Analytics page view tracker component
-const PageViewTracker = () => {
-  const location = useLocation();
-
+function App() {
   useEffect(() => {
-    // Track page view when route changes
-    analytics.trackPageView(location.pathname);
-    logger.info(`Page view: ${location.pathname}`);
+    // Initialize app-wide monitoring and tracking
+    logger.info('Application initialized', { version: import.meta.env.VITE_APP_VERSION || '1.0.0' });
+    analytics.trackPageView(window.location.pathname);
 
-    // Clean up on route change
-    return () => {
+    // Track page view on navigation
+    const handleNavigation = () => {
+      analytics.trackPageView(window.location.pathname);
+    };
 
-      // Perform any cleanup needed
-    };}, [location]);
+    window.addEventListener('popstate', handleNavigation);
+    return () => window.removeEventListener('popstate', handleNavigation);
+  }, []);
 
-  return null;
-};
-
-const HealthCheckRoute = React.lazy(() => import('./components/HealthCheck'));
-
-const App = () =>
-<QueryClientProvider client={queryClient}>
-    <ThemeProvider>
-      <TooltipProvider>
-        <Toaster />
-        <ErrorBoundary>
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider>
+        <TooltipProvider>
           <BrowserRouter>
-            <PageViewTracker />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/api-config" element={<ApiConfigPage />} />
-              <Route path="/health" element={
-            <React.Suspense fallback={<div>Loading health check...</div>}>
-                  <HealthCheckRoute />
-                </React.Suspense>
-            } />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <ErrorBoundary>
+              <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/apiconfig" element={<ApiConfigPage />} />
+                  <Route path="/apitesting" element={<ApiTestingPage />} />
+                  <Route path="/testing" element={<TestingPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </ErrorBoundary>
           </BrowserRouter>
-        </ErrorBoundary>
-      </TooltipProvider>
-    </ThemeProvider>
-  </QueryClientProvider>;
+          <Toaster />
+        </TooltipProvider>
+      </ThemeProvider>
+    </QueryClientProvider>
+  );
+}
 
 export default App;

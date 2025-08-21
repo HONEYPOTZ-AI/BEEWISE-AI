@@ -63,7 +63,8 @@
     "zod": "^3.24.4",
     "@sentry/browser": "^10.5.0",
     "rollup-plugin-visualizer": "^5.12.0",
-    "vite-plugin-compression2": "^0.11.0"
+    "vite-plugin-compression2": "^0.11.0",
+    "src": "^1.1.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

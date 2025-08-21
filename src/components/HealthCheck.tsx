@@ -72,16 +72,16 @@ const HealthCheck: React.FC = () => {
       // Use a tiny request to check network
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
-      
-      const response = await fetch('https://www.cloudflare.com/cdn-cgi/trace', { 
+
+      const response = await fetch('https://www.cloudflare.com/cdn-cgi/trace', {
         method: 'GET',
         signal: controller.signal,
         cache: 'no-store',
         headers: { 'Cache-Control': 'no-cache' }
       });
-      
+
       clearTimeout(timeoutId);
-      
+
       checks.push({
         name: 'Network Connectivity',
         status: response.ok ? 'pass' : 'warn',
@@ -93,9 +93,9 @@ const HealthCheck: React.FC = () => {
         name: 'Network Connectivity',
         status: 'warn',
         duration: Date.now() - startTime,
-        error: error instanceof Error && error.name === 'AbortError' 
-          ? 'Network request timed out' 
-          : error instanceof Error ? error.message : 'Network connectivity issue'
+        error: error instanceof Error && error.name === 'AbortError' ?
+        'Network request timed out' :
+        error instanceof Error ? error.message : 'Network connectivity issue'
       });
     }
 
@@ -133,7 +133,7 @@ const HealthCheck: React.FC = () => {
         const memory = (performance as any).memory;
         const usedMemory = memory.usedJSHeapSize / 1024 / 1024; // MB
         const totalMemory = memory.totalJSHeapSize / 1024 / 1024; // MB
-        const memoryUsagePercent = (usedMemory / totalMemory) * 100;
+        const memoryUsagePercent = usedMemory / totalMemory * 100;
 
         checks.push({
           name: 'Memory Usage',
@@ -163,24 +163,24 @@ const HealthCheck: React.FC = () => {
       const lcp = metrics.largestContentfulPaint || 0;
       const fid = metrics.firstInputDelay || 0;
       const cls = metrics.cumulativeLayoutShift || 0;
-      
+
       // Create status based on Core Web Vitals thresholds
       // https://web.dev/vitals/
       const fcpStatus = fcp < 1800 ? 'pass' : fcp < 3000 ? 'warn' : 'fail';
       const lcpStatus = lcp < 2500 ? 'pass' : lcp < 4000 ? 'warn' : 'fail';
       const fidStatus = fid < 100 ? 'pass' : fid < 300 ? 'warn' : 'fail';
       const clsStatus = cls < 0.1 ? 'pass' : cls < 0.25 ? 'warn' : 'fail';
-      
+
       // Overall performance status is the worst of all metrics
       const statuses = [fcpStatus, lcpStatus, fidStatus, clsStatus];
       const worstStatus = statuses.includes('fail') ? 'fail' : statuses.includes('warn') ? 'warn' : 'pass';
-      
+
       checks.push({
         name: 'Performance Metrics',
         status: worstStatus,
         duration: 0,
-        error: worstStatus === 'fail' ? 'Core Web Vitals not meeting targets' : 
-               worstStatus === 'warn' ? 'Core Web Vitals need improvement' : undefined,
+        error: worstStatus === 'fail' ? 'Core Web Vitals not meeting targets' :
+        worstStatus === 'warn' ? 'Core Web Vitals need improvement' : undefined,
         details: {
           FCP: `${fcp.toFixed(0)}ms (${fcpStatus})`,
           LCP: `${lcp.toFixed(0)}ms (${lcpStatus})`,
@@ -201,7 +201,7 @@ const HealthCheck: React.FC = () => {
   };
 
   // Check backend health using API
-  const checkBackendHealth = async (): Promise<{ checks: HealthCheck[], serverInfo?: ServerInfo }> => {
+  const checkBackendHealth = async (): Promise<{checks: HealthCheck[];serverInfo?: ServerInfo;}> => {
     try {
       // Call the backend health check API
       const response = await window.ezsite.apis.run({
@@ -251,20 +251,20 @@ const HealthCheck: React.FC = () => {
 
   const performHealthCheck = useCallback(async (): Promise<HealthStatus> => {
     const startTime = Date.now();
-    
+
     // Run frontend and backend checks in parallel
     const [frontendChecks, backendResult] = await Promise.all([
-      checkFrontendHealth(),
-      checkBackendHealth()
-    ]);
-    
+    checkFrontendHealth(),
+    checkBackendHealth()]
+    );
+
     // Combine all checks
     const allChecks = [...frontendChecks, ...backendResult.checks];
 
     // Determine overall status
-    const hasFailures = allChecks.some(check => check.status === 'fail');
-    const hasWarnings = allChecks.some(check => check.status === 'warn');
-    
+    const hasFailures = allChecks.some((check) => check.status === 'fail');
+    const hasWarnings = allChecks.some((check) => check.status === 'warn');
+
     let overallStatus: HealthStatus['status'];
     if (hasFailures) {
       overallStatus = 'unhealthy';
@@ -290,11 +290,11 @@ const HealthCheck: React.FC = () => {
       const status = await performHealthCheck();
       setHealthStatus(status);
       setLastUpdated(new Date());
-      
+
       logger.info('Health check completed', {
         status: status.status,
         totalChecks: status.checks.length,
-        failedChecks: status.checks.filter(c => c.status === 'fail').length,
+        failedChecks: status.checks.filter((c) => c.status === 'fail').length,
         environment: status.environment
       });
     } catch (error) {
@@ -318,7 +318,7 @@ const HealthCheck: React.FC = () => {
 
   useEffect(() => {
     runHealthCheck();
-    
+
     // Auto-refresh based on environment variable
     const interval = setInterval(runHealthCheck, HEALTH_CHECK_INTERVAL);
     return () => clearInterval(interval);
@@ -390,15 +390,15 @@ const HealthCheck: React.FC = () => {
             Running Health Check...
           </CardTitle>
         </CardHeader>
-      </Card>
-    );
+      </Card>);
+
   }
 
   // Filter checks based on active tab
-  const filteredChecks = healthStatus?.checks.filter(check => 
-    activeTab === 'frontend' 
-      ? !check.name.startsWith('Backend:') 
-      : check.name.startsWith('Backend:')
+  const filteredChecks = healthStatus?.checks.filter((check) =>
+  activeTab === 'frontend' ?
+  !check.name.startsWith('Backend:') :
+  check.name.startsWith('Backend:')
   ) || [];
 
   return (
@@ -414,31 +414,31 @@ const HealthCheck: React.FC = () => {
               </Badge>
             </CardTitle>
             <Button onClick={runHealthCheck} disabled={isLoading} size="sm">
-              {isLoading ? (
-                <>
+              {isLoading ?
+              <>
                   <RefreshCcw className="w-4 h-4 mr-2 animate-spin" />
                   Checking...
-                </>
-              ) : (
-                <>
+                </> :
+
+              <>
                   <RefreshCcw className="w-4 h-4 mr-2" />
                   Refresh
                 </>
-              )}
+              }
             </Button>
           </div>
           <CardDescription>
-            {healthStatus?.status === 'healthy' 
-              ? 'All systems are operating normally.' 
-              : healthStatus?.status === 'degraded'
-              ? 'Some systems are experiencing issues but the application is functioning.'
-              : 'Critical systems are not functioning properly.'}
+            {healthStatus?.status === 'healthy' ?
+            'All systems are operating normally.' :
+            healthStatus?.status === 'degraded' ?
+            'Some systems are experiencing issues but the application is functioning.' :
+            'Critical systems are not functioning properly.'}
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {healthStatus && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
+            {healthStatus &&
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
                 <div className="space-y-1">
                   <p className="font-medium text-foreground">Application</p>
                   <p>Version: {healthStatus.version}</p>
@@ -447,41 +447,41 @@ const HealthCheck: React.FC = () => {
                 <div className="space-y-1">
                   <p className="font-medium text-foreground">Status</p>
                   <p>Last Check: {lastUpdated?.toLocaleString()}</p>
-                  <p>Checks: {healthStatus.checks.length} ({healthStatus.checks.filter(c => c.status === 'pass').length} passing)</p>
+                  <p>Checks: {healthStatus.checks.length} ({healthStatus.checks.filter((c) => c.status === 'pass').length} passing)</p>
                 </div>
-                {healthStatus.serverInfo && (
-                  <div className="space-y-1">
+                {healthStatus.serverInfo &&
+              <div className="space-y-1">
                     <p className="font-medium text-foreground">Server</p>
-                    {healthStatus.serverInfo.uptime !== undefined && (
-                      <p>Uptime: {Math.floor(healthStatus.serverInfo.uptime / 3600)}h {Math.floor((healthStatus.serverInfo.uptime % 3600) / 60)}m</p>
-                    )}
-                    {healthStatus.serverInfo.memory && (
-                      <p>Memory: {healthStatus.serverInfo.memory.heapUsed} used</p>
-                    )}
+                    {healthStatus.serverInfo.uptime !== undefined &&
+                <p>Uptime: {Math.floor(healthStatus.serverInfo.uptime / 3600)}h {Math.floor(healthStatus.serverInfo.uptime % 3600 / 60)}m</p>
+                }
+                    {healthStatus.serverInfo.memory &&
+                <p>Memory: {healthStatus.serverInfo.memory.heapUsed} used</p>
+                }
                   </div>
-                )}
+              }
               </div>
-            )}
+            }
             
             <div className="border rounded-md">
               <div className="flex border-b">
                 <button
                   className={`px-4 py-2 text-sm font-medium ${activeTab === 'frontend' ? 'border-b-2 border-primary' : ''}`}
-                  onClick={() => setActiveTab('frontend')}
-                >
+                  onClick={() => setActiveTab('frontend')}>
+
                   Frontend
                 </button>
                 <button
                   className={`px-4 py-2 text-sm font-medium ${activeTab === 'backend' ? 'border-b-2 border-primary' : ''}`}
-                  onClick={() => setActiveTab('backend')}
-                >
+                  onClick={() => setActiveTab('backend')}>
+
                   Backend
                 </button>
               </div>
               
               <div className="divide-y">
-                {filteredChecks.map((check, index) => (
-                  <div key={index} className="flex items-center justify-between p-3">
+                {filteredChecks.map((check, index) =>
+                <div key={index} className="flex items-center justify-between p-3">
                     <div className="flex items-center gap-2">
                       {getStatusIcon(check.status)}
                       <div className="flex flex-col">
@@ -489,36 +489,36 @@ const HealthCheck: React.FC = () => {
                           {getCategoryIcon(check.name)}
                           <span className="font-medium">{check.name.replace('Backend: ', '')}</span>
                         </div>
-                        {check.error && (
-                          <span className="text-xs text-red-500">{check.error}</span>
-                        )}
+                        {check.error &&
+                      <span className="text-xs text-red-500">{check.error}</span>
+                      }
                       </div>
                     </div>
                     <div className="text-right text-sm">
                       <div className="text-muted-foreground">
                         {check.duration}ms
                       </div>
-                      {check.details && (
-                        <details className="text-left">
+                      {check.details &&
+                    <details className="text-left">
                           <summary className="text-xs cursor-pointer mt-1">Details</summary>
                           <div className="text-xs mt-1 space-y-1 pl-2">
-                            {Object.entries(check.details).map(([key, value]) => (
-                              <p key={key}>
+                            {Object.entries(check.details).map(([key, value]) =>
+                        <p key={key}>
                                 <span className="font-medium">{key}:</span> {value}
                               </p>
-                            ))}
+                        )}
                           </div>
                         </details>
-                      )}
+                    }
                     </div>
                   </div>
-                ))}
+                )}
                 
-                {filteredChecks.length === 0 && (
-                  <div className="p-6 text-center text-muted-foreground">
+                {filteredChecks.length === 0 &&
+                <div className="p-6 text-center text-muted-foreground">
                     No health checks available for this category.
                   </div>
-                )}
+                }
               </div>
             </div>
           </div>
@@ -530,13 +530,13 @@ const HealthCheck: React.FC = () => {
 
       {/* Status indicator for embedding in other components */}
       <div className="fixed bottom-4 right-4 z-50">
-        <div 
+        <div
           className={`w-3 h-3 rounded-full ${getStatusColor(healthStatus?.status || 'unknown')} animate-pulse`}
-          title={`System Status: ${healthStatus?.status || 'unknown'}`}
-        />
+          title={`System Status: ${healthStatus?.status || 'unknown'}`} />
+
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 // Export with error boundary

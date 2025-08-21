@@ -45,7 +45,7 @@ class PerformanceMonitor {
     const navigationEntries = performance.getEntriesByType('navigation') as PerformanceNavigationTiming[];
     if (navigationEntries.length > 0) {
       const nav = navigationEntries[0];
-      
+
       this.recordMetric('page-load-time', nav.loadEventEnd - nav.navigationStart, 'ms');
       this.recordMetric('dom-content-loaded', nav.domContentLoadedEventEnd - nav.navigationStart, 'ms');
       this.recordMetric('first-byte', nav.responseStart - nav.navigationStart, 'ms');
@@ -132,7 +132,7 @@ class PerformanceMonitor {
   private trackCLS() {
     if (PerformanceObserver.supportedEntryTypes?.includes('layout-shift')) {
       let clsValue = 0;
-      
+
       const clsObserver = new PerformanceObserver((list) => {
         list.getEntries().forEach((entry) => {
           const layoutShift = entry as any;
@@ -140,7 +140,7 @@ class PerformanceMonitor {
             clsValue += layoutShift.value;
           }
         });
-        
+
         this.recordMetric('cls', clsValue, 'count');
       });
 
@@ -209,7 +209,7 @@ class PerformanceMonitor {
   }
 
   getMetricsByName(name: string): PerformanceMetric[] {
-    return this.metrics.filter(metric => metric.name === name);
+    return this.metrics.filter((metric) => metric.name === name);
   }
 
   clearMetrics() {
@@ -217,7 +217,7 @@ class PerformanceMonitor {
   }
 
   destroy() {
-    this.observers.forEach(observer => observer.disconnect());
+    this.observers.forEach((observer) => observer.disconnect());
     this.observers.clear();
     this.clearMetrics();
   }
@@ -236,10 +236,10 @@ export const usePerformanceTracking = () => {
     };
   };
 
-  const trackAsyncOperation = async <T>(
-    operationName: string,
-    operation: () => Promise<T>
-  ): Promise<T> => {
+  const trackAsyncOperation = async <T,>(
+  operationName: string,
+  operation: () => Promise<T>)
+  : Promise<T> => {
     const startTime = Date.now();
     try {
       const result = await operation();

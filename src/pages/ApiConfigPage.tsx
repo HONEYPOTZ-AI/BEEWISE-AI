@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -27,8 +28,8 @@ import {
   Globe,
   Key,
   Filter,
-  RefreshCw
-} from 'lucide-react';
+  RefreshCw } from
+'lucide-react';
 
 interface ApiConfiguration {
   id: number;
@@ -43,6 +44,7 @@ interface ApiConfiguration {
 }
 
 const ApiConfigPage = () => {
+  const navigate = useNavigate();
   const [configs, setConfigs] = useState<ApiConfiguration[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -85,7 +87,7 @@ const ApiConfigPage = () => {
       toast({
         title: "Error",
         description: "Failed to fetch API configurations",
-        variant: "destructive",
+        variant: "destructive"
       });
       console.error('Error fetching configurations:', error);
     } finally {
@@ -110,14 +112,14 @@ const ApiConfigPage = () => {
         if (error) throw error;
         toast({
           title: "Success",
-          description: "API configuration updated successfully",
+          description: "API configuration updated successfully"
         });
       } else {
         const { error } = await window.ezsite.apis.tableCreate(tableId, apiData);
         if (error) throw error;
         toast({
           title: "Success",
-          description: "API configuration created successfully",
+          description: "API configuration created successfully"
         });
       }
 
@@ -128,7 +130,7 @@ const ApiConfigPage = () => {
       toast({
         title: "Error",
         description: `Failed to ${isEditing ? 'update' : 'create'} API configuration`,
-        variant: "destructive",
+        variant: "destructive"
       });
       console.error('Error saving configuration:', error);
     }
@@ -136,21 +138,21 @@ const ApiConfigPage = () => {
 
   const handleDelete = async (id: number) => {
     if (!confirm('Are you sure you want to delete this API configuration?')) return;
-    
+
     try {
       const { error } = await window.ezsite.apis.tableDelete(tableId, { ID: id });
       if (error) throw error;
-      
+
       toast({
         title: "Success",
-        description: "API configuration deleted successfully",
+        description: "API configuration deleted successfully"
       });
       fetchConfigurations();
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to delete API configuration",
-        variant: "destructive",
+        variant: "destructive"
       });
       console.error('Error deleting configuration:', error);
     }
@@ -165,18 +167,18 @@ const ApiConfigPage = () => {
         status: newStatus,
         updated_at: new Date().toISOString()
       });
-      
+
       if (error) throw error;
       toast({
         title: "Success",
-        description: `API configuration ${newStatus === 'active' ? 'enabled' : 'disabled'}`,
+        description: `API configuration ${newStatus === 'active' ? 'enabled' : 'disabled'}`
       });
       fetchConfigurations();
     } catch (error) {
       toast({
         title: "Error",
         description: "Failed to update API status",
-        variant: "destructive",
+        variant: "destructive"
       });
       console.error('Error updating status:', error);
     }
@@ -186,8 +188,8 @@ const ApiConfigPage = () => {
     setTestingApiId(config.id);
     try {
       // Simulate API connectivity test
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       // Simple URL validation and basic connectivity check
       const url = config.endpoint_url;
       if (!url || !url.startsWith('http')) {
@@ -196,11 +198,11 @@ const ApiConfigPage = () => {
 
       // Simulate connectivity test result (in real implementation, you'd make actual API call)
       const isConnected = Math.random() > 0.3; // 70% success rate for demo
-      
+
       if (isConnected) {
         toast({
           title: "Connection Successful",
-          description: `Successfully connected to ${config.api_name}`,
+          description: `Successfully connected to ${config.api_name}`
         });
       } else {
         throw new Error('Connection failed');
@@ -209,7 +211,7 @@ const ApiConfigPage = () => {
       toast({
         title: "Connection Failed",
         description: `Failed to connect to ${config.api_name}: ${error}`,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setTestingApiId(null);
@@ -220,24 +222,24 @@ const ApiConfigPage = () => {
     try {
       const exportData = configs.map(({ id, created_at, updated_at, ...rest }) => rest);
       const dataStr = JSON.stringify(exportData, null, 2);
-      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-      
+      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
       const exportFileDefaultName = `api-configs-${new Date().toISOString().split('T')[0]}.json`;
-      
+
       const linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
       linkElement.setAttribute('download', exportFileDefaultName);
       linkElement.click();
-      
+
       toast({
         title: "Export Successful",
-        description: "API configurations exported successfully",
+        description: "API configurations exported successfully"
       });
     } catch (error) {
       toast({
         title: "Export Failed",
         description: "Failed to export API configurations",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -251,7 +253,7 @@ const ApiConfigPage = () => {
       try {
         const content = e.target?.result as string;
         const importedConfigs = JSON.parse(content);
-        
+
         if (!Array.isArray(importedConfigs)) {
           throw new Error('Invalid file format');
         }
@@ -262,20 +264,20 @@ const ApiConfigPage = () => {
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           };
-          
+
           await window.ezsite.apis.tableCreate(tableId, apiData);
         }
 
         toast({
           title: "Import Successful",
-          description: `Successfully imported ${importedConfigs.length} API configurations`,
+          description: `Successfully imported ${importedConfigs.length} API configurations`
         });
         fetchConfigurations();
       } catch (error) {
         toast({
           title: "Import Failed",
           description: "Failed to import API configurations. Please check the file format.",
-          variant: "destructive",
+          variant: "destructive"
         });
       }
     };
@@ -312,7 +314,7 @@ const ApiConfigPage = () => {
   };
 
   const toggleCredentialVisibility = (id: number) => {
-    setShowCredentials(prev => ({
+    setShowCredentials((prev) => ({
       ...prev,
       [id]: !prev[id]
     }));
@@ -328,24 +330,24 @@ const ApiConfigPage = () => {
     const variant = status === 'active' ? 'default' : 'secondary';
     const icon = status === 'active' ? CheckCircle : XCircle;
     const Icon = icon;
-    
+
     return (
       <Badge variant={variant} className="flex items-center gap-1">
         <Icon className="h-3 w-3" />
         {status}
-      </Badge>
-    );
+      </Badge>);
+
   };
 
-  const filteredConfigs = configs.filter(config => {
+  const filteredConfigs = configs.filter((config) => {
     const matchesSearch = config.api_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         config.provider.toLowerCase().includes(searchTerm.toLowerCase());
+    config.provider.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || config.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
-  const activeCount = configs.filter(c => c.status === 'active').length;
-  const inactiveCount = configs.filter(c => c.status === 'inactive').length;
+  const activeCount = configs.filter((c) => c.status === 'active').length;
+  const inactiveCount = configs.filter((c) => c.status === 'inactive').length;
 
   if (loading) {
     return (
@@ -354,8 +356,8 @@ const ApiConfigPage = () => {
           <RefreshCw className="h-8 w-8 animate-spin" />
           <span className="ml-2">Loading configurations...</span>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -378,12 +380,12 @@ const ApiConfigPage = () => {
               accept=".json"
               onChange={handleImport}
               className="hidden"
-              id="import-file"
-            />
+              id="import-file" />
+
             <Button
               variant="outline"
-              onClick={() => document.getElementById('import-file')?.click()}
-            >
+              onClick={() => document.getElementById('import-file')?.click()}>
+
               <Upload className="h-4 w-4 mr-2" />
               Import
             </Button>
@@ -441,7 +443,7 @@ const ApiConfigPage = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-sm text-muted-foreground">Providers</p>
-                  <p className="text-2xl font-bold">{new Set(configs.map(c => c.provider)).size}</p>
+                  <p className="text-2xl font-bold">{new Set(configs.map((c) => c.provider)).size}</p>
                 </div>
                 <Key className="h-8 w-8 text-purple-500" />
               </div>
@@ -457,16 +459,16 @@ const ApiConfigPage = () => {
               placeholder="Search APIs..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+              className="pl-10" />
+
           </div>
           <div className="flex items-center gap-2">
             <Filter className="h-4 w-4" />
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border rounded-md bg-background"
-            >
+              className="px-3 py-2 border rounded-md bg-background">
+
               <option value="all">All Status</option>
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -476,36 +478,40 @@ const ApiConfigPage = () => {
             <RefreshCw className="h-4 w-4 mr-2" />
             Refresh
           </Button>
+          <Button variant="outline" onClick={() => navigate('/apitesting')}>
+            <TestTube className="h-4 w-4 mr-2" />
+            Test Suite
+          </Button>
         </div>
       </div>
 
       {/* API Cards */}
-      {filteredConfigs.length === 0 ? (
-        <Card>
+      {filteredConfigs.length === 0 ?
+      <Card>
           <CardContent className="p-8 text-center">
             <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-semibold mb-2">No API Configurations Found</h3>
             <p className="text-muted-foreground mb-4">
-              {configs.length === 0 
-                ? "Get started by adding your first API configuration."
-                : "No configurations match your current filters."
-              }
+              {configs.length === 0 ?
+            "Get started by adding your first API configuration." :
+            "No configurations match your current filters."
+            }
             </p>
-            {configs.length === 0 && (
-              <Button onClick={() => {
-                resetForm();
-                setIsFormOpen(true);
-              }}>
+            {configs.length === 0 &&
+          <Button onClick={() => {
+            resetForm();
+            setIsFormOpen(true);
+          }}>
                 <Plus className="h-4 w-4 mr-2" />
                 Add Your First API
               </Button>
-            )}
+          }
           </CardContent>
-        </Card>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredConfigs.map((config) => (
-            <Card key={config.id} className="hover:shadow-lg transition-shadow">
+        </Card> :
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredConfigs.map((config) =>
+        <Card key={config.id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -518,9 +524,9 @@ const ApiConfigPage = () => {
                   <div className="flex items-center gap-2">
                     {getStatusBadge(config.status)}
                     <Switch
-                      checked={config.status === 'active'}
-                      onCheckedChange={() => handleToggleStatus(config)}
-                    />
+                  checked={config.status === 'active'}
+                  onCheckedChange={() => handleToggleStatus(config)} />
+
                   </div>
                 </div>
               </CardHeader>
@@ -536,24 +542,24 @@ const ApiConfigPage = () => {
                   <Label className="text-sm font-medium">API Key</Label>
                   <div className="flex items-center gap-2">
                     <p className="text-sm text-muted-foreground flex-1 break-all">
-                      {config.api_key_token 
-                        ? maskCredential(config.api_key_token, showCredentials[config.id])
-                        : 'Not configured'
-                      }
+                      {config.api_key_token ?
+                  maskCredential(config.api_key_token, showCredentials[config.id]) :
+                  'Not configured'
+                  }
                     </p>
-                    {config.api_key_token && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => toggleCredentialVisibility(config.id)}
-                      >
-                        {showCredentials[config.id] ? (
-                          <EyeOff className="h-4 w-4" />
-                        ) : (
-                          <Eye className="h-4 w-4" />
-                        )}
+                    {config.api_key_token &&
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => toggleCredentialVisibility(config.id)}>
+
+                        {showCredentials[config.id] ?
+                  <EyeOff className="h-4 w-4" /> :
+
+                  <Eye className="h-4 w-4" />
+                  }
                       </Button>
-                    )}
+                }
                   </div>
                 </div>
 
@@ -562,31 +568,31 @@ const ApiConfigPage = () => {
                 <div className="flex items-center justify-between pt-2">
                   <div className="flex items-center gap-2">
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => openEditForm(config)}
-                    >
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openEditForm(config)}>
+
                       <Edit className="h-4 w-4" />
                     </Button>
                     <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(config.id)}
-                    >
+                  variant="outline"
+                  size="sm"
+                  onClick={() => handleDelete(config.id)}>
+
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </div>
                   <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleTestConnection(config)}
-                    disabled={testingApiId === config.id || config.status !== 'active'}
-                  >
-                    {testingApiId === config.id ? (
-                      <RefreshCw className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <TestTube className="h-4 w-4" />
-                    )}
+                variant="outline"
+                size="sm"
+                onClick={() => handleTestConnection(config)}
+                disabled={testingApiId === config.id || config.status !== 'active'}>
+
+                    {testingApiId === config.id ?
+                <RefreshCw className="h-4 w-4 animate-spin" /> :
+
+                <TestTube className="h-4 w-4" />
+                }
                     Test
                   </Button>
                 </div>
@@ -596,9 +602,9 @@ const ApiConfigPage = () => {
                 </div>
               </CardContent>
             </Card>
-          ))}
+        )}
         </div>
-      )}
+      }
 
       {/* Form Dialog */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
@@ -616,10 +622,10 @@ const ApiConfigPage = () => {
                 <Input
                   id="api_name"
                   value={formData.api_name}
-                  onChange={(e) => setFormData({...formData, api_name: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, api_name: e.target.value })}
                   placeholder="e.g., OpenAI API"
-                  required
-                />
+                  required />
+
               </div>
               
               <div>
@@ -627,10 +633,10 @@ const ApiConfigPage = () => {
                 <Input
                   id="provider"
                   value={formData.provider}
-                  onChange={(e) => setFormData({...formData, provider: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
                   placeholder="e.g., OpenAI, Stripe, AWS"
-                  required
-                />
+                  required />
+
               </div>
             </div>
 
@@ -640,10 +646,10 @@ const ApiConfigPage = () => {
                 id="endpoint_url"
                 type="url"
                 value={formData.endpoint_url}
-                onChange={(e) => setFormData({...formData, endpoint_url: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, endpoint_url: e.target.value })}
                 placeholder="https://api.example.com/v1"
-                required
-              />
+                required />
+
             </div>
 
             <div>
@@ -652,9 +658,9 @@ const ApiConfigPage = () => {
                 id="api_key_token"
                 type="password"
                 value={formData.api_key_token}
-                onChange={(e) => setFormData({...formData, api_key_token: e.target.value})}
-                placeholder="Enter your API key"
-              />
+                onChange={(e) => setFormData({ ...formData, api_key_token: e.target.value })}
+                placeholder="Enter your API key" />
+
             </div>
 
             <div>
@@ -662,10 +668,10 @@ const ApiConfigPage = () => {
               <Textarea
                 id="config_parameters"
                 value={formData.config_parameters}
-                onChange={(e) => setFormData({...formData, config_parameters: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, config_parameters: e.target.value })}
                 placeholder='{"timeout": 30, "retries": 3}'
-                rows={3}
-              />
+                rows={3} />
+
             </div>
 
             <div className="flex items-center space-x-2">
@@ -673,10 +679,10 @@ const ApiConfigPage = () => {
                 id="status"
                 checked={formData.status === 'active'}
                 onCheckedChange={(checked) => setFormData({
-                  ...formData, 
+                  ...formData,
                   status: checked ? 'active' : 'inactive'
-                })}
-              />
+                })} />
+
               <Label htmlFor="status">Active</Label>
             </div>
 
@@ -684,8 +690,8 @@ const ApiConfigPage = () => {
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => setIsFormOpen(false)}
-              >
+                onClick={() => setIsFormOpen(false)}>
+
                 Cancel
               </Button>
               <Button type="submit">
@@ -695,8 +701,8 @@ const ApiConfigPage = () => {
           </form>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ApiConfigPage;

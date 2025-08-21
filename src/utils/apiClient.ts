@@ -32,9 +32,9 @@ class ApiClient {
     }
 
     // For absolute URLs, use as is
-    const url = endpoint.startsWith('http')
-      ? endpoint
-      : `${this.baseUrl}${endpoint}`;
+    const url = endpoint.startsWith('http') ?
+    endpoint :
+    `${this.baseUrl}${endpoint}`;
 
     // Add query parameters if provided
     if (params && Object.keys(params).length > 0) {
@@ -67,7 +67,7 @@ class ApiClient {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
         throw new Error(
-          errorData.message || 
+          errorData.message ||
           `HTTP error ${response.status}: ${response.statusText}`
         );
       }
@@ -87,10 +87,10 @@ class ApiClient {
    * Generic request method
    */
   public async request<T = any>(
-    method: string,
-    endpoint: string,
-    options: ApiRequestOptions = {}
-  ): Promise<T> {
+  method: string,
+  endpoint: string,
+  options: ApiRequestOptions = {})
+  : Promise<T> {
     const startTime = Date.now();
     const {
       params,
@@ -106,7 +106,7 @@ class ApiClient {
     }
 
     const url = this.createUrl(endpoint, params);
-    
+
     // Validate URL before fetching
     if (!securityManager.validateURL(url)) {
       logger.error('Invalid URL detected', new Error('Security validation failed'), { url });
@@ -137,7 +137,7 @@ class ApiClient {
 
       // Execute request with timeout
       const response = await this.fetchWithTimeout(url, fetchOptions, timeout);
-      
+
       // Track API performance
       const duration = Date.now() - startTime;
       analytics.trackPerformance(`api_${method.toLowerCase()}_${endpoint}`, duration);

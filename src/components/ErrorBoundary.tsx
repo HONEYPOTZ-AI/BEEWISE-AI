@@ -14,7 +14,7 @@ interface ErrorBoundaryState {
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;
-  fallback?: React.ComponentType<{ error: Error; errorInfo?: React.ErrorInfo; retry: () => void; errorId?: string }>;
+  fallback?: React.ComponentType<{error: Error;errorInfo?: React.ErrorInfo;retry: () => void;errorId?: string;}>;
   onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
   name?: string; // Component name for better error reporting
 }
@@ -39,7 +39,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Generate unique error ID for tracking
     const errorId = `err_${Date.now().toString(36)}_${Math.random().toString(36).substr(2, 5)}`;
-    
+
     this.setState({
       error,
       errorInfo,
@@ -83,11 +83,11 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
   retry = () => {
     // Log retry attempt
-    logger.info('User attempted to recover from error', { 
+    logger.info('User attempted to recover from error', {
       errorId: this.state.errorId,
       component: this.props.name
     });
-    
+
     this.setState({
       hasError: false,
       error: null,
@@ -100,21 +100,21 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
       // Use custom fallback component if provided
       if (this.props.fallback) {
         const FallbackComponent = this.props.fallback;
-        return <FallbackComponent 
-          error={this.state.error!} 
-          errorInfo={this.state.errorInfo!} 
-          retry={this.retry} 
-          errorId={this.state.errorId}
-        />;
+        return <FallbackComponent
+          error={this.state.error!}
+          errorInfo={this.state.errorInfo!}
+          retry={this.retry}
+          errorId={this.state.errorId} />;
+
       }
 
       // Default error UI
-      return <DefaultErrorFallback 
-        error={this.state.error!} 
-        errorInfo={this.state.errorInfo} 
-        retry={this.retry} 
-        errorId={this.state.errorId}
-      />;
+      return <DefaultErrorFallback
+        error={this.state.error!}
+        errorInfo={this.state.errorInfo}
+        retry={this.retry}
+        errorId={this.state.errorId} />;
+
     }
 
     return this.props.children;
@@ -137,7 +137,7 @@ const DefaultErrorFallback: React.FC<ErrorFallbackProps> = ({ error, errorInfo, 
   const reportError = () => {
     // Log that user manually reported error
     logger.info('User manually reported error', { errorId });
-    
+
     // Open a mailto link with error details (for environments without Sentry)
     const subject = encodeURIComponent(`Error Report: ${errorId}`);
     const body = encodeURIComponent(`
@@ -164,86 +164,86 @@ ${error.stack ? `\nStack: ${error.stack}` : ''}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          {showErrorDetails && (
-            <div className="p-4 bg-muted rounded-lg">
+          {showErrorDetails &&
+          <div className="p-4 bg-muted rounded-lg">
               <p className="text-sm font-medium text-muted-foreground mb-2">Error Details:</p>
               <p className="text-xs font-mono text-red-600 break-words">{error.message}</p>
-              {error.stack && (
-                <details className="mt-2">
+              {error.stack &&
+            <details className="mt-2">
                   <summary className="text-xs font-medium cursor-pointer">Stack Trace</summary>
                   <pre className="text-xs mt-2 whitespace-pre-wrap break-words">{error.stack}</pre>
                 </details>
-              )}
-              {errorInfo && errorInfo.componentStack && (
-                <details className="mt-2">
+            }
+              {errorInfo && errorInfo.componentStack &&
+            <details className="mt-2">
                   <summary className="text-xs font-medium cursor-pointer">Component Stack</summary>
                   <pre className="text-xs mt-2 whitespace-pre-wrap break-words">{errorInfo.componentStack}</pre>
                 </details>
-              )}
+            }
             </div>
-          )}
+          }
           
           <div className="flex flex-col sm:flex-row gap-2">
             <Button onClick={retry} className="flex-1">
               <RefreshCw className="w-4 h-4 mr-2" />
               Try Again
             </Button>
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={() => window.location.href = '/'}
-              className="flex-1"
-            >
+              className="flex-1">
+
               <Home className="w-4 h-4 mr-2" />
               Go Home
             </Button>
           </div>
         </CardContent>
         <CardFooter>
-          <Button 
-            variant="ghost" 
-            size="sm" 
+          <Button
+            variant="ghost"
+            size="sm"
             className="w-full text-muted-foreground text-xs"
-            onClick={reportError}
-          >
+            onClick={reportError}>
+
             <Send className="w-3 h-3 mr-2" />
             Report this issue
           </Button>
         </CardFooter>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 // Create component-specific error boundaries
 export const createErrorBoundary = (name: string, fallback?: React.ComponentType<ErrorFallbackProps>) => {
-  const ComponentErrorBoundary = (props: Omit<ErrorBoundaryProps, 'name'>) => (
-    <ErrorBoundary {...props} name={name} fallback={fallback} />
-  );
-  
+  const ComponentErrorBoundary = (props: Omit<ErrorBoundaryProps, 'name'>) =>
+  <ErrorBoundary {...props} name={name} fallback={fallback} />;
+
+
   ComponentErrorBoundary.displayName = `ErrorBoundary(${name})`;
   return ComponentErrorBoundary;
 };
 
 // HOC for wrapping components with error boundary
-export const withErrorBoundary = <P extends object>(
-  Component: React.ComponentType<P>,
-  options?: {
-    fallback?: React.ComponentType<ErrorFallbackProps>;
-    onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
-    name?: string;
-  }
-) => {
+export const withErrorBoundary = <P extends object,>(
+Component: React.ComponentType<P>,
+options?: {
+  fallback?: React.ComponentType<ErrorFallbackProps>;
+  onError?: (error: Error, errorInfo: React.ErrorInfo) => void;
+  name?: string;
+}) =>
+{
   const componentName = options?.name || Component.displayName || Component.name;
-  
-  const WrappedComponent = (props: P) => (
-    <ErrorBoundary 
-      fallback={options?.fallback}
-      onError={options?.onError}
-      name={componentName}
-    >
+
+  const WrappedComponent = (props: P) =>
+  <ErrorBoundary
+    fallback={options?.fallback}
+    onError={options?.onError}
+    name={componentName}>
+
       <Component {...props} />
-    </ErrorBoundary>
-  );
+    </ErrorBoundary>;
+
 
   WrappedComponent.displayName = `withErrorBoundary(${componentName})`;
   return WrappedComponent;
