@@ -5,18 +5,18 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { 
-  AlertTriangle, 
-  ArrowLeft, 
-  Database, 
-  TestTube, 
-  FileText, 
+import {
+  AlertTriangle,
+  ArrowLeft,
+  Database,
+  TestTube,
+  FileText,
   Settings,
   CheckCircle,
   Camera,
   Search,
-  Clock
-} from 'lucide-react';
+  Clock } from
+'lucide-react';
 import ApiConfigTestRunner from '@/components/ApiConfigTestRunner';
 import TestDocumentationGenerator from '@/components/TestDocumentationGenerator';
 import ApiConfigTestSuite from '@/components/ApiConfigTestSuite';
@@ -50,84 +50,84 @@ const TestingPage: React.FC = () => {
   }, [toast]);
 
   const testingDocumentation = [
-    {
-      category: 'CREATE Operations',
-      tests: [
-        'Create valid API configuration with all required fields',
-        'Create API configuration with minimum required fields',
-        'Validate required field enforcement',
-        'Test URL format validation',
-        'Test duplicate name prevention',
-        'Test API key encryption/storage'
-      ]
-    },
-    {
-      category: 'READ Operations',
-      tests: [
-        'Retrieve all API configurations with pagination',
-        'Filter configurations by provider',
-        'Filter configurations by status (active/inactive)',
-        'Search configurations by name/description',
-        'Sort configurations by various fields',
-        'Test pagination limits and boundaries'
-      ]
-    },
-    {
-      category: 'UPDATE Operations',
-      tests: [
-        'Update API configuration name and description',
-        'Update API endpoints and authentication',
-        'Toggle configuration active/inactive status',
-        'Update configuration headers and parameters',
-        'Test concurrent update handling',
-        'Validate update field constraints'
-      ]
-    },
-    {
-      category: 'DELETE Operations',
-      tests: [
-        'Delete unused API configuration',
-        'Prevent deletion of configurations in use',
-        'Soft delete vs hard delete behavior',
-        'Test cascade deletion rules',
-        'Bulk delete operations',
-        'Delete confirmation and rollback'
-      ]
-    },
-    {
-      category: 'Validation & Security',
-      tests: [
-        'Input sanitization for all fields',
-        'SQL injection prevention',
-        'XSS attack prevention',
-        'API key encryption validation',
-        'Access control and permissions',
-        'Rate limiting compliance'
-      ]
-    },
-    {
-      category: 'UI & UX Testing',
-      tests: [
-        'Form validation and error messages',
-        'Search and filter responsiveness',
-        'Loading states and progress indicators',
-        'Mobile responsiveness',
-        'Accessibility compliance',
-        'Browser compatibility'
-      ]
-    },
-    {
-      category: 'Import/Export',
-      tests: [
-        'Export configurations to JSON/CSV',
-        'Import configurations from various formats',
-        'Validate imported configuration data',
-        'Handle duplicate imports',
-        'Test large dataset imports',
-        'Error handling for malformed data'
-      ]
-    }
-  ];
+  {
+    category: 'CREATE Operations',
+    tests: [
+    'Create valid API configuration with all required fields',
+    'Create API configuration with minimum required fields',
+    'Validate required field enforcement',
+    'Test URL format validation',
+    'Test duplicate name prevention',
+    'Test API key encryption/storage']
+
+  },
+  {
+    category: 'READ Operations',
+    tests: [
+    'Retrieve all API configurations with pagination',
+    'Filter configurations by provider',
+    'Filter configurations by status (active/inactive)',
+    'Search configurations by name/description',
+    'Sort configurations by various fields',
+    'Test pagination limits and boundaries']
+
+  },
+  {
+    category: 'UPDATE Operations',
+    tests: [
+    'Update API configuration name and description',
+    'Update API endpoints and authentication',
+    'Toggle configuration active/inactive status',
+    'Update configuration headers and parameters',
+    'Test concurrent update handling',
+    'Validate update field constraints']
+
+  },
+  {
+    category: 'DELETE Operations',
+    tests: [
+    'Delete unused API configuration',
+    'Prevent deletion of configurations in use',
+    'Soft delete vs hard delete behavior',
+    'Test cascade deletion rules',
+    'Bulk delete operations',
+    'Delete confirmation and rollback']
+
+  },
+  {
+    category: 'Validation & Security',
+    tests: [
+    'Input sanitization for all fields',
+    'SQL injection prevention',
+    'XSS attack prevention',
+    'API key encryption validation',
+    'Access control and permissions',
+    'Rate limiting compliance']
+
+  },
+  {
+    category: 'UI & UX Testing',
+    tests: [
+    'Form validation and error messages',
+    'Search and filter responsiveness',
+    'Loading states and progress indicators',
+    'Mobile responsiveness',
+    'Accessibility compliance',
+    'Browser compatibility']
+
+  },
+  {
+    category: 'Import/Export',
+    tests: [
+    'Export configurations to JSON/CSV',
+    'Import configurations from various formats',
+    'Validate imported configuration data',
+    'Handle duplicate imports',
+    'Test large dataset imports',
+    'Error handling for malformed data']
+
+  }];
+
 
   if (isLoading) {
     return (
@@ -136,8 +136,8 @@ const TestingPage: React.FC = () => {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
           <p>Initializing test environment...</p>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   if (!apiTableId) {
@@ -165,8 +165,8 @@ const TestingPage: React.FC = () => {
             </div>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -223,22 +223,22 @@ const TestingPage: React.FC = () => {
               </p>
               
               <div className="space-y-6">
-                {testingDocumentation.map((section, index) => (
-                  <div key={index}>
+                {testingDocumentation.map((section, index) =>
+                <div key={index}>
                     <h3 className="text-lg font-semibold mb-3">{section.category}</h3>
                     <div className="grid gap-2">
-                      {section.tests.map((test, testIndex) => (
-                        <div key={testIndex} className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
+                      {section.tests.map((test, testIndex) =>
+                    <div key={testIndex} className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
                           <Badge variant="outline" className="text-xs">
                             {testIndex + 1}
                           </Badge>
                           <span className="text-sm">{test}</span>
                         </div>
-                      ))}
+                    )}
                     </div>
                     {index < testingDocumentation.length - 1 && <Separator className="mt-6" />}
                   </div>
-                ))}
+                )}
               </div>
             </CardContent>
           </Card>
@@ -301,8 +301,8 @@ const TestingPage: React.FC = () => {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>);
+
 };
 
 export default TestingPage;

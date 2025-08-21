@@ -1,11 +1,11 @@
 function takeScreenshot(path = '/') {
-    // Enhanced screenshot function with proper error handling
-    try {
-        const timestamp = new Date().toISOString();
-        const screenshotId = Math.random().toString(36).substr(2, 9);
-        
-        return {
-            screenshotUrl: `data:image/svg+xml;base64,${Buffer.from(`
+  // Enhanced screenshot function with proper error handling
+  try {
+    const timestamp = new Date().toISOString();
+    const screenshotId = Math.random().toString(36).substr(2, 9);
+
+    return {
+      screenshotUrl: `data:image/svg+xml;base64,${Buffer.from(`
                 <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
                     <rect width="100%" height="100%" fill="#f8f9fa"/>
                     <rect x="20" y="20" width="360" height="40" fill="#0066cc" rx="4"/>
@@ -18,16 +18,16 @@ function takeScreenshot(path = '/') {
                     <text x="188" y="208" font-family="Arial" font-size="16" fill="white">✓</text>
                 </svg>
             `).toString('base64')}`,
-            success: true,
-            timestamp,
-            path,
-            metadata: {
-                width: 400,
-                height: 300,
-                format: 'svg'
-            }
-        };
-    } catch (error) {
-        throw new Error(`Screenshot failed: ${error.message}`);
-    }
+      success: true,
+      timestamp,
+      path,
+      metadata: {
+        width: 400,
+        height: 300,
+        format: 'svg'
+      }
+    };
+  } catch (error) {
+    throw new Error(`Screenshot failed: ${error.message}`);
+  }
 }

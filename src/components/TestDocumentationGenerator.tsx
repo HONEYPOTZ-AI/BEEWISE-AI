@@ -5,17 +5,17 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  FileText, 
-  Download, 
+import {
+  FileText,
+  Download,
   Calendar,
   Clock,
   CheckCircle2,
   XCircle,
   AlertTriangle,
   Camera,
-  ExternalLink
-} from 'lucide-react';
+  ExternalLink } from
+'lucide-react';
 
 interface TestResult {
   id: string;
@@ -185,13 +185,13 @@ const TestDocumentationGenerator: React.FC<TestDocumentationGeneratorProps> = ({
         <div class="header">
             <h1>API Configuration Test Report</h1>
             <p>Comprehensive testing results for API configuration management system</p>
-            <p>Generated on ${new Date().toLocaleDateString('en-US', { 
-              year: 'numeric', 
-              month: 'long', 
-              day: 'numeric',
-              hour: '2-digit',
-              minute: '2-digit'
-            })}</p>
+            <p>Generated on ${new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })}</p>
         </div>
 
         <div class="summary">
@@ -209,7 +209,7 @@ const TestDocumentationGenerator: React.FC<TestDocumentationGeneratorProps> = ({
                         ${summary.passed}
                     </div>
                     <div style="color: #6c757d;">
-                        ${summary.totalTests > 0 ? Math.round((summary.passed / summary.totalTests) * 100) : 0}% success rate
+                        ${summary.totalTests > 0 ? Math.round(summary.passed / summary.totalTests * 100) : 0}% success rate
                     </div>
                 </div>
                 <div class="summary-card failed">
@@ -230,17 +230,17 @@ const TestDocumentationGenerator: React.FC<TestDocumentationGeneratorProps> = ({
         <div class="test-results">
             <h2>Detailed Test Results</h2>
             ${Object.entries(
-              testResults.reduce((acc, test) => {
-                if (!acc[test.category]) acc[test.category] = [];
-                acc[test.category].push(test);
-                return acc;
-              }, {} as Record<string, TestResult[]>)
-            ).map(([category, tests]) => `
+      testResults.reduce((acc, test) => {
+        if (!acc[test.category]) acc[test.category] = [];
+        acc[test.category].push(test);
+        return acc;
+      }, {} as Record<string, TestResult[]>)
+    ).map(([category, tests]) => `
                 <div class="test-category">
                     <h3 style="color: #495057; text-transform: capitalize; margin-bottom: 20px;">
                         ${category.replace('-', ' ')} Tests (${tests.length})
                     </h3>
-                    ${tests.map(test => `
+                    ${tests.map((test) => `
                         <div class="test-item">
                             <div class="test-header">
                                 <div>
@@ -290,27 +290,27 @@ const TestDocumentationGenerator: React.FC<TestDocumentationGeneratorProps> = ({
     </div>
 </body>
 </html>`;
-    
+
     return html;
   }, [testResults, summary]);
 
   const generateMarkdownReport = useCallback(() => {
     const markdown = `# API Configuration Test Report
 
-Generated on ${new Date().toLocaleDateString('en-US', { 
-  year: 'numeric', 
-  month: 'long', 
-  day: 'numeric',
-  hour: '2-digit',
-  minute: '2-digit'
-})}
+Generated on ${new Date().toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })}
 
 ## Executive Summary
 
 | Metric | Value |
 |--------|-------|
 | Total Tests | ${summary.totalTests} |
-| Passed | ${summary.passed} (${summary.totalTests > 0 ? Math.round((summary.passed / summary.totalTests) * 100) : 0}%) |
+| Passed | ${summary.passed} (${summary.totalTests > 0 ? Math.round(summary.passed / summary.totalTests * 100) : 0}%) |
 | Failed | ${summary.failed} |
 | Skipped | ${summary.skipped} |
 | Total Duration | ${Math.round(summary.totalDuration / 1000)}s |
@@ -319,15 +319,15 @@ Generated on ${new Date().toLocaleDateString('en-US', {
 ## Test Results by Category
 
 ${Object.entries(
-  testResults.reduce((acc, test) => {
-    if (!acc[test.category]) acc[test.category] = [];
-    acc[test.category].push(test);
-    return acc;
-  }, {} as Record<string, TestResult[]>)
-).map(([category, tests]) => `
+      testResults.reduce((acc, test) => {
+        if (!acc[test.category]) acc[test.category] = [];
+        acc[test.category].push(test);
+        return acc;
+      }, {} as Record<string, TestResult[]>)
+    ).map(([category, tests]) => `
 ### ${category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ')} Tests
 
-${tests.map(test => `
+${tests.map((test) => `
 #### ${test.name} ${test.status === 'passed' ? '✅' : test.status === 'failed' ? '❌' : '⏭️'}
 
 **Description:** ${test.description}  
@@ -344,9 +344,9 @@ ${test.screenshot ? `**Screenshot:** ![Test Screenshot](${test.screenshot})  ` :
 
 ## Issues and Recommendations
 
-${testResults.filter(test => test.status === 'failed').length > 0 ? `
+${testResults.filter((test) => test.status === 'failed').length > 0 ? `
 ### Failed Tests
-${testResults.filter(test => test.status === 'failed').map(test => `
+${testResults.filter((test) => test.status === 'failed').map((test) => `
 - **${test.name}**: ${test.error || 'Test failed without specific error message'}
 `).join('')}
 
@@ -364,7 +364,7 @@ No issues detected. The API configuration system is functioning correctly.
 ---
 *Report generated by API Configuration Test Suite*
 `;
-    
+
     return markdown;
   }, [testResults, summary]);
 
@@ -381,7 +381,7 @@ No issues detected. The API configuration system is functioning correctly.
         passed: summary.passed,
         failed: summary.failed,
         skipped: summary.skipped,
-        passRate: summary.totalTests > 0 ? Math.round((summary.passed / summary.totalTests) * 100) : 0,
+        passRate: summary.totalTests > 0 ? Math.round(summary.passed / summary.totalTests * 100) : 0,
         totalDuration: summary.totalDuration,
         testDate: summary.testDate.toISOString()
       },
@@ -394,11 +394,11 @@ No issues detected. The API configuration system is functioning correctly.
       ).map(([category, tests]) => ({
         name: category,
         totalTests: tests.length,
-        passed: tests.filter(t => t.status === 'passed').length,
-        failed: tests.filter(t => t.status === 'failed').length,
-        skipped: tests.filter(t => t.status === 'skipped').length
+        passed: tests.filter((t) => t.status === 'passed').length,
+        failed: tests.filter((t) => t.status === 'failed').length,
+        skipped: tests.filter((t) => t.status === 'skipped').length
       })),
-      testResults: testResults.map(test => ({
+      testResults: testResults.map((test) => ({
         id: test.id,
         name: test.name,
         description: test.description,
@@ -412,18 +412,18 @@ No issues detected. The API configuration system is functioning correctly.
         screenshot: test.screenshot
       }))
     };
-    
+
     return JSON.stringify(report, null, 2);
   }, [testResults, summary]);
 
   const downloadReport = useCallback(async (format: 'html' | 'markdown' | 'json') => {
     setIsGenerating(true);
-    
+
     try {
       let content: string;
       let filename: string;
       let mimeType: string;
-      
+
       switch (format) {
         case 'html':
           content = generateHTMLReport();
@@ -443,7 +443,7 @@ No issues detected. The API configuration system is functioning correctly.
         default:
           throw new Error('Unsupported format');
       }
-      
+
       const blob = new Blob([content], { type: mimeType });
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -453,7 +453,7 @@ No issues detected. The API configuration system is functioning correctly.
       link.click();
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
-      
+
     } catch (error) {
       console.error('Error generating report:', error);
     } finally {
@@ -463,19 +463,19 @@ No issues detected. The API configuration system is functioning correctly.
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'passed': return 'text-green-600 bg-green-50';
-      case 'failed': return 'text-red-600 bg-red-50';
-      case 'skipped': return 'text-yellow-600 bg-yellow-50';
-      default: return 'text-gray-600 bg-gray-50';
+      case 'passed':return 'text-green-600 bg-green-50';
+      case 'failed':return 'text-red-600 bg-red-50';
+      case 'skipped':return 'text-yellow-600 bg-yellow-50';
+      default:return 'text-gray-600 bg-gray-50';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'passed': return <CheckCircle2 className="w-4 h-4" />;
-      case 'failed': return <XCircle className="w-4 h-4" />;
-      case 'skipped': return <AlertTriangle className="w-4 h-4" />;
-      default: return <Clock className="w-4 h-4" />;
+      case 'passed':return <CheckCircle2 className="w-4 h-4" />;
+      case 'failed':return <XCircle className="w-4 h-4" />;
+      case 'skipped':return <AlertTriangle className="w-4 h-4" />;
+      default:return <Clock className="w-4 h-4" />;
     }
   };
 
@@ -489,8 +489,8 @@ No issues detected. The API configuration system is functioning correctly.
             Run the test suite to generate comprehensive documentation and reports.
           </p>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -510,8 +510,8 @@ No issues detected. The API configuration system is functioning correctly.
             <Button
               onClick={() => downloadReport('html')}
               disabled={isGenerating}
-              className="flex items-center gap-2"
-            >
+              className="flex items-center gap-2">
+
               <Download className="w-4 h-4" />
               HTML Report
             </Button>
@@ -519,8 +519,8 @@ No issues detected. The API configuration system is functioning correctly.
               variant="outline"
               onClick={() => downloadReport('markdown')}
               disabled={isGenerating}
-              className="flex items-center gap-2"
-            >
+              className="flex items-center gap-2">
+
               <Download className="w-4 h-4" />
               Markdown Report
             </Button>
@@ -528,8 +528,8 @@ No issues detected. The API configuration system is functioning correctly.
               variant="outline"
               onClick={() => downloadReport('json')}
               disabled={isGenerating}
-              className="flex items-center gap-2"
-            >
+              className="flex items-center gap-2">
+
               <Download className="w-4 h-4" />
               JSON Data
             </Button>
@@ -567,7 +567,7 @@ No issues detected. The API configuration system is functioning correctly.
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold">
-                {summary.totalTests > 0 ? Math.round((summary.passed / summary.totalTests) * 100) : 0}%
+                {summary.totalTests > 0 ? Math.round(summary.passed / summary.totalTests * 100) : 0}%
               </div>
               <div className="text-sm text-muted-foreground">Success Rate</div>
             </div>
@@ -591,14 +591,14 @@ No issues detected. The API configuration system is functioning correctly.
                   acc[test.category].push(test);
                   return acc;
                 }, {} as Record<string, TestResult[]>)
-              ).map(([category, tests]) => (
-                <div key={category} className="border rounded-lg p-4">
+              ).map(([category, tests]) =>
+              <div key={category} className="border rounded-lg p-4">
                   <h4 className="font-semibold mb-3 capitalize">
                     {category.replace('-', ' ')} Tests ({tests.length})
                   </h4>
                   <div className="space-y-2">
-                    {tests.map(test => (
-                      <div key={test.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+                    {tests.map((test) =>
+                  <div key={test.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                         <div className="flex items-center gap-3 flex-1">
                           <div className={`p-1 rounded ${getStatusColor(test.status)}`}>
                             {getStatusIcon(test.status)}
@@ -606,36 +606,36 @@ No issues detected. The API configuration system is functioning correctly.
                           <div className="flex-1">
                             <div className="font-medium">{test.name}</div>
                             <div className="text-sm text-muted-foreground">{test.description}</div>
-                            {test.error && (
-                              <Alert className="mt-2">
+                            {test.error &&
+                        <Alert className="mt-2">
                                 <AlertTriangle className="h-4 w-4" />
                                 <AlertDescription className="text-xs">
                                   {test.error}
                                 </AlertDescription>
                               </Alert>
-                            )}
+                        }
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
                           <Badge variant="outline">{test.duration}ms</Badge>
-                          {test.screenshot && (
-                            <Button variant="ghost" size="sm">
+                          {test.screenshot &&
+                      <Button variant="ghost" size="sm">
                               <Camera className="w-4 h-4" />
                             </Button>
-                          )}
+                      }
                         </div>
                       </div>
-                    ))}
+                  )}
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           </ScrollArea>
         </CardContent>
       </Card>
 
-      {summary.failed > 0 && (
-        <Card>
+      {summary.failed > 0 &&
+      <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-red-600">
               <XCircle className="w-5 h-5" />
@@ -665,9 +665,9 @@ No issues detected. The API configuration system is functioning correctly.
             </div>
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
 export default TestDocumentationGenerator;

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -31,7 +32,8 @@ import {
   CheckCircle,
   Zap,
   Target,
-  Globe } from
+  Globe,
+  BookOpen } from
 'lucide-react';
 
 const HomePage = () => {
@@ -230,6 +232,9 @@ const HomePage = () => {
 
                   Monetization
                 </button>
+                <Link to="/documentation" className="text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-105 focus-enhanced">
+                  Documentation
+                </Link>
               </div>
               <ThemeToggle />
             </div>
@@ -286,7 +291,7 @@ const HomePage = () => {
               </EnhancedButton>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
               <div className="text-center group">
                 <div className="card-glass rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-xl group-hover:shadow-2xl transform group-hover:scale-110 transition-all duration-300">
                   <Users className="h-8 w-8 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform duration-300" />
@@ -308,6 +313,15 @@ const HomePage = () => {
                 <h3 className="h4 mb-2 group-hover:text-primary transition-colors duration-300">Intelligent Analytics</h3>
                 <p className="text-muted-foreground">Data-driven decision making</p>
               </div>
+              <Link to="/documentation">
+                <div className="text-center group">
+                  <div className="card-glass rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-xl group-hover:shadow-2xl transform group-hover:scale-110 transition-all duration-300">
+                    <BookOpen className="h-8 w-8 text-green-600 dark:text-green-400 group-hover:scale-110 transition-transform duration-300" />
+                  </div>
+                  <h3 className="h4 mb-2 group-hover:text-primary transition-colors duration-300">Documentation</h3>
+                  <p className="text-muted-foreground">Comprehensive guides and API reference</p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

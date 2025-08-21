@@ -7,11 +7,11 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Play, 
-  CheckCircle2, 
-  XCircle, 
-  Clock, 
+import {
+  Play,
+  CheckCircle2,
+  XCircle,
+  Clock,
   FileText,
   Download,
   Upload,
@@ -20,8 +20,8 @@ import {
   ToggleLeft,
   Camera,
   AlertCircle,
-  Loader2
-} from 'lucide-react';
+  Loader2 } from
+'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface TestCase {
@@ -44,184 +44,184 @@ interface TestSuiteProps {
 
 const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
   const [testCases, setTestCases] = useState<TestCase[]>([
-    // CRUD Operations Tests
-    {
-      id: 'crud-create-valid',
-      name: 'Create Valid API Configuration',
-      description: 'Create a new API configuration with valid data',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'API configuration created successfully with all required fields'
-    },
-    {
-      id: 'crud-create-invalid-url',
-      name: 'Create Invalid URL Configuration',
-      description: 'Attempt to create API configuration with invalid URL',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'Validation error for invalid URL format'
-    },
-    {
-      id: 'crud-read-all',
-      name: 'Retrieve All Configurations',
-      description: 'Fetch all API configurations from database',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'List of all API configurations with correct pagination'
-    },
-    {
-      id: 'crud-read-single',
-      name: 'Retrieve Single Configuration',
-      description: 'Fetch specific API configuration by ID',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'Single API configuration with all fields populated'
-    },
-    {
-      id: 'crud-update-valid',
-      name: 'Update Valid Configuration',
-      description: 'Update existing API configuration with valid data',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'Configuration updated successfully with changes persisted'
-    },
-    {
-      id: 'crud-update-invalid',
-      name: 'Update with Invalid Data',
-      description: 'Attempt to update with invalid field values',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'Validation error prevents invalid update'
-    },
-    {
-      id: 'crud-delete-existing',
-      name: 'Delete Existing Configuration',
-      description: 'Delete an existing API configuration',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'Configuration deleted successfully and not retrievable'
-    },
-    {
-      id: 'crud-delete-nonexistent',
-      name: 'Delete Non-existent Configuration',
-      description: 'Attempt to delete non-existent configuration',
-      category: 'crud',
-      status: 'pending',
-      expectedResult: 'Appropriate error message for non-existent resource'
-    },
-    
-    // Validation Tests
-    {
-      id: 'validation-required-fields',
-      name: 'Required Fields Validation',
-      description: 'Test validation for all required fields',
-      category: 'validation',
-      status: 'pending',
-      expectedResult: 'Validation errors for all missing required fields'
-    },
-    {
-      id: 'validation-url-format',
-      name: 'URL Format Validation',
-      description: 'Test various URL format validations',
-      category: 'validation',
-      status: 'pending',
-      expectedResult: 'Invalid URLs rejected, valid URLs accepted'
-    },
-    {
-      id: 'validation-field-lengths',
-      name: 'Field Length Validation',
-      description: 'Test minimum and maximum field length validations',
-      category: 'validation',
-      status: 'pending',
-      expectedResult: 'Fields within limits accepted, outside limits rejected'
-    },
-    
-    // Search & Filter Tests
-    {
-      id: 'search-by-name',
-      name: 'Search by Configuration Name',
-      description: 'Test search functionality by configuration name',
-      category: 'search',
-      status: 'pending',
-      expectedResult: 'Relevant configurations returned based on search query'
-    },
-    {
-      id: 'filter-by-provider',
-      name: 'Filter by Provider',
-      description: 'Test filtering configurations by API provider',
-      category: 'search',
-      status: 'pending',
-      expectedResult: 'Only configurations matching provider filter shown'
-    },
-    {
-      id: 'filter-by-status',
-      name: 'Filter by Status',
-      description: 'Test filtering configurations by active/inactive status',
-      category: 'search',
-      status: 'pending',
-      expectedResult: 'Only configurations matching status filter shown'
-    },
-    {
-      id: 'toggle-status',
-      name: 'Toggle Configuration Status',
-      description: 'Test enabling/disabling API configurations',
-      category: 'search',
-      status: 'pending',
-      expectedResult: 'Configuration status updated and reflected in UI'
-    },
-    
-    // Import/Export Tests
-    {
-      id: 'export-json',
-      name: 'Export to JSON',
-      description: 'Export API configurations to JSON format',
-      category: 'import-export',
-      status: 'pending',
-      expectedResult: 'Valid JSON file with all configurations exported'
-    },
-    {
-      id: 'import-json-valid',
-      name: 'Import Valid JSON',
-      description: 'Import API configurations from valid JSON file',
-      category: 'import-export',
-      status: 'pending',
-      expectedResult: 'Configurations imported successfully from JSON'
-    },
-    {
-      id: 'import-json-invalid',
-      name: 'Import Invalid JSON',
-      description: 'Attempt to import malformed JSON file',
-      category: 'import-export',
-      status: 'pending',
-      expectedResult: 'Error handling for invalid JSON format'
-    },
-    {
-      id: 'import-csv',
-      name: 'Import from CSV',
-      description: 'Import API configurations from CSV file',
-      category: 'import-export',
-      status: 'pending',
-      expectedResult: 'Configurations imported successfully from CSV'
-    },
-    
-    // UI Tests
-    {
-      id: 'ui-responsive-layout',
-      name: 'Responsive Layout Test',
-      description: 'Test UI responsiveness across different screen sizes',
-      category: 'ui',
-      status: 'pending',
-      expectedResult: 'UI adapts properly to different screen sizes'
-    },
-    {
-      id: 'ui-loading-states',
-      name: 'Loading States Test',
-      description: 'Test loading indicators during API operations',
-      category: 'ui',
-      status: 'pending',
-      expectedResult: 'Loading states displayed during async operations'
-    }
-  ]);
+  // CRUD Operations Tests
+  {
+    id: 'crud-create-valid',
+    name: 'Create Valid API Configuration',
+    description: 'Create a new API configuration with valid data',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'API configuration created successfully with all required fields'
+  },
+  {
+    id: 'crud-create-invalid-url',
+    name: 'Create Invalid URL Configuration',
+    description: 'Attempt to create API configuration with invalid URL',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'Validation error for invalid URL format'
+  },
+  {
+    id: 'crud-read-all',
+    name: 'Retrieve All Configurations',
+    description: 'Fetch all API configurations from database',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'List of all API configurations with correct pagination'
+  },
+  {
+    id: 'crud-read-single',
+    name: 'Retrieve Single Configuration',
+    description: 'Fetch specific API configuration by ID',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'Single API configuration with all fields populated'
+  },
+  {
+    id: 'crud-update-valid',
+    name: 'Update Valid Configuration',
+    description: 'Update existing API configuration with valid data',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'Configuration updated successfully with changes persisted'
+  },
+  {
+    id: 'crud-update-invalid',
+    name: 'Update with Invalid Data',
+    description: 'Attempt to update with invalid field values',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'Validation error prevents invalid update'
+  },
+  {
+    id: 'crud-delete-existing',
+    name: 'Delete Existing Configuration',
+    description: 'Delete an existing API configuration',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'Configuration deleted successfully and not retrievable'
+  },
+  {
+    id: 'crud-delete-nonexistent',
+    name: 'Delete Non-existent Configuration',
+    description: 'Attempt to delete non-existent configuration',
+    category: 'crud',
+    status: 'pending',
+    expectedResult: 'Appropriate error message for non-existent resource'
+  },
+
+  // Validation Tests
+  {
+    id: 'validation-required-fields',
+    name: 'Required Fields Validation',
+    description: 'Test validation for all required fields',
+    category: 'validation',
+    status: 'pending',
+    expectedResult: 'Validation errors for all missing required fields'
+  },
+  {
+    id: 'validation-url-format',
+    name: 'URL Format Validation',
+    description: 'Test various URL format validations',
+    category: 'validation',
+    status: 'pending',
+    expectedResult: 'Invalid URLs rejected, valid URLs accepted'
+  },
+  {
+    id: 'validation-field-lengths',
+    name: 'Field Length Validation',
+    description: 'Test minimum and maximum field length validations',
+    category: 'validation',
+    status: 'pending',
+    expectedResult: 'Fields within limits accepted, outside limits rejected'
+  },
+
+  // Search & Filter Tests
+  {
+    id: 'search-by-name',
+    name: 'Search by Configuration Name',
+    description: 'Test search functionality by configuration name',
+    category: 'search',
+    status: 'pending',
+    expectedResult: 'Relevant configurations returned based on search query'
+  },
+  {
+    id: 'filter-by-provider',
+    name: 'Filter by Provider',
+    description: 'Test filtering configurations by API provider',
+    category: 'search',
+    status: 'pending',
+    expectedResult: 'Only configurations matching provider filter shown'
+  },
+  {
+    id: 'filter-by-status',
+    name: 'Filter by Status',
+    description: 'Test filtering configurations by active/inactive status',
+    category: 'search',
+    status: 'pending',
+    expectedResult: 'Only configurations matching status filter shown'
+  },
+  {
+    id: 'toggle-status',
+    name: 'Toggle Configuration Status',
+    description: 'Test enabling/disabling API configurations',
+    category: 'search',
+    status: 'pending',
+    expectedResult: 'Configuration status updated and reflected in UI'
+  },
+
+  // Import/Export Tests
+  {
+    id: 'export-json',
+    name: 'Export to JSON',
+    description: 'Export API configurations to JSON format',
+    category: 'import-export',
+    status: 'pending',
+    expectedResult: 'Valid JSON file with all configurations exported'
+  },
+  {
+    id: 'import-json-valid',
+    name: 'Import Valid JSON',
+    description: 'Import API configurations from valid JSON file',
+    category: 'import-export',
+    status: 'pending',
+    expectedResult: 'Configurations imported successfully from JSON'
+  },
+  {
+    id: 'import-json-invalid',
+    name: 'Import Invalid JSON',
+    description: 'Attempt to import malformed JSON file',
+    category: 'import-export',
+    status: 'pending',
+    expectedResult: 'Error handling for invalid JSON format'
+  },
+  {
+    id: 'import-csv',
+    name: 'Import from CSV',
+    description: 'Import API configurations from CSV file',
+    category: 'import-export',
+    status: 'pending',
+    expectedResult: 'Configurations imported successfully from CSV'
+  },
+
+  // UI Tests
+  {
+    id: 'ui-responsive-layout',
+    name: 'Responsive Layout Test',
+    description: 'Test UI responsiveness across different screen sizes',
+    category: 'ui',
+    status: 'pending',
+    expectedResult: 'UI adapts properly to different screen sizes'
+  },
+  {
+    id: 'ui-loading-states',
+    name: 'Loading States Test',
+    description: 'Test loading indicators during API operations',
+    category: 'ui',
+    status: 'pending',
+    expectedResult: 'Loading states displayed during async operations'
+  }]
+  );
 
   const [isRunning, setIsRunning] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -229,8 +229,8 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
   const { toast } = useToast();
 
   const updateTestCase = useCallback((id: string, updates: Partial<TestCase>) => {
-    setTestCases(prev => prev.map(test => 
-      test.id === id ? { ...test, ...updates } : test
+    setTestCases((prev) => prev.map((test) =>
+    test.id === id ? { ...test, ...updates } : test
     ));
   }, []);
 
@@ -253,107 +253,107 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
           result = await testCreateValidConfiguration();
           actualResult = 'API configuration created successfully with ID and timestamp';
           break;
-        
+
         case 'crud-create-invalid-url':
           result = await testCreateInvalidURL();
           actualResult = 'Validation error returned for invalid URL format';
           break;
-        
+
         case 'crud-read-all':
           result = await testReadAllConfigurations();
           actualResult = 'Retrieved paginated list of configurations';
           break;
-        
+
         case 'crud-read-single':
           result = await testReadSingleConfiguration();
           actualResult = 'Retrieved specific configuration with all fields';
           break;
-        
+
         case 'crud-update-valid':
           result = await testUpdateConfiguration();
           actualResult = 'Configuration updated and changes persisted';
           break;
-        
+
         case 'crud-update-invalid':
           result = await testUpdateWithInvalidData();
           actualResult = 'Validation prevented invalid update';
           break;
-        
+
         case 'crud-delete-existing':
           result = await testDeleteConfiguration();
           actualResult = 'Configuration deleted and no longer retrievable';
           break;
-        
+
         case 'crud-delete-nonexistent':
           result = await testDeleteNonexistent();
           actualResult = 'Error message returned for non-existent resource';
           break;
-        
+
         case 'validation-required-fields':
           result = await testRequiredFieldsValidation();
           actualResult = 'Validation errors returned for missing required fields';
           break;
-        
+
         case 'validation-url-format':
           result = await testURLFormatValidation();
           actualResult = 'URL format validation working correctly';
           break;
-        
+
         case 'validation-field-lengths':
           result = await testFieldLengthValidation();
           actualResult = 'Field length validation enforced properly';
           break;
-        
+
         case 'search-by-name':
           result = await testSearchByName();
           actualResult = 'Search returned relevant configurations';
           break;
-        
+
         case 'filter-by-provider':
           result = await testFilterByProvider();
           actualResult = 'Filter correctly applied to provider field';
           break;
-        
+
         case 'filter-by-status':
           result = await testFilterByStatus();
           actualResult = 'Filter correctly applied to status field';
           break;
-        
+
         case 'toggle-status':
           result = await testToggleStatus();
           actualResult = 'Status toggle updated configuration state';
           break;
-        
+
         case 'export-json':
           result = await testExportJSON();
           actualResult = 'JSON export generated with valid format';
           break;
-        
+
         case 'import-json-valid':
           result = await testImportValidJSON();
           actualResult = 'Valid JSON imported successfully';
           break;
-        
+
         case 'import-json-invalid':
           result = await testImportInvalidJSON();
           actualResult = 'Invalid JSON handled with appropriate error';
           break;
-        
+
         case 'import-csv':
           result = await testImportCSV();
           actualResult = 'CSV import processed successfully';
           break;
-        
+
         case 'ui-responsive-layout':
           result = await testResponsiveLayout();
           actualResult = 'Layout responds correctly to viewport changes';
           break;
-        
+
         case 'ui-loading-states':
           result = await testLoadingStates();
           actualResult = 'Loading states displayed during operations';
           break;
-        
+
         default:
           throw new Error(`Test case ${testCase.id} not implemented`);
       }
@@ -383,19 +383,19 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     setTestResults([]);
 
     const totalTests = testCases.length;
-    
+
     for (let i = 0; i < testCases.length; i++) {
       const testCase = testCases[i];
       await runSingleTest(testCase);
-      setProgress(((i + 1) / totalTests) * 100);
-      
+      setProgress((i + 1) / totalTests * 100);
+
       // Add small delay between tests
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
     }
 
     setIsRunning(false);
-    
-    const results = testCases.map(test => ({
+
+    const results = testCases.map((test) => ({
       id: test.id,
       name: test.name,
       status: test.status,
@@ -404,12 +404,12 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
       actualResult: test.actualResult,
       error: test.error
     }));
-    
+
     setTestResults(results);
-    
+
     toast({
       title: "Test Suite Completed",
-      description: `${results.filter(r => r.status === 'passed').length} passed, ${results.filter(r => r.status === 'failed').length} failed`,
+      description: `${results.filter((r) => r.status === 'passed').length} passed, ${results.filter((r) => r.status === 'failed').length} failed`
     });
   };
 
@@ -426,7 +426,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
     const { error } = await window.ezsite.apis.tableCreate(36659, testData);
     if (error) throw new Error(error);
-    
+
     return 'Configuration created successfully';
   };
 
@@ -440,7 +440,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
     const { error } = await window.ezsite.apis.tableCreate(36659, testData);
     if (!error) throw new Error('Expected validation error for invalid URL');
-    
+
     return 'Validation error caught as expected';
   };
 
@@ -455,7 +455,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
     if (error) throw new Error(error);
     if (!data?.List) throw new Error('No data returned');
-    
+
     return `Retrieved ${data.List.length} configurations`;
   };
 
@@ -481,7 +481,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
     if (error) throw new Error(error);
     if (!data?.List?.length) throw new Error('Configuration not found');
-    
+
     return `Retrieved configuration: ${data.List[0].name}`;
   };
 
@@ -521,20 +521,20 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
     const { error: updateError } = await window.ezsite.apis.tableUpdate(36659, updateData);
     if (updateError) throw new Error(updateError);
-    
+
     return 'Configuration updated successfully';
   };
 
   const testUpdateWithInvalidData = async (): Promise<string> => {
     const updateData = {
       id: 99999, // Non-existent ID
-      name: '',  // Invalid empty name
+      name: '', // Invalid empty name
       base_url: 'invalid-url'
     };
 
     const { error } = await window.ezsite.apis.tableUpdate(36659, updateData);
     if (!error) throw new Error('Expected validation error for invalid data');
-    
+
     return 'Validation error caught as expected';
   };
 
@@ -566,14 +566,14 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     const config = data.List[0];
     const { error: deleteError } = await window.ezsite.apis.tableDelete(36659, { id: config.id });
     if (deleteError) throw new Error(deleteError);
-    
+
     return 'Configuration deleted successfully';
   };
 
   const testDeleteNonexistent = async (): Promise<string> => {
     const { error } = await window.ezsite.apis.tableDelete(36659, { id: 99999 });
     if (!error) throw new Error('Expected error for non-existent resource');
-    
+
     return 'Error handled correctly for non-existent resource';
   };
 
@@ -581,16 +581,16 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     const invalidData = {}; // No required fields
     const { error } = await window.ezsite.apis.tableCreate(36659, invalidData);
     if (!error) throw new Error('Expected validation error for missing required fields');
-    
+
     return 'Required fields validation working';
   };
 
   const testURLFormatValidation = async (): Promise<string> => {
     const testUrls = [
-      'not-a-url',
-      'ftp://invalid-protocol.com',
-      'https://valid-url.com'
-    ];
+    'not-a-url',
+    'ftp://invalid-protocol.com',
+    'https://valid-url.com'];
+
 
     let validationWorking = true;
     for (const url of testUrls) {
@@ -602,7 +602,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
       };
 
       const { error } = await window.ezsite.apis.tableCreate(36659, testData);
-      
+
       if (url === 'https://valid-url.com' && error) {
         validationWorking = false;
         break;
@@ -628,7 +628,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
     const { error } = await window.ezsite.apis.tableCreate(36659, testData);
     if (!error) throw new Error('Expected validation error for field too long');
-    
+
     return 'Field length validation working';
   };
 
@@ -650,10 +650,10 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     });
 
     if (error) throw new Error(error);
-    if (!data?.List?.some(item => item.name.includes('Searchable'))) {
+    if (!data?.List?.some((item) => item.name.includes('Searchable'))) {
       throw new Error('Search did not return expected results');
     }
-    
+
     return `Search found ${data.List.length} matching configurations`;
   };
 
@@ -667,7 +667,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     });
 
     if (error) throw new Error(error);
-    
+
     return `Filter returned ${data?.List?.length || 0} configurations`;
   };
 
@@ -681,7 +681,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     });
 
     if (error) throw new Error(error);
-    
+
     return `Status filter returned ${data?.List?.length || 0} active configurations`;
   };
 
@@ -700,9 +700,9 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     });
 
     if (error) throw new Error(error);
-    
+
     const jsonData = JSON.stringify(data?.List || [], null, 2);
-    
+
     // Create download
     const blob = new Blob([jsonData], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -711,26 +711,26 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     link.download = 'api-configurations-export.json';
     link.click();
     URL.revokeObjectURL(url);
-    
+
     return 'JSON export generated successfully';
   };
 
   const testImportValidJSON = async (): Promise<string> => {
     // Simulate JSON import
     const testData = [
-      {
-        name: 'Imported Config 1',
-        provider: 'Import Test',
-        base_url: 'https://api.import.com',
-        api_key: 'import-key-1'
-      }
-    ];
+    {
+      name: 'Imported Config 1',
+      provider: 'Import Test',
+      base_url: 'https://api.import.com',
+      api_key: 'import-key-1'
+    }];
+
 
     for (const config of testData) {
       const { error } = await window.ezsite.apis.tableCreate(36659, config);
       if (error) throw new Error(`Import failed: ${error}`);
     }
-    
+
     return 'Valid JSON imported successfully';
   };
 
@@ -752,39 +752,39 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
     const csvData = 'name,provider,base_url,api_key\nCSV Config,CSV Provider,https://api.csv.com,csv-key';
     const lines = csvData.split('\n');
     const headers = lines[0].split(',');
-    
+
     for (let i = 1; i < lines.length; i++) {
       const values = lines[i].split(',');
       const config: any = {};
       headers.forEach((header, index) => {
         config[header] = values[index];
       });
-      
+
       const { error } = await window.ezsite.apis.tableCreate(36659, config);
       if (error) throw new Error(`CSV import failed: ${error}`);
     }
-    
+
     return 'CSV imported successfully';
   };
 
   const testResponsiveLayout = async (): Promise<string> => {
     // Simulate responsive testing
     const originalWidth = window.innerWidth;
-    
+
     // Test mobile
     Object.defineProperty(window, 'innerWidth', { value: 375, configurable: true });
     window.dispatchEvent(new Event('resize'));
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     // Test tablet
     Object.defineProperty(window, 'innerWidth', { value: 768, configurable: true });
     window.dispatchEvent(new Event('resize'));
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
     // Restore original
     Object.defineProperty(window, 'innerWidth', { value: originalWidth, configurable: true });
     window.dispatchEvent(new Event('resize'));
-    
+
     return 'Responsive layout test completed';
   };
 
@@ -794,11 +794,11 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
   };
 
   const getCategoryStats = (category: string) => {
-    const categoryTests = testCases.filter(test => test.category === category);
-    const passed = categoryTests.filter(test => test.status === 'passed').length;
-    const failed = categoryTests.filter(test => test.status === 'failed').length;
-    const pending = categoryTests.filter(test => test.status === 'pending').length;
-    
+    const categoryTests = testCases.filter((test) => test.category === category);
+    const passed = categoryTests.filter((test) => test.status === 'passed').length;
+    const failed = categoryTests.filter((test) => test.status === 'failed').length;
+    const pending = categoryTests.filter((test) => test.status === 'pending').length;
+
     return { total: categoryTests.length, passed, failed, pending };
   };
 
@@ -812,10 +812,10 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'passed': return <CheckCircle2 className="w-4 h-4 text-green-500" />;
-      case 'failed': return <XCircle className="w-4 h-4 text-red-500" />;
-      case 'running': return <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />;
-      default: return <Clock className="w-4 h-4 text-gray-400" />;
+      case 'passed':return <CheckCircle2 className="w-4 h-4 text-green-500" />;
+      case 'failed':return <XCircle className="w-4 h-4 text-red-500" />;
+      case 'running':return <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />;
+      default:return <Clock className="w-4 h-4 text-gray-400" />;
     }
   };
 
@@ -836,8 +836,8 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
         </div>
       </div>
 
-      {isRunning && (
-        <Card>
+      {isRunning &&
+      <Card>
           <CardContent className="pt-6">
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
@@ -848,7 +848,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
             </div>
           </CardContent>
         </Card>
-      )}
+      }
 
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>
@@ -863,7 +863,7 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
 
         <TabsContent value="overview">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-            {['crud', 'validation', 'search', 'import-export', 'ui'].map(category => {
+            {['crud', 'validation', 'search', 'import-export', 'ui'].map((category) => {
               const stats = getCategoryStats(category);
               return (
                 <Card key={category}>
@@ -887,17 +887,17 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
-              );
+                </Card>);
+
             })}
           </div>
         </TabsContent>
 
-        {['crud', 'validation', 'search', 'import-export', 'ui'].map(category => (
-          <TabsContent key={category} value={category}>
+        {['crud', 'validation', 'search', 'import-export', 'ui'].map((category) =>
+        <TabsContent key={category} value={category}>
             <div className="space-y-4">
-              {testCases.filter(test => test.category === category).map(test => (
-                <Card key={test.id}>
+              {testCases.filter((test) => test.category === category).map((test) =>
+            <Card key={test.id}>
                   <CardContent className="p-4">
                     <div className="flex items-start justify-between">
                       <div className="flex-1">
@@ -905,45 +905,45 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
                           {getStatusIcon(test.status)}
                           <h4 className="font-medium">{test.name}</h4>
                           <Badge variant={
-                            test.status === 'passed' ? 'default' :
-                            test.status === 'failed' ? 'destructive' :
-                            test.status === 'running' ? 'secondary' : 'outline'
-                          }>
+                      test.status === 'passed' ? 'default' :
+                      test.status === 'failed' ? 'destructive' :
+                      test.status === 'running' ? 'secondary' : 'outline'
+                      }>
                             {test.status}
                           </Badge>
-                          {test.duration && (
-                            <Badge variant="outline">{test.duration}ms</Badge>
-                          )}
+                          {test.duration &&
+                      <Badge variant="outline">{test.duration}ms</Badge>
+                      }
                         </div>
                         <p className="text-sm text-muted-foreground mb-2">{test.description}</p>
                         <div className="text-xs space-y-1">
                           <div><strong>Expected:</strong> {test.expectedResult}</div>
-                          {test.actualResult && (
-                            <div><strong>Actual:</strong> {test.actualResult}</div>
-                          )}
-                          {test.error && (
-                            <Alert>
+                          {test.actualResult &&
+                      <div><strong>Actual:</strong> {test.actualResult}</div>
+                      }
+                          {test.error &&
+                      <Alert>
                               <AlertCircle className="h-4 w-4" />
                               <AlertDescription>{test.error}</AlertDescription>
                             </Alert>
-                          )}
+                      }
                         </div>
                       </div>
                       <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => runSingleTest(test)}
-                        disabled={isRunning || test.status === 'running'}
-                      >
+                    variant="outline"
+                    size="sm"
+                    onClick={() => runSingleTest(test)}
+                    disabled={isRunning || test.status === 'running'}>
+
                         {test.status === 'running' ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4" />}
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
-              ))}
+            )}
             </div>
           </TabsContent>
-        ))}
+        )}
 
         <TabsContent value="results">
           <Card>
@@ -952,43 +952,43 @@ const ApiTestSuite: React.FC<TestSuiteProps> = ({ onScreenshot }) => {
               <CardDescription>Detailed results from the last test run</CardDescription>
             </CardHeader>
             <CardContent>
-              {testResults.length > 0 ? (
-                <ScrollArea className="h-[600px]">
+              {testResults.length > 0 ?
+              <ScrollArea className="h-[600px]">
                   <div className="space-y-4">
-                    {testResults.map(result => (
-                      <div key={result.id} className="border rounded p-4">
+                    {testResults.map((result) =>
+                  <div key={result.id} className="border rounded p-4">
                         <div className="flex items-center justify-between mb-2">
                           <h4 className="font-medium">{result.name}</h4>
                           <div className="flex items-center space-x-2">
                             {getStatusIcon(result.status)}
-                            {result.duration && (
-                              <Badge variant="outline">{result.duration}ms</Badge>
-                            )}
+                            {result.duration &&
+                        <Badge variant="outline">{result.duration}ms</Badge>
+                        }
                           </div>
                         </div>
                         <div className="text-sm space-y-1">
                           <div><strong>Expected:</strong> {result.expectedResult}</div>
                           <div><strong>Actual:</strong> {result.actualResult}</div>
-                          {result.error && (
-                            <div className="text-red-600"><strong>Error:</strong> {result.error}</div>
-                          )}
+                          {result.error &&
+                      <div className="text-red-600"><strong>Error:</strong> {result.error}</div>
+                      }
                         </div>
                       </div>
-                    ))}
+                  )}
                   </div>
-                </ScrollArea>
-              ) : (
-                <div className="text-center text-muted-foreground py-8">
+                </ScrollArea> :
+
+              <div className="text-center text-muted-foreground py-8">
                   <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>No test results available. Run the test suite to see results here.</p>
                 </div>
-              )}
+              }
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ApiTestSuite;

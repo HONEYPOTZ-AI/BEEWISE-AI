@@ -4,7 +4,7 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/contexts/ThemeContext';
-import ErrorBoundary from  '@/components/ErrorBoundary';
+import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Page imports
 import HomePage from '@/pages/HomePage';
@@ -12,6 +12,7 @@ const NotFound = lazy(() => import('@/pages/NotFound'));
 const ApiConfigPage = lazy(() => import('@/pages/ApiConfigPage'));
 const ApiTestingPage = lazy(() => import('@/pages/ApiTestingPage'));
 const TestingPage = lazy(() => import('@/pages/TestingPage'));
+const DocumentationPage = lazy(() => import('@/pages/DocumentationPage'));
 
 // Utilities
 import { analytics } from '@/utils/analytics';
@@ -24,9 +25,9 @@ const queryClient = new QueryClient({
     queries: {
       refetchOnWindowFocus: false,
       retry: 1,
-      staleTime: 5 * 60 * 1000, // 5 minutes
-    },
-  },
+      staleTime: 5 * 60 * 1000 // 5 minutes
+    }
+  }
 });
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
                   <Route path="/apiconfig" element={<ApiConfigPage />} />
                   <Route path="/apitesting" element={<ApiTestingPage />} />
                   <Route path="/testing" element={<TestingPage />} />
+                  <Route path="/documentation" element={<DocumentationPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
@@ -64,8 +66,8 @@ function App() {
           <Toaster />
         </TooltipProvider>
       </ThemeProvider>
-    </QueryClientProvider>
-  );
+    </QueryClientProvider>);
+
 }
 
 export default App;
