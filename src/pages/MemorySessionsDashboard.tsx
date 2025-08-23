@@ -19,7 +19,7 @@ const MemorySessionsDashboard: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link to="/">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="bg-white text-[#030507]">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Home
                 </Button>
@@ -388,8 +388,8 @@ const MemorySessionsDashboard: React.FC = () => {
           </TabsContent>
         </Tabs>
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default MemorySessionsDashboard;

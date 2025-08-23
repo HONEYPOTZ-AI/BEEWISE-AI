@@ -8,12 +8,15 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 
 // Page imports
 import HomePage from '@/pages/HomePage';
-const NotFound = lazy(() => import('@/pages/NotFound'));
+const AgentMarketplacePage = lazy(() => import('@/pages/AgentMarketplacePage'));
+const BusinessLifecyclePage = lazy(() => import('@/pages/BusinessLifecyclePage'));
+const TaskManagementPage = lazy(() => import('@/pages/TaskManagementPage'));
+const MemoryContextPage = lazy(() => import('@/pages/MemoryContextPage'));
+const AnalyticsPage = lazy(() => import('@/pages/AnalyticsPage'));
 const ApiConfigPage = lazy(() => import('@/pages/ApiConfigPage'));
 const ApiTestingPage = lazy(() => import('@/pages/ApiTestingPage'));
 const TestingPage = lazy(() => import('@/pages/TestingPage'));
 const DocumentationPage = lazy(() => import('@/pages/DocumentationPage'));
-const AgentMarketplace = lazy(() => import('@/pages/AgentMarketplace'));
 const AgentDetails = lazy(() => import('@/pages/AgentDetails'));
 const AgentOnboarding = lazy(() => import('@/pages/AgentOnboarding'));
 const AgentAnalytics = lazy(() => import('@/pages/AgentAnalytics'));
@@ -21,6 +24,7 @@ const OrchestrationPage = lazy(() => import('@/pages/OrchestrationPage'));
 const MemoryManagementPage = lazy(() => import('@/pages/MemoryManagementPage'));
 const ContextSessionsPage = lazy(() => import('@/pages/ContextSessionsPage'));
 const MemorySessionsDashboard = lazy(() => import('@/pages/MemorySessionsDashboard'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 // Utilities
 import { analytics } from '@/utils/analytics';
@@ -62,18 +66,22 @@ function App() {
               <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/apiconfig" element={<ApiConfigPage />} />
-                  <Route path="/apitesting" element={<ApiTestingPage />} />
+                  <Route path="/agent-marketplace" element={<AgentMarketplacePage />} />
+                  <Route path="/agent-details/:id" element={<AgentDetails />} />
+                  <Route path="/agent-onboarding" element={<AgentOnboarding />} />
+                  <Route path="/agent-analytics" element={<AgentAnalytics />} />
+                  <Route path="/orchestration" element={<OrchestrationPage />} />
+                  <Route path="/business-lifecycle" element={<BusinessLifecyclePage />} />
+                  <Route path="/task-management" element={<TaskManagementPage />} />
+                  <Route path="/memory-context" element={<MemoryContextPage />} />
+                  <Route path="/analytics" element={<AnalyticsPage />} />
+                  <Route path="/api-config" element={<ApiConfigPage />} />
+                  <Route path="/api-testing" element={<ApiTestingPage />} />
                   <Route path="/testing" element={<TestingPage />} />
                   <Route path="/documentation" element={<DocumentationPage />} />
-                  <Route path="/agent-marketplace" element={<AgentMarketplace />} />
-                  <Route path="/agent-marketplace/agent/:id" element={<AgentDetails />} />
-                  <Route path="/agent-marketplace/onboarding" element={<AgentOnboarding />} />
-                  <Route path="/agent-marketplace/analytics" element={<AgentAnalytics />} />
-                  <Route path="/orchestration" element={<OrchestrationPage />} />
                   <Route path="/memory-management" element={<MemoryManagementPage />} />
                   <Route path="/context-sessions" element={<ContextSessionsPage />} />
-                  <Route path="/memory-sessions-dashboard" element={<MemorySessionsDashboard />} />
+                  <Route path="/memory-sessions" element={<MemorySessionsDashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

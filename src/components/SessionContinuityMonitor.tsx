@@ -37,17 +37,17 @@ const SessionContinuityMonitor: React.FC = () => {
   const [recentHandoffs, setRecentHandoffs] = useState<AgentHandoff[]>([]);
   const [sessionHealth, setSessionHealth] = useState<SessionHealth[]>([]);
   const [agents, setAgents] = useState<any[]>([]);
-  
+
   // WebSocket connection for real-time updates
   const { isConnected, sendMessage } = useWebSocket('ws://localhost:8080/session-monitor');
 
   useEffect(() => {
     loadAgents();
     loadInitialData();
-    
+
     // Set up periodic health checks
     const healthCheckInterval = setInterval(performHealthCheck, 30000);
-    
+
     return () => clearInterval(healthCheckInterval);
   }, []);
 
@@ -74,8 +74,8 @@ const SessionContinuityMonitor: React.FC = () => {
         OrderByField: 'last_activity_at',
         IsAsc: false,
         Filters: [
-          { name: 'status', op: 'Equal', value: 'active' }
-        ]
+        { name: 'status', op: 'Equal', value: 'active' }]
+
       });
 
       if (!error && data.List) {
@@ -113,7 +113,7 @@ const SessionContinuityMonitor: React.FC = () => {
     setRecentHandoffs(mockHandoffs);
 
     // Generate mock health data
-    const mockHealth: SessionHealth[] = sessions.slice(0, 8).map(session => ({
+    const mockHealth: SessionHealth[] = sessions.slice(0, 8).map((session) => ({
       session_id: session.session_id,
       health_score: Math.floor(Math.random() * 40) + 60,
       issues: Math.random() > 0.7 ? ['high_latency', 'memory_pressure'] : [],
@@ -125,12 +125,12 @@ const SessionContinuityMonitor: React.FC = () => {
 
   const performHealthCheck = () => {
     // Update health scores with some variation
-    setSessionHealth(prev => 
-      prev.map(session => ({
-        ...session,
-        health_score: Math.max(20, Math.min(100, session.health_score + (Math.random() - 0.5) * 10)),
-        memory_usage: Math.max(10, Math.min(90, session.memory_usage + (Math.random() - 0.5) * 10))
-      }))
+    setSessionHealth((prev) =>
+    prev.map((session) => ({
+      ...session,
+      health_score: Math.max(20, Math.min(100, session.health_score + (Math.random() - 0.5) * 10)),
+      memory_usage: Math.max(10, Math.min(90, session.memory_usage + (Math.random() - 0.5) * 10))
+    }))
     );
 
     // Add new activity occasionally
@@ -145,13 +145,13 @@ const SessionContinuityMonitor: React.FC = () => {
           tokens: Math.floor(Math.random() * 800) + 50
         }
       };
-      
-      setRealtimeActivities(prev => [newActivity, ...prev.slice(0, 9)]);
+
+      setRealtimeActivities((prev) => [newActivity, ...prev.slice(0, 9)]);
     }
   };
 
   const getAgentName = (agentId: number) => {
-    const agent = agents.find(a => a.id === agentId);
+    const agent = agents.find((a) => a.id === agentId);
     return agent ? agent.display_name || agent.name : `Agent ${agentId}`;
   };
 
@@ -208,8 +208,8 @@ const SessionContinuityMonitor: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3 max-h-96 overflow-y-auto">
-              {realtimeActivities.map((activity, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              {realtimeActivities.map((activity, index) =>
+              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center space-x-3">
                     <Activity className="w-4 h-4 text-gray-500" />
                     <div>
@@ -228,12 +228,12 @@ const SessionContinuityMonitor: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              ))}
-              {realtimeActivities.length === 0 && (
-                <div className="text-center text-gray-500 py-8">
+              )}
+              {realtimeActivities.length === 0 &&
+              <div className="text-center text-gray-500 py-8">
                   No recent activities
                 </div>
-              )}
+              }
             </div>
           </CardContent>
         </Card>
@@ -248,8 +248,8 @@ const SessionContinuityMonitor: React.FC = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-3 max-h-96 overflow-y-auto">
-              {recentHandoffs.map((handoff, index) => (
-                <div key={index} className="p-3 bg-gray-50 rounded-lg">
+              {recentHandoffs.map((handoff, index) =>
+              <div key={index} className="p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
                     <div className="text-sm font-medium">{handoff.session_id}</div>
                     <div className="text-xs text-gray-500">
@@ -270,12 +270,12 @@ const SessionContinuityMonitor: React.FC = () => {
                     Reason: {handoff.reason.replace('_', ' ')}
                   </div>
                 </div>
-              ))}
-              {recentHandoffs.length === 0 && (
-                <div className="text-center text-gray-500 py-8">
+              )}
+              {recentHandoffs.length === 0 &&
+              <div className="text-center text-gray-500 py-8">
                   No recent handoffs
                 </div>
-              )}
+              }
             </div>
           </CardContent>
         </Card>
@@ -291,8 +291,8 @@ const SessionContinuityMonitor: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {sessionHealth.map((health, index) => (
-              <div key={index} className="p-4 border rounded-lg">
+            {sessionHealth.map((health, index) =>
+            <div key={index} className="p-4 border rounded-lg">
                 <div className="flex items-center justify-between mb-2">
                   <div className="font-medium text-sm truncate">{health.session_id}</div>
                   <div className={`text-sm font-bold ${getHealthColor(health.health_score)}`}>
@@ -322,32 +322,32 @@ const SessionContinuityMonitor: React.FC = () => {
                       <span>Memory Usage</span>
                       <span>{health.memory_usage}%</span>
                     </div>
-                    <Progress 
-                      value={health.memory_usage} 
-                      className={`h-2 ${health.memory_usage > 80 ? 'bg-red-100' : ''}`} 
-                    />
+                    <Progress
+                    value={health.memory_usage}
+                    className={`h-2 ${health.memory_usage > 80 ? 'bg-red-100' : ''}`} />
+
                   </div>
                   
-                  {health.issues.length > 0 && (
-                    <div className="mt-2">
+                  {health.issues.length > 0 &&
+                <div className="mt-2">
                       <div className="text-xs text-red-600 font-medium">Issues:</div>
-                      {health.issues.map((issue, i) => (
-                        <Badge key={i} variant="destructive" className="text-xs mr-1 mb-1">
+                      {health.issues.map((issue, i) =>
+                  <Badge key={i} variant="destructive" className="text-xs mr-1 mb-1">
                           {issue.replace('_', ' ')}
                         </Badge>
-                      ))}
-                    </div>
                   )}
+                    </div>
+                }
                 </div>
               </div>
-            ))}
+            )}
           </div>
           
-          {sessionHealth.length === 0 && (
-            <div className="text-center text-gray-500 py-12">
+          {sessionHealth.length === 0 &&
+          <div className="text-center text-gray-500 py-12">
               No active sessions to monitor
             </div>
-          )}
+          }
         </CardContent>
       </Card>
 
@@ -369,13 +369,13 @@ const SessionContinuityMonitor: React.FC = () => {
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-green-600">
-                {recentHandoffs.filter(h => h.context_preserved).length}
+                {recentHandoffs.filter((h) => h.context_preserved).length}
               </div>
               <div className="text-sm text-gray-600">Successful Handoffs</div>
             </div>
             <div className="text-center">
               <div className="text-2xl font-bold text-orange-600">
-                {sessionHealth.filter(s => s.health_score >= 80).length}
+                {sessionHealth.filter((s) => s.health_score >= 80).length}
               </div>
               <div className="text-sm text-gray-600">Healthy Sessions</div>
             </div>
@@ -388,8 +388,8 @@ const SessionContinuityMonitor: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default SessionContinuityMonitor;

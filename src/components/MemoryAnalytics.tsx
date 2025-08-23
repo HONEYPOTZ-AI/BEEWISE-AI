@@ -5,18 +5,18 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  Brain, 
-  Database, 
-  TrendingUp, 
-  AlertTriangle, 
-  Clock, 
-  Zap, 
+import {
+  Brain,
+  Database,
+  TrendingUp,
+  AlertTriangle,
+  Clock,
+  Zap,
   Archive,
   Trash2,
   RefreshCw,
-  BarChart3
-} from 'lucide-react';
+  BarChart3 } from
+'lucide-react';
 
 interface MemoryUsageData {
   agent_id: number;
@@ -65,7 +65,7 @@ const MemoryAnalytics: React.FC = () => {
   const loadMemoryAnalytics = async () => {
     try {
       setLoading(true);
-      
+
       // Load agents first
       const { data: agentsData } = await window.ezsite.apis.tablePage(37238, {
         PageNo: 1,
@@ -73,7 +73,7 @@ const MemoryAnalytics: React.FC = () => {
         OrderByField: 'display_name',
         IsAsc: true
       });
-      
+
       // Load all memories
       const { data: memoriesData } = await window.ezsite.apis.tablePage(37250, {
         PageNo: 1,
@@ -95,32 +95,32 @@ const MemoryAnalytics: React.FC = () => {
   };
 
   const generateUsageData = (agents: any[], memories: any[]) => {
-    const usage: MemoryUsageData[] = agents.map(agent => {
-      const agentMemories = memories.filter(m => m.agent_id === agent.id);
+    const usage: MemoryUsageData[] = agents.map((agent) => {
+      const agentMemories = memories.filter((m) => m.agent_id === agent.id);
       const now = new Date();
       const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-      
+
       return {
         agent_id: agent.id,
         agent_name: agent.display_name || agent.name,
         total_memories: agentMemories.length,
-        episodic_count: agentMemories.filter(m => m.memory_type === 'episodic').length,
-        semantic_count: agentMemories.filter(m => m.memory_type === 'semantic').length,
-        procedural_count: agentMemories.filter(m => m.memory_type === 'procedural').length,
-        working_count: agentMemories.filter(m => m.memory_type === 'working').length,
+        episodic_count: agentMemories.filter((m) => m.memory_type === 'episodic').length,
+        semantic_count: agentMemories.filter((m) => m.memory_type === 'semantic').length,
+        procedural_count: agentMemories.filter((m) => m.memory_type === 'procedural').length,
+        working_count: agentMemories.filter((m) => m.memory_type === 'working').length,
         total_size: agentMemories.reduce((sum, m) => sum + JSON.stringify(m.memory_content).length, 0),
-        avg_importance: agentMemories.length > 0 
-          ? agentMemories.reduce((sum, m) => sum + m.importance_score, 0) / agentMemories.length 
-          : 0,
-        access_frequency: agentMemories.filter(m => 
-          m.last_accessed_at && new Date(m.last_accessed_at) > dayAgo
+        avg_importance: agentMemories.length > 0 ?
+        agentMemories.reduce((sum, m) => sum + m.importance_score, 0) / agentMemories.length :
+        0,
+        access_frequency: agentMemories.filter((m) =>
+        m.last_accessed_at && new Date(m.last_accessed_at) > dayAgo
         ).length,
-        expired_count: agentMemories.filter(m => 
-          m.expires_at && new Date(m.expires_at) < now
+        expired_count: agentMemories.filter((m) =>
+        m.expires_at && new Date(m.expires_at) < now
         ).length,
-        encrypted_count: agentMemories.filter(m => m.is_encrypted).length
+        encrypted_count: agentMemories.filter((m) => m.is_encrypted).length
       };
-    }).filter(usage => usage.total_memories > 0);
+    }).filter((usage) => usage.total_memories > 0);
 
     setUsageData(usage);
   };
@@ -128,30 +128,30 @@ const MemoryAnalytics: React.FC = () => {
   const generateTrends = (memories: any[]) => {
     const days = parseInt(timeRange.replace('d', ''));
     const trendData: MemoryTrend[] = [];
-    
+
     for (let i = days - 1; i >= 0; i--) {
       const date = new Date();
       date.setDate(date.getDate() - i);
       const dateStr = date.toISOString().split('T')[0];
-      
-      const dayMemories = memories.filter(m => {
+
+      const dayMemories = memories.filter((m) => {
         const createdDate = new Date(m.created_at).toISOString().split('T')[0];
         return createdDate === dateStr;
       });
-      
+
       trendData.push({
         date: dateStr,
         created: dayMemories.length,
-        accessed: dayMemories.filter(m => 
-          m.last_accessed_at && new Date(m.last_accessed_at).toISOString().split('T')[0] === dateStr
+        accessed: dayMemories.filter((m) =>
+        m.last_accessed_at && new Date(m.last_accessed_at).toISOString().split('T')[0] === dateStr
         ).length,
-        expired: dayMemories.filter(m => 
-          m.expires_at && new Date(m.expires_at).toISOString().split('T')[0] === dateStr
+        expired: dayMemories.filter((m) =>
+        m.expires_at && new Date(m.expires_at).toISOString().split('T')[0] === dateStr
         ).length,
         deleted: Math.floor(Math.random() * 5) // Mock data
       });
     }
-    
+
     setTrends(trendData);
   };
 
@@ -159,12 +159,12 @@ const MemoryAnalytics: React.FC = () => {
     const now = new Date();
     const oneWeekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
     const oneMonthAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-    
+
     const suggestions: OptimizationSuggestion[] = [];
-    
+
     // Expired memories cleanup
-    const expiredMemories = memories.filter(m => 
-      m.expires_at && new Date(m.expires_at) < now
+    const expiredMemories = memories.filter((m) =>
+    m.expires_at && new Date(m.expires_at) < now
     );
     if (expiredMemories.length > 0) {
       suggestions.push({
@@ -178,9 +178,9 @@ const MemoryAnalytics: React.FC = () => {
     }
 
     // Low importance, rarely accessed memories
-    const lowValueMemories = memories.filter(m => 
-      m.importance_score <= 3 && 
-      (!m.last_accessed_at || new Date(m.last_accessed_at) < oneMonthAgo)
+    const lowValueMemories = memories.filter((m) =>
+    m.importance_score <= 3 && (
+    !m.last_accessed_at || new Date(m.last_accessed_at) < oneMonthAgo)
     );
     if (lowValueMemories.length > 10) {
       suggestions.push({
@@ -194,8 +194,8 @@ const MemoryAnalytics: React.FC = () => {
     }
 
     // Large memory entries
-    const largeMemories = memories.filter(m => 
-      JSON.stringify(m.memory_content).length > 10000
+    const largeMemories = memories.filter((m) =>
+    JSON.stringify(m.memory_content).length > 10000
     );
     if (largeMemories.length > 5) {
       suggestions.push({
@@ -209,12 +209,12 @@ const MemoryAnalytics: React.FC = () => {
     }
 
     // Unencrypted sensitive memories
-    const sensitiveMemories = memories.filter(m => 
-      !m.is_encrypted && (
-        m.context_tags?.includes('sensitive') || 
-        m.context_tags?.includes('personal') ||
-        m.context_tags?.includes('private')
-      )
+    const sensitiveMemories = memories.filter((m) =>
+    !m.is_encrypted && (
+    m.context_tags?.includes('sensitive') ||
+    m.context_tags?.includes('personal') ||
+    m.context_tags?.includes('private'))
+
     );
     if (sensitiveMemories.length > 0) {
       suggestions.push({
@@ -226,7 +226,7 @@ const MemoryAnalytics: React.FC = () => {
         affected_count: sensitiveMemories.length
       });
     }
-    
+
     setSuggestions(suggestions);
   };
 
@@ -240,36 +240,36 @@ const MemoryAnalytics: React.FC = () => {
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
-      case 'high': return 'bg-red-100 text-red-800 border-red-200';
-      case 'medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'low': return 'bg-blue-100 text-blue-800 border-blue-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'high':return 'bg-red-100 text-red-800 border-red-200';
+      case 'medium':return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'low':return 'bg-blue-100 text-blue-800 border-blue-200';
+      default:return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getTypeIcon = (type: string) => {
     switch (type) {
-      case 'cleanup': return <Trash2 className="w-4 h-4" />;
-      case 'archival': return <Archive className="w-4 h-4" />;
-      case 'compression': return <Database className="w-4 h-4" />;
-      case 'replication': return <RefreshCw className="w-4 h-4" />;
-      default: return <AlertTriangle className="w-4 h-4" />;
+      case 'cleanup':return <Trash2 className="w-4 h-4" />;
+      case 'archival':return <Archive className="w-4 h-4" />;
+      case 'compression':return <Database className="w-4 h-4" />;
+      case 'replication':return <RefreshCw className="w-4 h-4" />;
+      default:return <AlertTriangle className="w-4 h-4" />;
     }
   };
 
   if (loading) {
     return (
       <div className="space-y-6">
-        {[...Array(4)].map((_, i) => (
-          <Card key={i} className="animate-pulse">
+        {[...Array(4)].map((_, i) =>
+        <Card key={i} className="animate-pulse">
             <CardContent className="pt-6">
               <div className="h-4 bg-gray-200 rounded w-1/4 mb-4"></div>
               <div className="h-20 bg-gray-200 rounded"></div>
             </CardContent>
           </Card>
-        ))}
-      </div>
-    );
+        )}
+      </div>);
+
   }
 
   return (
@@ -293,11 +293,11 @@ const MemoryAnalytics: React.FC = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Agents</SelectItem>
-            {usageData.map(agent => (
-              <SelectItem key={agent.agent_id} value={agent.agent_id.toString()}>
+            {usageData.map((agent) =>
+            <SelectItem key={agent.agent_id} value={agent.agent_id.toString()}>
                 {agent.agent_name}
               </SelectItem>
-            ))}
+            )}
           </SelectContent>
         </Select>
         
@@ -343,9 +343,9 @@ const MemoryAnalytics: React.FC = () => {
               <TrendingUp className="w-8 h-8 text-purple-500" />
               <div className="ml-4">
                 <p className="text-2xl font-bold">
-                  {usageData.length > 0 
-                    ? (usageData.reduce((sum, agent) => sum + agent.avg_importance, 0) / usageData.length).toFixed(1)
-                    : '0'
+                  {usageData.length > 0 ?
+                  (usageData.reduce((sum, agent) => sum + agent.avg_importance, 0) / usageData.length).toFixed(1) :
+                  '0'
                   }
                 </p>
                 <p className="text-xs text-gray-600">Avg Importance</p>
@@ -379,10 +379,10 @@ const MemoryAnalytics: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {usageData.map(agent => {
-              const maxMemories = Math.max(...usageData.map(a => a.total_memories));
-              const memoryPercentage = (agent.total_memories / maxMemories) * 100;
-              
+            {usageData.map((agent) => {
+              const maxMemories = Math.max(...usageData.map((a) => a.total_memories));
+              const memoryPercentage = agent.total_memories / maxMemories * 100;
+
               return (
                 <div key={agent.agent_id} className="p-4 border rounded-lg">
                   <div className="flex items-center justify-between mb-2">
@@ -418,12 +418,12 @@ const MemoryAnalytics: React.FC = () => {
                     <span>Avg Importance: {agent.avg_importance.toFixed(1)}</span>
                     <span>Daily Access: {agent.access_frequency}</span>
                     <span>Encrypted: {agent.encrypted_count}</span>
-                    {agent.expired_count > 0 && (
-                      <span className="text-red-600">Expired: {agent.expired_count}</span>
-                    )}
+                    {agent.expired_count > 0 &&
+                    <span className="text-red-600">Expired: {agent.expired_count}</span>
+                    }
                   </div>
-                </div>
-              );
+                </div>);
+
             })}
           </div>
         </CardContent>
@@ -439,8 +439,8 @@ const MemoryAnalytics: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {trends.map((trend, index) => (
-              <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded">
+            {trends.map((trend, index) =>
+            <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded">
                 <div className="font-medium text-sm">
                   {new Date(trend.date).toLocaleDateString()}
                 </div>
@@ -459,7 +459,7 @@ const MemoryAnalytics: React.FC = () => {
                   </span>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </CardContent>
       </Card>
@@ -473,19 +473,19 @@ const MemoryAnalytics: React.FC = () => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          {suggestions.length === 0 ? (
-            <div className="text-center py-8 text-gray-500">
+          {suggestions.length === 0 ?
+          <div className="text-center py-8 text-gray-500">
               <Brain className="w-12 h-12 mx-auto mb-4 text-gray-300" />
               <p>No optimization suggestions at this time</p>
               <p className="text-sm">Your memory system is running efficiently!</p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {suggestions.map((suggestion, index) => (
-                <div
-                  key={index}
-                  className={`p-4 rounded-lg border ${getSeverityColor(suggestion.severity)}`}
-                >
+            </div> :
+
+          <div className="space-y-3">
+              {suggestions.map((suggestion, index) =>
+            <div
+              key={index}
+              className={`p-4 rounded-lg border ${getSeverityColor(suggestion.severity)}`}>
+
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-3">
                       {getTypeIcon(suggestion.type)}
@@ -507,13 +507,13 @@ const MemoryAnalytics: React.FC = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+            )}
             </div>
-          )}
+          }
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default MemoryAnalytics;

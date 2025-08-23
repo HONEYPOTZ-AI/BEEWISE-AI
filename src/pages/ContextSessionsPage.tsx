@@ -75,7 +75,7 @@ const ContextSessionsPage: React.FC = () => {
     try {
       setLoading(true);
       const filters = [];
-      
+
       if (searchQuery) {
         filters.push({
           name: 'session_id',
@@ -83,7 +83,7 @@ const ContextSessionsPage: React.FC = () => {
           value: searchQuery
         });
       }
-      
+
       if (statusFilter !== 'all') {
         filters.push({
           name: 'status',
@@ -91,7 +91,7 @@ const ContextSessionsPage: React.FC = () => {
           value: statusFilter
         });
       }
-      
+
       if (typeFilter !== 'all') {
         filters.push({
           name: 'session_type',
@@ -147,19 +147,19 @@ const ContextSessionsPage: React.FC = () => {
       });
 
       if (error) throw new Error(error);
-      
+
       const allSessions = data.List || [];
-      const activeSessions = allSessions.filter(s => s.status === 'active').length;
+      const activeSessions = allSessions.filter((s) => s.status === 'active').length;
       const totalCost = allSessions.reduce((sum, s) => sum + (s.total_cost || 0), 0);
       const totalMessages = allSessions.reduce((sum, s) => sum + (s.total_messages || 0), 0);
-      
-      const completedSessions = allSessions.filter(s => s.started_at && s.ended_at);
-      const avgDuration = completedSessions.length > 0 
-        ? completedSessions.reduce((sum, s) => {
-            const duration = new Date(s.ended_at).getTime() - new Date(s.started_at).getTime();
-            return sum + duration;
-          }, 0) / completedSessions.length / 1000 / 60 // Average in minutes
-        : 0;
+
+      const completedSessions = allSessions.filter((s) => s.started_at && s.ended_at);
+      const avgDuration = completedSessions.length > 0 ?
+      completedSessions.reduce((sum, s) => {
+        const duration = new Date(s.ended_at).getTime() - new Date(s.started_at).getTime();
+        return sum + duration;
+      }, 0) / completedSessions.length / 1000 / 60 // Average in minutes
+      : 0;
 
       setMetrics({
         totalSessions: allSessions.length,
@@ -225,12 +225,12 @@ const ContextSessionsPage: React.FC = () => {
         total_cost: session.total_cost,
         context_data: session.context_data,
         conversation_history: session.conversation_history,
-        participant_agents: session.participant_agents.map(id => getAgentName(id))
+        participant_agents: session.participant_agents.map((id) => getAgentName(id))
       };
 
       const dataStr = JSON.stringify(exportData, null, 2);
-      const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-      
+      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+
       const exportFileDefaultName = `session_${session.session_id}_export.json`;
       const linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
@@ -277,14 +277,14 @@ const ContextSessionsPage: React.FC = () => {
 
   const formatDuration = (startDate: string, endDate?: string) => {
     if (!startDate) return 'N/A';
-    
+
     const start = new Date(startDate);
     const end = endDate ? new Date(endDate) : new Date();
     const duration = end.getTime() - start.getTime();
-    
+
     const minutes = Math.floor(duration / (1000 * 60));
     const hours = Math.floor(minutes / 60);
-    
+
     if (hours > 0) {
       return `${hours}h ${minutes % 60}m`;
     }
@@ -292,7 +292,7 @@ const ContextSessionsPage: React.FC = () => {
   };
 
   const getAgentName = (agentId: number) => {
-    const agent = agents.find(a => a.id === agentId);
+    const agent = agents.find((a) => a.id === agentId);
     return agent ? agent.display_name || agent.name : `Agent ${agentId}`;
   };
 
@@ -410,8 +410,8 @@ const ContextSessionsPage: React.FC = () => {
                     placeholder="Search sessions..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
+                    className="pl-10" />
+
                 </div>
               </div>
               <div>
@@ -454,22 +454,22 @@ const ContextSessionsPage: React.FC = () => {
             <CardTitle>Active Sessions</CardTitle>
           </CardHeader>
           <CardContent>
-            {loading ? (
-              <div className="space-y-4">
-                {[...Array(5)].map((_, i) => (
-                  <div key={i} className="animate-pulse">
+            {loading ?
+            <div className="space-y-4">
+                {[...Array(5)].map((_, i) =>
+              <div key={i} className="animate-pulse">
                     <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
                     <div className="h-3 bg-gray-200 rounded w-1/2 mb-2"></div>
                     <div className="h-3 bg-gray-200 rounded w-3/4"></div>
                   </div>
-                ))}
-              </div>
-            ) : sessions.length === 0 ? (
-              <div className="text-center py-8">
+              )}
+              </div> :
+            sessions.length === 0 ?
+            <div className="text-center py-8">
                 <p className="text-gray-500">No sessions found matching your criteria.</p>
-              </div>
-            ) : (
-              <div className="overflow-x-auto">
+              </div> :
+
+            <div className="overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
@@ -486,13 +486,13 @@ const ContextSessionsPage: React.FC = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {sessions.map((session) => (
-                      <TableRow key={session.id}>
+                    {sessions.map((session) =>
+                  <TableRow key={session.id}>
                         <TableCell className="font-medium">
                           <button
-                            onClick={() => openSessionDetails(session)}
-                            className="text-blue-600 hover:text-blue-800 hover:underline"
-                          >
+                        onClick={() => openSessionDetails(session)}
+                        className="text-blue-600 hover:text-blue-800 hover:underline">
+
                             {session.session_id}
                           </button>
                         </TableCell>
@@ -519,48 +519,48 @@ const ContextSessionsPage: React.FC = () => {
                         <TableCell>{formatDate(session.last_activity_at)}</TableCell>
                         <TableCell>
                           <div className="flex items-center gap-1">
-                            {session.status === 'active' && (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleSessionControl(session, 'pause')}
-                              >
+                            {session.status === 'active' &&
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleSessionControl(session, 'pause')}>
+
                                 <Pause className="w-4 h-4" />
                               </Button>
-                            )}
-                            {session.status === 'paused' && (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleSessionControl(session, 'resume')}
-                              >
+                        }
+                            {session.status === 'paused' &&
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleSessionControl(session, 'resume')}>
+
                                 <Play className="w-4 h-4" />
                               </Button>
-                            )}
-                            {(session.status === 'active' || session.status === 'paused') && (
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => handleSessionControl(session, 'terminate')}
-                              >
+                        }
+                            {(session.status === 'active' || session.status === 'paused') &&
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleSessionControl(session, 'terminate')}>
+
                                 <Square className="w-4 h-4" />
                               </Button>
-                            )}
+                        }
                             <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleExportSession(session)}
-                            >
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleExportSession(session)}>
+
                               <Download className="w-4 h-4" />
                             </Button>
                           </div>
                         </TableCell>
                       </TableRow>
-                    ))}
+                  )}
                   </TableBody>
                 </Table>
               </div>
-            )}
+            }
           </CardContent>
         </Card>
 
@@ -570,8 +570,8 @@ const ContextSessionsPage: React.FC = () => {
             <DialogHeader>
               <DialogTitle>Session Details: {selectedSession?.session_id}</DialogTitle>
             </DialogHeader>
-            {selectedSession && (
-              <div className="space-y-6">
+            {selectedSession &&
+            <div className="space-y-6">
                 {/* Session Overview */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -586,9 +586,9 @@ const ContextSessionsPage: React.FC = () => {
                       <div><span className="font-medium">Primary Agent:</span> {getAgentName(selectedSession.primary_agent_id)}</div>
                       <div><span className="font-medium">Started:</span> {formatDate(selectedSession.started_at)}</div>
                       <div><span className="font-medium">Last Activity:</span> {formatDate(selectedSession.last_activity_at)}</div>
-                      {selectedSession.ended_at && (
-                        <div><span className="font-medium">Ended:</span> {formatDate(selectedSession.ended_at)}</div>
-                      )}
+                      {selectedSession.ended_at &&
+                    <div><span className="font-medium">Ended:</span> {formatDate(selectedSession.ended_at)}</div>
+                    }
                     </div>
                   </div>
                   <div>
@@ -606,11 +606,11 @@ const ContextSessionsPage: React.FC = () => {
                 <div>
                   <h3 className="font-semibold mb-2">Participant Agents</h3>
                   <div className="flex flex-wrap gap-2">
-                    {selectedSession.participant_agents?.map((agentId) => (
-                      <Badge key={agentId} variant="secondary">
+                    {selectedSession.participant_agents?.map((agentId) =>
+                  <Badge key={agentId} variant="secondary">
                         {getAgentName(agentId)}
                       </Badge>
-                    )) || <span className="text-gray-500">No participants</span>}
+                  ) || <span className="text-gray-500">No participants</span>}
                   </div>
                 </div>
 
@@ -628,10 +628,10 @@ const ContextSessionsPage: React.FC = () => {
                 <div>
                   <h3 className="font-semibold mb-2">Conversation History</h3>
                   <div className="bg-gray-50 p-4 rounded-lg max-h-60 overflow-y-auto">
-                    {selectedSession.conversation_history && selectedSession.conversation_history.length > 0 ? (
-                      <div className="space-y-2">
-                        {selectedSession.conversation_history.map((message, index) => (
-                          <div key={index} className="text-sm">
+                    {selectedSession.conversation_history && selectedSession.conversation_history.length > 0 ?
+                  <div className="space-y-2">
+                        {selectedSession.conversation_history.map((message, index) =>
+                    <div key={index} className="text-sm">
                             <div className="font-medium text-gray-700">
                               {message.timestamp ? formatDate(message.timestamp) : `Message ${index + 1}`}
                             </div>
@@ -639,20 +639,20 @@ const ContextSessionsPage: React.FC = () => {
                               {JSON.stringify(message, null, 2)}
                             </div>
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div className="text-gray-500">No conversation history available</div>
                     )}
+                      </div> :
+
+                  <div className="text-gray-500">No conversation history available</div>
+                  }
                   </div>
                 </div>
               </div>
-            )}
+            }
           </DialogContent>
         </Dialog>
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ContextSessionsPage;

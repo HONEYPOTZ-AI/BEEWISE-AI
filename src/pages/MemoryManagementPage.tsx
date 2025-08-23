@@ -68,7 +68,7 @@ const MemoryManagementPage: React.FC = () => {
     try {
       setLoading(true);
       const filters = [];
-      
+
       if (searchQuery) {
         filters.push({
           name: 'memory_key',
@@ -76,7 +76,7 @@ const MemoryManagementPage: React.FC = () => {
           value: searchQuery
         });
       }
-      
+
       if (memoryTypeFilter !== 'all') {
         filters.push({
           name: 'memory_type',
@@ -84,7 +84,7 @@ const MemoryManagementPage: React.FC = () => {
           value: memoryTypeFilter
         });
       }
-      
+
       if (agentFilter !== 'all') {
         filters.push({
           name: 'agent_id',
@@ -280,7 +280,7 @@ const MemoryManagementPage: React.FC = () => {
   };
 
   const getAgentName = (agentId: number) => {
-    const agent = agents.find(a => a.id === agentId);
+    const agent = agents.find((a) => a.id === agentId);
     return agent ? agent.display_name || agent.name : `Agent ${agentId}`;
   };
 
@@ -292,7 +292,7 @@ const MemoryManagementPage: React.FC = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link to="/">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="bg-black text-white">
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Home
                 </Button>
@@ -334,14 +334,14 @@ const MemoryManagementPage: React.FC = () => {
                     placeholder="Search memories..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10"
-                  />
+                    className="pl-10" />
+
                 </div>
               </div>
               <div>
                 <Label htmlFor="memory-type">Memory Type</Label>
                 <Select value={memoryTypeFilter} onValueChange={setMemoryTypeFilter}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-black text-white">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -356,16 +356,16 @@ const MemoryManagementPage: React.FC = () => {
               <div>
                 <Label htmlFor="agent">Agent</Label>
                 <Select value={agentFilter} onValueChange={setAgentFilter}>
-                  <SelectTrigger>
+                  <SelectTrigger className="bg-black text-white">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All Agents</SelectItem>
-                    {agents.map(agent => (
-                      <SelectItem key={agent.id} value={agent.id.toString()}>
+                    {agents.map((agent) =>
+                    <SelectItem key={agent.id} value={agent.id.toString()}>
                         {agent.display_name || agent.name}
                       </SelectItem>
-                    ))}
+                    )}
                   </SelectContent>
                 </Select>
               </div>
@@ -385,22 +385,22 @@ const MemoryManagementPage: React.FC = () => {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <Label htmlFor="agent">Agent</Label>
-                          <Select value={formData.agent_id} onValueChange={(value) => setFormData({...formData, agent_id: value})}>
+                          <Select value={formData.agent_id} onValueChange={(value) => setFormData({ ...formData, agent_id: value })}>
                             <SelectTrigger>
                               <SelectValue placeholder="Select Agent" />
                             </SelectTrigger>
                             <SelectContent>
-                              {agents.map(agent => (
-                                <SelectItem key={agent.id} value={agent.id.toString()}>
+                              {agents.map((agent) =>
+                              <SelectItem key={agent.id} value={agent.id.toString()}>
                                   {agent.display_name || agent.name}
                                 </SelectItem>
-                              ))}
+                              )}
                             </SelectContent>
                           </Select>
                         </div>
                         <div>
                           <Label htmlFor="memory-type">Memory Type</Label>
-                          <Select value={formData.memory_type} onValueChange={(value) => setFormData({...formData, memory_type: value})}>
+                          <Select value={formData.memory_type} onValueChange={(value) => setFormData({ ...formData, memory_type: value })}>
                             <SelectTrigger>
                               <SelectValue />
                             </SelectTrigger>
@@ -418,19 +418,19 @@ const MemoryManagementPage: React.FC = () => {
                         <Input
                           id="memory-key"
                           value={formData.memory_key}
-                          onChange={(e) => setFormData({...formData, memory_key: e.target.value})}
-                          placeholder="Unique memory identifier"
-                        />
+                          onChange={(e) => setFormData({ ...formData, memory_key: e.target.value })}
+                          placeholder="Unique memory identifier" />
+
                       </div>
                       <div>
                         <Label htmlFor="memory-content">Memory Content (JSON)</Label>
                         <Textarea
                           id="memory-content"
                           value={formData.memory_content}
-                          onChange={(e) => setFormData({...formData, memory_content: e.target.value})}
+                          onChange={(e) => setFormData({ ...formData, memory_content: e.target.value })}
                           placeholder='{"key": "value"}'
-                          rows={6}
-                        />
+                          rows={6} />
+
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -438,9 +438,9 @@ const MemoryManagementPage: React.FC = () => {
                           <Input
                             id="context-tags"
                             value={formData.context_tags}
-                            onChange={(e) => setFormData({...formData, context_tags: e.target.value})}
-                            placeholder="tag1, tag2, tag3"
-                          />
+                            onChange={(e) => setFormData({ ...formData, context_tags: e.target.value })}
+                            placeholder="tag1, tag2, tag3" />
+
                         </div>
                         <div>
                           <Label htmlFor="importance">Importance Score (1-10)</Label>
@@ -450,8 +450,8 @@ const MemoryManagementPage: React.FC = () => {
                             min="1"
                             max="10"
                             value={formData.importance_score}
-                            onChange={(e) => setFormData({...formData, importance_score: parseInt(e.target.value) || 5})}
-                          />
+                            onChange={(e) => setFormData({ ...formData, importance_score: parseInt(e.target.value) || 5 })} />
+
                         </div>
                       </div>
                       <div>
@@ -460,8 +460,8 @@ const MemoryManagementPage: React.FC = () => {
                           id="expires-at"
                           type="datetime-local"
                           value={formData.expires_at}
-                          onChange={(e) => setFormData({...formData, expires_at: e.target.value})}
-                        />
+                          onChange={(e) => setFormData({ ...formData, expires_at: e.target.value })} />
+
                       </div>
                     </div>
                     <div className="flex justify-end space-x-2">
@@ -480,28 +480,28 @@ const MemoryManagementPage: React.FC = () => {
         </Card>
 
         {/* Memory Entries */}
-        {loading ? (
-          <div className="grid gap-4">
-            {[...Array(5)].map((_, i) => (
-              <Card key={i} className="animate-pulse">
+        {loading ?
+        <div className="grid gap-4">
+            {[...Array(5)].map((_, i) =>
+          <Card key={i} className="animate-pulse">
                 <CardContent className="pt-6">
                   <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
                   <div className="h-3 bg-gray-200 rounded w-1/2 mb-4"></div>
                   <div className="h-3 bg-gray-200 rounded w-3/4"></div>
                 </CardContent>
               </Card>
-            ))}
-          </div>
-        ) : memories.length === 0 ? (
-          <Card>
+          )}
+          </div> :
+        memories.length === 0 ?
+        <Card>
             <CardContent className="pt-12 pb-12 text-center">
               <p className="text-gray-500">No memory entries found matching your criteria.</p>
             </CardContent>
-          </Card>
-        ) : (
-          <div className="grid gap-4">
-            {memories.map((memory) => (
-              <Card key={memory.id} className="hover:shadow-md transition-shadow">
+          </Card> :
+
+        <div className="grid gap-4">
+            {memories.map((memory) =>
+          <Card key={memory.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="pt-6">
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
@@ -513,43 +513,43 @@ const MemoryManagementPage: React.FC = () => {
                         <Badge className={getImportanceColor(memory.importance_score)}>
                           Priority: {memory.importance_score}
                         </Badge>
-                        {memory.is_encrypted && (
-                          <Badge variant="secondary">
+                        {memory.is_encrypted &&
+                    <Badge variant="secondary">
                             <Shield className="w-3 h-3 mr-1" />
                             Encrypted
                           </Badge>
-                        )}
+                    }
                       </div>
                       <p className="text-sm text-gray-600 mb-2">
                         Agent: {getAgentName(memory.agent_id)}
                       </p>
-                      {memory.context_tags && (
-                        <p className="text-sm text-gray-500 mb-2">
+                      {memory.context_tags &&
+                  <p className="text-sm text-gray-500 mb-2">
                           Tags: {memory.context_tags}
                         </p>
-                      )}
+                  }
                     </div>
                     <div className="flex items-center gap-2">
                       <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleAccessMemory(memory)}
-                      >
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleAccessMemory(memory)}>
+
                         <Eye className="w-4 h-4 mr-1" />
                         Access ({memory.access_count})
                       </Button>
                       <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => openEditDialog(memory)}
-                      >
+                    variant="outline"
+                    size="sm"
+                    onClick={() => openEditDialog(memory)}>
+
                         <Edit className="w-4 h-4" />
                       </Button>
                       <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDeleteMemory(memory)}
-                      >
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDeleteMemory(memory)}>
+
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -580,9 +580,9 @@ const MemoryManagementPage: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+          )}
           </div>
-        )}
+        }
 
         {/* Edit Dialog */}
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
@@ -594,22 +594,22 @@ const MemoryManagementPage: React.FC = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor="edit-agent">Agent</Label>
-                  <Select value={formData.agent_id} onValueChange={(value) => setFormData({...formData, agent_id: value})}>
+                  <Select value={formData.agent_id} onValueChange={(value) => setFormData({ ...formData, agent_id: value })}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select Agent" />
                     </SelectTrigger>
                     <SelectContent>
-                      {agents.map(agent => (
-                        <SelectItem key={agent.id} value={agent.id.toString()}>
+                      {agents.map((agent) =>
+                      <SelectItem key={agent.id} value={agent.id.toString()}>
                           {agent.display_name || agent.name}
                         </SelectItem>
-                      ))}
+                      )}
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
                   <Label htmlFor="edit-memory-type">Memory Type</Label>
-                  <Select value={formData.memory_type} onValueChange={(value) => setFormData({...formData, memory_type: value})}>
+                  <Select value={formData.memory_type} onValueChange={(value) => setFormData({ ...formData, memory_type: value })}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
@@ -627,19 +627,19 @@ const MemoryManagementPage: React.FC = () => {
                 <Input
                   id="edit-memory-key"
                   value={formData.memory_key}
-                  onChange={(e) => setFormData({...formData, memory_key: e.target.value})}
-                  placeholder="Unique memory identifier"
-                />
+                  onChange={(e) => setFormData({ ...formData, memory_key: e.target.value })}
+                  placeholder="Unique memory identifier" />
+
               </div>
               <div>
                 <Label htmlFor="edit-memory-content">Memory Content (JSON)</Label>
                 <Textarea
                   id="edit-memory-content"
                   value={formData.memory_content}
-                  onChange={(e) => setFormData({...formData, memory_content: e.target.value})}
+                  onChange={(e) => setFormData({ ...formData, memory_content: e.target.value })}
                   placeholder='{"key": "value"}'
-                  rows={6}
-                />
+                  rows={6} />
+
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
@@ -647,9 +647,9 @@ const MemoryManagementPage: React.FC = () => {
                   <Input
                     id="edit-context-tags"
                     value={formData.context_tags}
-                    onChange={(e) => setFormData({...formData, context_tags: e.target.value})}
-                    placeholder="tag1, tag2, tag3"
-                  />
+                    onChange={(e) => setFormData({ ...formData, context_tags: e.target.value })}
+                    placeholder="tag1, tag2, tag3" />
+
                 </div>
                 <div>
                   <Label htmlFor="edit-importance">Importance Score (1-10)</Label>
@@ -659,8 +659,8 @@ const MemoryManagementPage: React.FC = () => {
                     min="1"
                     max="10"
                     value={formData.importance_score}
-                    onChange={(e) => setFormData({...formData, importance_score: parseInt(e.target.value) || 5})}
-                  />
+                    onChange={(e) => setFormData({ ...formData, importance_score: parseInt(e.target.value) || 5 })} />
+
                 </div>
               </div>
               <div>
@@ -669,8 +669,8 @@ const MemoryManagementPage: React.FC = () => {
                   id="edit-expires-at"
                   type="datetime-local"
                   value={formData.expires_at}
-                  onChange={(e) => setFormData({...formData, expires_at: e.target.value})}
-                />
+                  onChange={(e) => setFormData({ ...formData, expires_at: e.target.value })} />
+
               </div>
             </div>
             <div className="flex justify-end space-x-2">
@@ -684,8 +684,8 @@ const MemoryManagementPage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default MemoryManagementPage;
