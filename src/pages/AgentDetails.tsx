@@ -26,8 +26,8 @@ import {
   Calendar,
   Play,
   Pause,
-  Settings
-} from 'lucide-react';
+  Settings } from
+'lucide-react';
 
 interface AgentDetail {
   id: number;
@@ -66,7 +66,7 @@ interface AgentDetail {
 }
 
 const AgentDetails = () => {
-  const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{id: string;}>();
   const [agent, setAgent] = useState<AgentDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState('overview');
@@ -167,7 +167,7 @@ const AgentDetails = () => {
   const handleDeployAgent = () => {
     toast({
       title: 'Agent Deployment Initiated',
-      description: `${agent?.name} is being deployed to your workspace`,
+      description: `${agent?.name} is being deployed to your workspace`
     });
   };
 
@@ -189,8 +189,8 @@ const AgentDetails = () => {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   if (!agent) {
@@ -206,8 +206,8 @@ const AgentDetails = () => {
             <Button>Return to Marketplace</Button>
           </Link>
         </Card>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -237,9 +237,9 @@ const AgentDetails = () => {
                     </div>
                     <div className="flex items-center space-x-1">
                       <div className={`w-2 h-2 rounded-full ${
-                        agent.status === 'active' ? 'bg-green-500' : 
-                        agent.status === 'busy' ? 'bg-yellow-500' : 'bg-red-500'
-                      }`} />
+                      agent.status === 'active' ? 'bg-green-500' :
+                      agent.status === 'busy' ? 'bg-yellow-500' : 'bg-red-500'}`
+                      } />
                       <span className="text-sm capitalize">{agent.status}</span>
                     </div>
                   </div>
@@ -320,14 +320,14 @@ const AgentDetails = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
-                      {agent.recent_tasks.map((task) => (
-                        <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
+                      {agent.recent_tasks.map((task) =>
+                      <div key={task.id} className="flex items-center justify-between p-3 border rounded-lg">
                           <div className="flex items-center space-x-3">
-                            {task.success ? (
-                              <CheckCircle className="h-5 w-5 text-green-500" />
-                            ) : (
-                              <AlertCircle className="h-5 w-5 text-red-500" />
-                            )}
+                            {task.success ?
+                          <CheckCircle className="h-5 w-5 text-green-500" /> :
+
+                          <AlertCircle className="h-5 w-5 text-red-500" />
+                          }
                             <div>
                               <div className="font-medium">{task.name}</div>
                               <div className="text-sm text-muted-foreground">
@@ -339,7 +339,7 @@ const AgentDetails = () => {
                             {task.status}
                           </Badge>
                         </div>
-                      ))}
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -355,8 +355,8 @@ const AgentDetails = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
-                      {agent.capabilities.map((capability, index) => (
-                        <div key={index} className="space-y-2">
+                      {agent.capabilities.map((capability, index) =>
+                      <div key={index} className="space-y-2">
                           <div className="flex justify-between items-center">
                             <span className="font-medium">{capability.name}</span>
                             <span className="text-sm text-muted-foreground">
@@ -364,13 +364,13 @@ const AgentDetails = () => {
                             </span>
                           </div>
                           <Progress value={capability.proficiency_level} className="h-2" />
-                          {capability.description && (
-                            <p className="text-sm text-muted-foreground">
+                          {capability.description &&
+                        <p className="text-sm text-muted-foreground">
                               {capability.description}
                             </p>
-                          )}
+                        }
                         </div>
-                      ))}
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -386,8 +386,8 @@ const AgentDetails = () => {
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {agent.tools.map((tool, index) => (
-                        <div key={index} className="p-4 border rounded-lg">
+                      {agent.tools.map((tool, index) =>
+                      <div key={index} className="p-4 border rounded-lg">
                           <div className="flex items-center justify-between mb-2">
                             <h4 className="font-medium">{tool.name}</h4>
                             <Badge variant="outline">v{tool.version}</Badge>
@@ -396,7 +396,7 @@ const AgentDetails = () => {
                             {tool.description || 'Integration tool for enhanced functionality'}
                           </p>
                         </div>
-                      ))}
+                      )}
                     </div>
                   </CardContent>
                 </Card>
@@ -542,8 +542,8 @@ const AgentDetails = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default AgentDetails;

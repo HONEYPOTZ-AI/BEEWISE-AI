@@ -26,7 +26,7 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
   const [connectionStatus, setConnectionStatus] = useState<'connecting' | 'connected' | 'disconnected' | 'error'>('disconnected');
   const [lastMessage, setLastMessage] = useState<WebSocketMessage | null>(null);
   const [messageHistory, setMessageHistory] = useState<WebSocketMessage[]>([]);
-  
+
   const reconnectAttemptsRef = useRef(0);
   const heartbeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const messageHandlersRef = useRef<Map<string, (message: WebSocketMessage) => void>>(new Map());
@@ -38,7 +38,7 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
     }
 
     setConnectionStatus('connecting');
-    
+
     const ws = new WebSocket(url);
 
     ws.onopen = () => {
@@ -51,7 +51,7 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
       if (heartbeatIntervalRef.current) {
         clearInterval(heartbeatIntervalRef.current);
       }
-      
+
       heartbeatIntervalRef.current = setInterval(() => {
         if (ws.readyState === WebSocket.OPEN) {
           ws.send(JSON.stringify({ type: 'ping', timestamp: Date.now() }));
@@ -63,8 +63,8 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
       try {
         const message: WebSocketMessage = JSON.parse(event.data);
         setLastMessage(message);
-        setMessageHistory(prev => [...prev.slice(-99), message]); // Keep last 100 messages
-        
+        setMessageHistory((prev) => [...prev.slice(-99), message]); // Keep last 100 messages
+
         // Handle specific message types
         const handler = messageHandlersRef.current.get(message.type);
         if (handler) {
@@ -80,7 +80,7 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
     ws.onclose = () => {
       setConnectionStatus('disconnected');
       setSocket(null);
-      
+
       if (heartbeatIntervalRef.current) {
         clearInterval(heartbeatIntervalRef.current);
         heartbeatIntervalRef.current = null;
@@ -122,7 +122,7 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
   // Register message handler
   const onMessage = useCallback((type: string, handler: (message: WebSocketMessage) => void) => {
     messageHandlersRef.current.set(type, handler);
-    
+
     // Return cleanup function
     return () => {
       messageHandlersRef.current.delete(type);
@@ -135,12 +135,12 @@ export const useWebSocket = (url: string, options: WebSocketOptions = {}) => {
       clearInterval(heartbeatIntervalRef.current);
       heartbeatIntervalRef.current = null;
     }
-    
+
     if (socket) {
       socket.close();
       setSocket(null);
     }
-    
+
     setConnectionStatus('disconnected');
     reconnectAttemptsRef.current = maxReconnectAttempts; // Prevent auto-reconnection
   }, [socket, maxReconnectAttempts]);

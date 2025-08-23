@@ -6,12 +6,12 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Activity, 
-  Brain, 
-  Shield, 
+import {
+  Activity,
+  Brain,
+  Shield,
   Crown,
-  Workflow, 
+  Workflow,
   GitBranch,
   Layers,
   Users,
@@ -22,8 +22,8 @@ import {
   Clock,
   Zap,
   Settings,
-  RefreshCw
-} from 'lucide-react';
+  RefreshCw } from
+'lucide-react';
 import { useAgentOrchestration } from '@/hooks/useAgentOrchestration';
 import OrchestratorAgent from './OrchestratorAgent';
 import SupervisorAgent from './SupervisorAgent';
@@ -55,7 +55,7 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
     const errorRate = systemMetrics.systemErrorRate;
     const activeAgents = systemMetrics.activeAgents;
     const totalAgents = systemMetrics.totalAgents;
-    
+
     if (errorRate > 0.3 || activeAgents < totalAgents * 0.5) {
       setSystemHealth('critical');
     } else if (errorRate > 0.1 || activeAgents < totalAgents * 0.8) {
@@ -83,37 +83,37 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
   // Get status colors and indicators
   const getHealthColor = (health: string) => {
     switch (health) {
-      case 'healthy': return 'text-green-600 bg-green-100';
-      case 'warning': return 'text-yellow-600 bg-yellow-100';
-      case 'critical': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'healthy':return 'text-green-600 bg-green-100';
+      case 'warning':return 'text-yellow-600 bg-yellow-100';
+      case 'critical':return 'text-red-600 bg-red-100';
+      default:return 'text-gray-600 bg-gray-100';
     }
   };
 
   const getHealthIcon = (health: string) => {
     switch (health) {
-      case 'healthy': return <CheckCircle className="w-5 h-5" />;
-      case 'warning': return <AlertTriangle className="w-5 h-5" />;
-      case 'critical': return <AlertTriangle className="w-5 h-5" />;
-      default: return <Clock className="w-5 h-5" />;
+      case 'healthy':return <CheckCircle className="w-5 h-5" />;
+      case 'warning':return <AlertTriangle className="w-5 h-5" />;
+      case 'critical':return <AlertTriangle className="w-5 h-5" />;
+      default:return <Clock className="w-5 h-5" />;
     }
   };
 
   // Calculate task distribution
   const taskDistribution = {
-    pending: tasks.filter(t => t.status === 'pending').length,
-    assigned: tasks.filter(t => t.status === 'assigned').length,
-    running: tasks.filter(t => t.status === 'running').length,
-    completed: tasks.filter(t => t.status === 'completed').length,
-    failed: tasks.filter(t => t.status === 'failed').length
+    pending: tasks.filter((t) => t.status === 'pending').length,
+    assigned: tasks.filter((t) => t.status === 'assigned').length,
+    running: tasks.filter((t) => t.status === 'running').length,
+    completed: tasks.filter((t) => t.status === 'completed').length,
+    failed: tasks.filter((t) => t.status === 'failed').length
   };
 
   // Calculate agent distribution
   const agentDistribution = {
-    orchestrator: agents.filter(a => a.type === 'orchestrator').length,
-    supervisor: agents.filter(a => a.type === 'supervisor').length,
-    validator: agents.filter(a => a.type === 'validator').length,
-    worker: agents.filter(a => a.type === 'worker').length
+    orchestrator: agents.filter((a) => a.type === 'orchestrator').length,
+    supervisor: agents.filter((a) => a.type === 'supervisor').length,
+    validator: agents.filter((a) => a.type === 'validator').length,
+    worker: agents.filter((a) => a.type === 'worker').length
   };
 
   return (
@@ -144,14 +144,14 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
         </div>
 
         {/* Connection Alert */}
-        {!isConnected && (
-          <Alert className="border-red-200 bg-red-50">
+        {!isConnected &&
+        <Alert className="border-red-200 bg-red-50">
             <AlertTriangle className="w-4 h-4" />
             <AlertDescription>
               Connection to orchestration network is lost. Some features may not work properly.
             </AlertDescription>
           </Alert>
-        )}
+        }
 
         {/* System Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -188,9 +188,9 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">
-                {systemMetrics.totalTasks > 0 ? 
-                  Math.round((systemMetrics.completedTasks / systemMetrics.totalTasks) * 100) : 
-                  0
+                {systemMetrics.totalTasks > 0 ?
+                Math.round(systemMetrics.completedTasks / systemMetrics.totalTasks * 100) :
+                0
                 }%
               </div>
               <p className="text-xs text-gray-600">
@@ -205,7 +205,7 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
               <Target className="w-4 h-4 text-orange-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{goals.filter(g => g.status === 'executing').length}</div>
+              <div className="text-2xl font-bold">{goals.filter((g) => g.status === 'executing').length}</div>
               <p className="text-xs text-gray-600">
                 {goals.length} total goals
               </p>
@@ -226,21 +226,21 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Task Completion Rate</span>
-                  <span>{systemMetrics.totalTasks > 0 ? 
-                    Math.round((systemMetrics.completedTasks / systemMetrics.totalTasks) * 100) : 0}%</span>
+                  <span>{systemMetrics.totalTasks > 0 ?
+                    Math.round(systemMetrics.completedTasks / systemMetrics.totalTasks * 100) : 0}%</span>
                 </div>
-                <Progress value={systemMetrics.totalTasks > 0 ? 
-                  (systemMetrics.completedTasks / systemMetrics.totalTasks) * 100 : 0} />
+                <Progress value={systemMetrics.totalTasks > 0 ?
+                systemMetrics.completedTasks / systemMetrics.totalTasks * 100 : 0} />
               </div>
               
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span>Agent Utilization</span>
-                  <span>{systemMetrics.totalAgents > 0 ? 
-                    Math.round((systemMetrics.activeAgents / systemMetrics.totalAgents) * 100) : 0}%</span>
+                  <span>{systemMetrics.totalAgents > 0 ?
+                    Math.round(systemMetrics.activeAgents / systemMetrics.totalAgents * 100) : 0}%</span>
                 </div>
-                <Progress value={systemMetrics.totalAgents > 0 ? 
-                  (systemMetrics.activeAgents / systemMetrics.totalAgents) * 100 : 0} />
+                <Progress value={systemMetrics.totalAgents > 0 ?
+                systemMetrics.activeAgents / systemMetrics.totalAgents * 100 : 0} />
               </div>
               
               <div className="space-y-2">
@@ -382,8 +382,8 @@ const OrchestrationDashboard: React.FC<OrchestrationDashboardProps> = ({ classNa
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default OrchestrationDashboard;

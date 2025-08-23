@@ -6,17 +6,17 @@ import { Progress } from '@/components/ui/progress';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Brain, 
-  Activity, 
-  Users, 
-  Target, 
-  AlertCircle, 
-  CheckCircle, 
+import {
+  Brain,
+  Activity,
+  Users,
+  Target,
+  AlertCircle,
+  CheckCircle,
   Clock,
   ArrowRight,
-  TrendingUp
-} from 'lucide-react';
+  TrendingUp } from
+'lucide-react';
 import { useAgentOrchestration } from '@/hooks/useAgentOrchestration';
 import { Agent, Task } from '@/utils/orchestrationEngine';
 
@@ -73,15 +73,15 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
 
   // Update routing metrics
   useEffect(() => {
-    const completedTasks = tasks.filter(t => t.status === 'completed');
-    const failedTasks = tasks.filter(t => t.status === 'failed');
+    const completedTasks = tasks.filter((t) => t.status === 'completed');
+    const failedTasks = tasks.filter((t) => t.status === 'failed');
     const totalProcessedTasks = completedTasks.length + failedTasks.length;
 
     if (totalProcessedTasks > 0) {
-      const efficiency = (completedTasks.length / totalProcessedTasks) * 100;
+      const efficiency = completedTasks.length / totalProcessedTasks * 100;
       const avgRoutingTime = completedTasks.reduce((sum, task) => {
-        const routingTime = task.assignedAgent ? 
-          (task.updatedAt - task.createdAt) : 0;
+        const routingTime = task.assignedAgent ?
+        task.updatedAt - task.createdAt : 0;
         return sum + routingTime;
       }, 0) / Math.max(completedTasks.length, 1);
 
@@ -97,24 +97,24 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
   // Task routing logic
   const routeTask = async (task: Task) => {
     setOrchestratorStatus('busy');
-    
+
     try {
       // Simulate intelligent task routing
-      const availableAgents = agents.filter(agent => 
-        agent.status === 'active' || agent.status === 'idle'
+      const availableAgents = agents.filter((agent) =>
+      agent.status === 'active' || agent.status === 'idle'
       );
 
       // Find best agent for the task
-      const suitableAgents = availableAgents.filter(agent =>
-        task.requiredCapabilities.every(cap => 
-          agent.capabilities.includes(cap)
-        )
+      const suitableAgents = availableAgents.filter((agent) =>
+      task.requiredCapabilities.every((cap) =>
+      agent.capabilities.includes(cap)
+      )
       );
 
       if (suitableAgents.length > 0) {
         // Route to least busy agent
-        const bestAgent = suitableAgents.reduce((best, current) => 
-          current.currentTasks.length < best.currentTasks.length ? current : best
+        const bestAgent = suitableAgents.reduce((best, current) =>
+        current.currentTasks.length < best.currentTasks.length ? current : best
         );
 
         updateAgentStatus(bestAgent.id, 'busy');
@@ -128,23 +128,23 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
   };
 
   // Get current orchestrator agent data
-  const orchestrator = agents.find(a => a.id === agentId);
+  const orchestrator = agents.find((a) => a.id === agentId);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-500';
-      case 'busy': return 'bg-yellow-500';
-      case 'error': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      case 'active':return 'bg-green-500';
+      case 'busy':return 'bg-yellow-500';
+      case 'error':return 'bg-red-500';
+      default:return 'bg-gray-500';
     }
   };
 
   const getStatusVariant = (status: string) => {
     switch (status) {
-      case 'active': return 'default' as const;
-      case 'busy': return 'secondary' as const;
-      case 'error': return 'destructive' as const;
-      default: return 'outline' as const;
+      case 'active':return 'default' as const;
+      case 'busy':return 'secondary' as const;
+      case 'error':return 'destructive' as const;
+      default:return 'outline' as const;
     }
   };
 
@@ -175,11 +175,11 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
           {/* Connection Status */}
           <Alert className={isConnected ? 'border-green-200 bg-green-50' : 'border-red-200 bg-red-50'}>
             <div className="flex items-center space-x-2">
-              {isConnected ? (
-                <CheckCircle className="w-4 h-4 text-green-600" />
-              ) : (
-                <AlertCircle className="w-4 h-4 text-red-600" />
-              )}
+              {isConnected ?
+              <CheckCircle className="w-4 h-4 text-green-600" /> :
+
+              <AlertCircle className="w-4 h-4 text-red-600" />
+              }
               <AlertDescription>
                 {isConnected ? 'Connected to orchestration network' : 'Disconnected from orchestration network'}
               </AlertDescription>
@@ -232,8 +232,8 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
             
             <ScrollArea className="h-48">
               <div className="space-y-2">
-                {agents.map((agent) => (
-                  <div key={agent.id} className="flex items-center justify-between p-3 rounded-lg border bg-gray-50">
+                {agents.map((agent) =>
+                <div key={agent.id} className="flex items-center justify-between p-3 rounded-lg border bg-gray-50">
                     <div className="flex items-center space-x-3">
                       <div className={`w-3 h-3 rounded-full ${getStatusColor(agent.status)}`} />
                       <div>
@@ -249,13 +249,13 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
                       </div>
                     </div>
                   </div>
-                ))}
+                )}
                 
-                {agents.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
+                {agents.length === 0 &&
+                <div className="text-center py-8 text-gray-500">
                     No agents registered
                   </div>
-                )}
+                }
               </div>
             </ScrollArea>
           </div>
@@ -274,43 +274,43 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span>Pending Tasks</span>
-                  <span>{tasks.filter(t => t.status === 'pending').length}</span>
+                  <span>{tasks.filter((t) => t.status === 'pending').length}</span>
                 </div>
-                <Progress 
-                  value={tasks.length > 0 ? (tasks.filter(t => t.status === 'pending').length / tasks.length) * 100 : 0}
-                  className="h-2"
-                />
+                <Progress
+                  value={tasks.length > 0 ? tasks.filter((t) => t.status === 'pending').length / tasks.length * 100 : 0}
+                  className="h-2" />
+
               </div>
 
               {/* Assigned tasks */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span>Assigned Tasks</span>
-                  <span>{tasks.filter(t => t.status === 'assigned' || t.status === 'running').length}</span>
+                  <span>{tasks.filter((t) => t.status === 'assigned' || t.status === 'running').length}</span>
                 </div>
-                <Progress 
-                  value={tasks.length > 0 ? (tasks.filter(t => t.status === 'assigned' || t.status === 'running').length / tasks.length) * 100 : 0}
-                  className="h-2"
-                />
+                <Progress
+                  value={tasks.length > 0 ? tasks.filter((t) => t.status === 'assigned' || t.status === 'running').length / tasks.length * 100 : 0}
+                  className="h-2" />
+
               </div>
 
               {/* Completed tasks */}
               <div>
                 <div className="flex justify-between text-sm mb-2">
                   <span>Completed Tasks</span>
-                  <span>{tasks.filter(t => t.status === 'completed').length}</span>
+                  <span>{tasks.filter((t) => t.status === 'completed').length}</span>
                 </div>
-                <Progress 
-                  value={tasks.length > 0 ? (tasks.filter(t => t.status === 'completed').length / tasks.length) * 100 : 0}
-                  className="h-2"
-                />
+                <Progress
+                  value={tasks.length > 0 ? tasks.filter((t) => t.status === 'completed').length / tasks.length * 100 : 0}
+                  className="h-2" />
+
               </div>
             </div>
           </div>
 
           {/* Performance Summary */}
-          {orchestrator && (
-            <div className="mt-4 p-4 rounded-lg bg-blue-50 border border-blue-200">
+          {orchestrator &&
+          <div className="mt-4 p-4 rounded-lg bg-blue-50 border border-blue-200">
               <h4 className="font-semibold text-blue-900 mb-2">Orchestrator Performance</h4>
               <div className="grid grid-cols-2 gap-4 text-sm">
                 <div>
@@ -333,11 +333,11 @@ const OrchestratorAgent: React.FC<OrchestratorAgentProps> = ({ className, agentI
                 </div>
               </div>
             </div>
-          )}
+          }
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default OrchestratorAgent;

@@ -48,8 +48,8 @@ const OrchestrationPage: React.FC = () => {
       <main className="px-6 py-8">
         <OrchestrationDashboard />
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default OrchestrationPage;

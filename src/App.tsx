@@ -18,6 +18,9 @@ const AgentDetails = lazy(() => import('@/pages/AgentDetails'));
 const AgentOnboarding = lazy(() => import('@/pages/AgentOnboarding'));
 const AgentAnalytics = lazy(() => import('@/pages/AgentAnalytics'));
 const OrchestrationPage = lazy(() => import('@/pages/OrchestrationPage'));
+const MemoryManagementPage = lazy(() => import('@/pages/MemoryManagementPage'));
+const ContextSessionsPage = lazy(() => import('@/pages/ContextSessionsPage'));
+const MemorySessionsDashboard = lazy(() => import('@/pages/MemorySessionsDashboard'));
 
 // Utilities
 import { analytics } from '@/utils/analytics';
@@ -68,6 +71,9 @@ function App() {
                   <Route path="/agent-marketplace/onboarding" element={<AgentOnboarding />} />
                   <Route path="/agent-marketplace/analytics" element={<AgentAnalytics />} />
                   <Route path="/orchestration" element={<OrchestrationPage />} />
+                  <Route path="/memory-management" element={<MemoryManagementPage />} />
+                  <Route path="/context-sessions" element={<ContextSessionsPage />} />
+                  <Route path="/memory-sessions-dashboard" element={<MemorySessionsDashboard />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

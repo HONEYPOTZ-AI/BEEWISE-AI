@@ -21,8 +21,8 @@ import {
   DollarSign,
   Plus,
   Eye,
-  Settings
-} from 'lucide-react';
+  Settings } from
+'lucide-react';
 import AgentStatusMonitor from '@/components/AgentStatusMonitor';
 
 interface Agent {
@@ -69,9 +69,9 @@ const AgentMarketplace = () => {
         OrderByField: 'rating',
         IsAsc: false
       });
-      
+
       if (error) throw error;
-      
+
       // Fetch additional data for each agent
       const enrichedAgents = await Promise.all(
         data.List.map(async (agent: any) => {
@@ -80,7 +80,7 @@ const AgentMarketplace = () => {
             PageSize: 10,
             Filters: [{ name: 'agent_id', op: 'Equal', value: agent.id }]
           });
-          
+
           const toolsData = await window.ezsite.apis.tablePage(37242, {
             PageNo: 1,
             PageSize: 10,
@@ -94,7 +94,7 @@ const AgentMarketplace = () => {
           };
         })
       );
-      
+
       setAgents(enrichedAgents);
     } catch (error) {
       console.error('Error fetching agents:', error);
@@ -116,7 +116,7 @@ const AgentMarketplace = () => {
         OrderByField: 'name',
         IsAsc: true
       });
-      
+
       if (error) throw error;
       setAgentTypes(data.List);
     } catch (error) {
@@ -124,9 +124,9 @@ const AgentMarketplace = () => {
     }
   };
 
-  const filteredAgents = agents.filter(agent => {
+  const filteredAgents = agents.filter((agent) => {
     const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         agent.description.toLowerCase().includes(searchTerm.toLowerCase());
+    agent.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = selectedType === 'all' || agent.agent_type === selectedType;
     return matchesSearch && matchesType;
   }).sort((a, b) => {
@@ -142,8 +142,8 @@ const AgentMarketplace = () => {
     }
   });
 
-  const AgentCard = ({ agent }: { agent: Agent }) => (
-    <Card className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20">
+  const AgentCard = ({ agent }: {agent: Agent;}) =>
+  <Card className="group hover:shadow-lg transition-all duration-300 border-2 hover:border-primary/20">
       <CardHeader className="pb-3">
         <div className="flex items-start justify-between">
           <div className="flex items-center space-x-3">
@@ -173,16 +173,16 @@ const AgentMarketplace = () => {
         
         <div className="space-y-2">
           <div className="flex flex-wrap gap-1">
-            {agent.capabilities.slice(0, 3).map((capability, index) => (
-              <Badge key={index} variant="outline" className="text-xs">
+            {agent.capabilities.slice(0, 3).map((capability, index) =>
+          <Badge key={index} variant="outline" className="text-xs">
                 {capability}
               </Badge>
-            ))}
-            {agent.capabilities.length > 3 && (
-              <Badge variant="outline" className="text-xs">
+          )}
+            {agent.capabilities.length > 3 &&
+          <Badge variant="outline" className="text-xs">
                 +{agent.capabilities.length - 3} more
               </Badge>
-            )}
+          }
           </div>
           
           <div className="flex items-center justify-between text-sm text-muted-foreground">
@@ -203,9 +203,9 @@ const AgentMarketplace = () => {
             </div>
             <div className="flex items-center space-x-1">
               <div className={`w-2 h-2 rounded-full ${
-                agent.status === 'active' ? 'bg-green-500' : 
-                agent.status === 'busy' ? 'bg-yellow-500' : 'bg-red-500'
-              }`} />
+            agent.status === 'active' ? 'bg-green-500' :
+            agent.status === 'busy' ? 'bg-yellow-500' : 'bg-red-500'}`
+            } />
               <span className="text-xs capitalize">{agent.status}</span>
             </div>
           </div>
@@ -224,8 +224,8 @@ const AgentMarketplace = () => {
           </Button>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -276,28 +276,28 @@ const AgentMarketplace = () => {
                     placeholder="Search agents..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
+                    className="pl-10" />
+
                 </div>
               </div>
               
               <Select value={selectedType} onValueChange={setSelectedType}>
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-48 bg-black text-white">
                   <Filter className="h-4 w-4 mr-2" />
                   <SelectValue placeholder="Filter by type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Types</SelectItem>
-                  {agentTypes.map((type) => (
-                    <SelectItem key={type.id} value={type.name}>
+                  {agentTypes.map((type) =>
+                  <SelectItem key={type.id} value={type.name}>
                       {type.name}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
               
               <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="w-48">
+                <SelectTrigger className="w-48 bg-black text-white">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
@@ -309,10 +309,10 @@ const AgentMarketplace = () => {
             </div>
 
             {/* Agent Grid */}
-            {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {[...Array(8)].map((_, index) => (
-                  <Card key={index} className="animate-pulse">
+            {loading ?
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {[...Array(8)].map((_, index) =>
+              <Card key={index} className="animate-pulse">
                     <CardHeader>
                       <div className="flex items-center space-x-3">
                         <div className="w-12 h-12 bg-muted rounded-lg" />
@@ -331,24 +331,24 @@ const AgentMarketplace = () => {
                       </div>
                     </CardContent>
                   </Card>
-                ))}
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredAgents.map((agent) => (
-                  <AgentCard key={agent.id} agent={agent} />
-                ))}
-                {filteredAgents.length === 0 && (
-                  <div className="col-span-full text-center py-12">
+              )}
+              </div> :
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredAgents.map((agent) =>
+              <AgentCard key={agent.id} agent={agent} />
+              )}
+                {filteredAgents.length === 0 &&
+              <div className="col-span-full text-center py-12">
                     <Bot className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                     <h3 className="text-lg font-semibold mb-2">No agents found</h3>
                     <p className="text-muted-foreground">
                       Try adjusting your search or filter criteria
                     </p>
                   </div>
-                )}
+              }
               </div>
-            )}
+            }
           </TabsContent>
 
           <TabsContent value="catalog">
@@ -376,8 +376,8 @@ const AgentMarketplace = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default AgentMarketplace;

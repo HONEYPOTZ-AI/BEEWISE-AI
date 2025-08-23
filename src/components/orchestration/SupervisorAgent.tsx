@@ -11,18 +11,18 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  Crown, 
-  Target, 
-  Workflow, 
-  Plus, 
+import {
+  Crown,
+  Target,
+  Workflow,
+  Plus,
   ChevronRight,
   CheckCircle2,
   Clock,
   AlertTriangle,
   GitBranch,
-  Zap
-} from 'lucide-react';
+  Zap } from
+'lucide-react';
 import { useAgentOrchestration } from '@/hooks/useAgentOrchestration';
 import { Goal, Task } from '@/utils/orchestrationEngine';
 import { useToast } from '@/hooks/use-toast';
@@ -42,12 +42,12 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
     decomposeGoal,
     createTask
   } = useAgentOrchestration();
-  
+
   const { toast } = useToast();
   const [supervisorStatus, setSupervisorStatus] = useState<'initializing' | 'active' | 'planning' | 'monitoring'>('initializing');
   const [showCreateGoal, setShowCreateGoal] = useState(false);
   const [showCreateTask, setShowCreateTask] = useState(false);
-  
+
   // Form states
   const [newGoal, setNewGoal] = useState({
     name: '',
@@ -96,7 +96,7 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
   // Goal decomposition logic
   const handleGoalDecomposition = async (goalId: string) => {
     setSupervisorStatus('planning');
-    
+
     try {
       const taskIds = await decomposeGoal(goalId);
       toast({
@@ -128,7 +128,7 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
       };
 
       await createGoal(goalData);
-      
+
       // Reset form
       setNewGoal({
         name: '',
@@ -137,7 +137,7 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
         tasks: [],
         deadline: ''
       });
-      
+
       setShowCreateGoal(false);
     } catch (error) {
       console.error('Failed to create goal:', error);
@@ -159,7 +159,7 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
       };
 
       await createTask(taskData);
-      
+
       // Reset form
       setNewTask({
         type: '',
@@ -170,7 +170,7 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
         maxRetries: 3,
         estimatedDuration: 0
       });
-      
+
       setShowCreateTask(false);
     } catch (error) {
       console.error('Failed to create task:', error);
@@ -179,32 +179,32 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
 
   // Calculate goal progress
   const getGoalProgress = (goal: Goal) => {
-    const goalTasks = tasks.filter(t => goal.tasks.includes(t.id));
+    const goalTasks = tasks.filter((t) => goal.tasks.includes(t.id));
     if (goalTasks.length === 0) return 0;
-    
-    const completedTasks = goalTasks.filter(t => t.status === 'completed').length;
-    return (completedTasks / goalTasks.length) * 100;
+
+    const completedTasks = goalTasks.filter((t) => t.status === 'completed').length;
+    return completedTasks / goalTasks.length * 100;
   };
 
   // Get status color
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'executing': return 'text-blue-600 bg-blue-100';
-      case 'planning': return 'text-yellow-600 bg-yellow-100';
-      case 'failed': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'completed':return 'text-green-600 bg-green-100';
+      case 'executing':return 'text-blue-600 bg-blue-100';
+      case 'planning':return 'text-yellow-600 bg-yellow-100';
+      case 'failed':return 'text-red-600 bg-red-100';
+      default:return 'text-gray-600 bg-gray-100';
     }
   };
 
   const getTaskStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600';
-      case 'running': return 'text-blue-600';
-      case 'assigned': return 'text-purple-600';
-      case 'pending': return 'text-yellow-600';
-      case 'failed': return 'text-red-600';
-      default: return 'text-gray-600';
+      case 'completed':return 'text-green-600';
+      case 'running':return 'text-blue-600';
+      case 'assigned':return 'text-purple-600';
+      case 'pending':return 'text-yellow-600';
+      case 'failed':return 'text-red-600';
+      default:return 'text-gray-600';
     }
   };
 
@@ -244,25 +244,25 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                         <Input
                           id="goal-name"
                           value={newGoal.name}
-                          onChange={(e) => setNewGoal(prev => ({ ...prev, name: e.target.value }))}
-                          placeholder="Enter goal name"
-                        />
+                          onChange={(e) => setNewGoal((prev) => ({ ...prev, name: e.target.value }))}
+                          placeholder="Enter goal name" />
+
                       </div>
                       <div>
                         <Label htmlFor="goal-description">Description</Label>
                         <Textarea
                           id="goal-description"
                           value={newGoal.description}
-                          onChange={(e) => setNewGoal(prev => ({ ...prev, description: e.target.value }))}
-                          placeholder="Describe the goal"
-                        />
+                          onChange={(e) => setNewGoal((prev) => ({ ...prev, description: e.target.value }))}
+                          placeholder="Describe the goal" />
+
                       </div>
                       <div>
                         <Label htmlFor="goal-priority">Priority</Label>
-                        <Select 
-                          value={newGoal.priority} 
-                          onValueChange={(value) => setNewGoal(prev => ({ ...prev, priority: value as any }))}
-                        >
+                        <Select
+                          value={newGoal.priority}
+                          onValueChange={(value) => setNewGoal((prev) => ({ ...prev, priority: value as any }))}>
+
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -280,8 +280,8 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                           id="goal-deadline"
                           type="datetime-local"
                           value={newGoal.deadline}
-                          onChange={(e) => setNewGoal(prev => ({ ...prev, deadline: e.target.value }))}
-                        />
+                          onChange={(e) => setNewGoal((prev) => ({ ...prev, deadline: e.target.value }))} />
+
                       </div>
                       <Button onClick={handleCreateGoal} className="w-full">
                         Create Goal
@@ -307,16 +307,16 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                         <Input
                           id="task-type"
                           value={newTask.type}
-                          onChange={(e) => setNewTask(prev => ({ ...prev, type: e.target.value }))}
-                          placeholder="e.g., data-analysis, content-generation"
-                        />
+                          onChange={(e) => setNewTask((prev) => ({ ...prev, type: e.target.value }))}
+                          placeholder="e.g., data-analysis, content-generation" />
+
                       </div>
                       <div>
                         <Label htmlFor="task-priority">Priority</Label>
-                        <Select 
-                          value={newTask.priority} 
-                          onValueChange={(value) => setNewTask(prev => ({ ...prev, priority: value as any }))}
-                        >
+                        <Select
+                          value={newTask.priority}
+                          onValueChange={(value) => setNewTask((prev) => ({ ...prev, priority: value as any }))}>
+
                           <SelectTrigger>
                             <SelectValue />
                           </SelectTrigger>
@@ -334,10 +334,10 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                           id="task-retries"
                           type="number"
                           value={newTask.maxRetries}
-                          onChange={(e) => setNewTask(prev => ({ ...prev, maxRetries: parseInt(e.target.value) }))}
+                          onChange={(e) => setNewTask((prev) => ({ ...prev, maxRetries: parseInt(e.target.value) }))}
                           min="0"
-                          max="10"
-                        />
+                          max="10" />
+
                       </div>
                       <Button onClick={handleCreateTask} className="w-full">
                         Create Task
@@ -360,8 +360,8 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
             
             <ScrollArea className="h-64">
               <div className="space-y-3">
-                {goals.map((goal) => (
-                  <div key={goal.id} className="p-4 rounded-lg border bg-white">
+                {goals.map((goal) =>
+                <div key={goal.id} className="p-4 rounded-lg border bg-white">
                     <div className="flex items-center justify-between mb-2">
                       <div className="flex items-center space-x-2">
                         <h4 className="font-semibold">{goal.name}</h4>
@@ -370,11 +370,11 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                         </Badge>
                       </div>
                       <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleGoalDecomposition(goal.id)}
-                        disabled={goal.status === 'executing' || goal.status === 'completed'}
-                      >
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleGoalDecomposition(goal.id)}
+                      disabled={goal.status === 'executing' || goal.status === 'completed'}>
+
                         <Workflow className="w-4 h-4 mr-2" />
                         Decompose
                       </Button>
@@ -395,21 +395,21 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                         <span>{goal.tasks.length} tasks</span>
                         <span>Priority: {goal.priority}</span>
                       </div>
-                      {goal.deadline && (
-                        <span className="flex items-center">
+                      {goal.deadline &&
+                    <span className="flex items-center">
                           <Clock className="w-4 h-4 mr-1" />
                           {new Date(goal.deadline).toLocaleDateString()}
                         </span>
-                      )}
+                    }
                     </div>
                   </div>
-                ))}
+                )}
                 
-                {goals.length === 0 && (
-                  <div className="text-center py-8 text-gray-500">
+                {goals.length === 0 &&
+                <div className="text-center py-8 text-gray-500">
                     No goals created yet
                   </div>
-                )}
+                }
               </div>
             </ScrollArea>
           </div>
@@ -427,10 +427,10 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
               <div className="space-y-2">
                 <h4 className="font-medium">Pending Tasks</h4>
                 <ScrollArea className="h-32">
-                  {tasks
-                    .filter(t => t.status === 'pending')
-                    .map(task => (
-                      <div key={task.id} className="flex items-center justify-between p-2 rounded border mb-2">
+                  {tasks.
+                  filter((t) => t.status === 'pending').
+                  map((task) =>
+                  <div key={task.id} className="flex items-center justify-between p-2 rounded border mb-2">
                         <div>
                           <div className="font-medium text-sm">{task.type}</div>
                           <div className="text-xs text-gray-600">
@@ -441,7 +441,7 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
                           Pending
                         </Badge>
                       </div>
-                    ))
+                  )
                   }
                 </ScrollArea>
               </div>
@@ -449,24 +449,24 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
               <div className="space-y-2">
                 <h4 className="font-medium">Active Tasks</h4>
                 <ScrollArea className="h-32">
-                  {tasks
-                    .filter(t => t.status === 'assigned' || t.status === 'running')
-                    .map(task => (
-                      <div key={task.id} className="flex items-center justify-between p-2 rounded border mb-2">
+                  {tasks.
+                  filter((t) => t.status === 'assigned' || t.status === 'running').
+                  map((task) =>
+                  <div key={task.id} className="flex items-center justify-between p-2 rounded border mb-2">
                         <div>
                           <div className="font-medium text-sm">{task.type}</div>
                           <div className="text-xs text-gray-600">
                             Agent: {task.assignedAgent || 'Unassigned'}
                           </div>
                         </div>
-                        <Badge 
-                          variant="outline" 
-                          className={getTaskStatusColor(task.status)}
-                        >
+                        <Badge
+                      variant="outline"
+                      className={getTaskStatusColor(task.status)}>
+
                           {task.status}
                         </Badge>
                       </div>
-                    ))
+                  )
                   }
                 </ScrollArea>
               </div>
@@ -493,9 +493,9 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
               <div>
                 <span className="text-purple-700">Success Rate:</span>
                 <span className="ml-2 font-medium">
-                  {tasks.length > 0 ? 
-                    ((tasks.filter(t => t.status === 'completed').length / tasks.length) * 100).toFixed(1) : 
-                    '0'
+                  {tasks.length > 0 ?
+                  (tasks.filter((t) => t.status === 'completed').length / tasks.length * 100).toFixed(1) :
+                  '0'
                   }%
                 </span>
               </div>
@@ -503,8 +503,8 @@ const SupervisorAgent: React.FC<SupervisorAgentProps> = ({ className, agentId = 
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default SupervisorAgent;

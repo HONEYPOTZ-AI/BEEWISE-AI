@@ -23,8 +23,8 @@ import {
   Calendar,
   Filter,
   Download,
-  RefreshCw
-} from 'lucide-react';
+  RefreshCw } from
+'lucide-react';
 
 interface AnalyticsData {
   totalAgents: number;
@@ -100,27 +100,27 @@ const AgentAnalytics = () => {
       // Process data for analytics
       const agents = agentsData?.List || [];
       const activeAgents = agents.filter((agent: any) => agent.status === 'active');
-      
+
       // Calculate aggregated metrics
       const totalRevenue = agents.reduce((sum: number, agent: any) => sum + (agent.revenue || 0), 0);
       const totalTasks = agents.reduce((sum: number, agent: any) => sum + (agent.total_tasks || 0), 0);
-      
+
       // Get top performing agents
-      const topPerformingAgents = agents
-        .sort((a: any, b: any) => (b.success_rate || 0) - (a.success_rate || 0))
-        .slice(0, 10)
-        .map((agent: any) => ({
-          id: agent.id,
-          name: agent.name,
-          type: agent.agent_type,
-          tasks: agent.total_tasks || 0,
-          revenue: agent.revenue || 0,
-          success_rate: agent.success_rate || 0,
-          rating: agent.rating || 0
-        }));
+      const topPerformingAgents = agents.
+      sort((a: any, b: any) => (b.success_rate || 0) - (a.success_rate || 0)).
+      slice(0, 10).
+      map((agent: any) => ({
+        id: agent.id,
+        name: agent.name,
+        type: agent.agent_type,
+        tasks: agent.total_tasks || 0,
+        revenue: agent.revenue || 0,
+        success_rate: agent.success_rate || 0,
+        rating: agent.rating || 0
+      }));
 
       // Calculate agent type distribution
-      const typeDistribution: { [key: string]: number } = {};
+      const typeDistribution: {[key: string]: number;} = {};
       agents.forEach((agent: any) => {
         const type = agent.agent_type || 'Unknown';
         typeDistribution[type] = (typeDistribution[type] || 0) + 1;
@@ -129,7 +129,7 @@ const AgentAnalytics = () => {
       const agentTypeDistribution = Object.entries(typeDistribution).map(([type, count]) => ({
         type,
         count,
-        percentage: (count / agents.length) * 100
+        percentage: count / agents.length * 100
       }));
 
       // Generate mock performance metrics for the last 30 days
@@ -177,27 +177,27 @@ const AgentAnalytics = () => {
     }
   };
 
-  const MetricCard = ({ title, value, change, icon: Icon, color }: any) => (
-    <Card>
+  const MetricCard = ({ title, value, change, icon: Icon, color }: any) =>
+  <Card>
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-muted-foreground">{title}</p>
             <p className="text-2xl font-bold">{value}</p>
-            {change && (
-              <div className={`flex items-center text-sm ${change > 0 ? 'text-green-600' : 'text-red-600'}`}>
+            {change &&
+          <div className={`flex items-center text-sm ${change > 0 ? 'text-green-600' : 'text-red-600'}`}>
                 {change > 0 ? <TrendingUp className="h-4 w-4 mr-1" /> : <TrendingDown className="h-4 w-4 mr-1" />}
                 {Math.abs(change)}% from last month
               </div>
-            )}
+          }
           </div>
           <div className={`p-3 rounded-full ${color}`}>
             <Icon className="h-6 w-6 text-white" />
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
+
 
   if (loading || !analyticsData) {
     return (
@@ -206,9 +206,9 @@ const AgentAnalytics = () => {
           <div className="animate-pulse space-y-6">
             <div className="h-8 bg-muted rounded w-64" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="h-32 bg-muted rounded" />
-              ))}
+              {[...Array(4)].map((_, index) =>
+              <div key={index} className="h-32 bg-muted rounded" />
+              )}
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="h-96 bg-muted rounded" />
@@ -216,8 +216,8 @@ const AgentAnalytics = () => {
             </div>
           </div>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -228,7 +228,7 @@ const AgentAnalytics = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link to="/agent-marketplace">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="bg-white text-[#030507]">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Marketplace
                 </Button>
@@ -240,7 +240,7 @@ const AgentAnalytics = () => {
             </div>
             <div className="flex space-x-3">
               <Select value={timeRange} onValueChange={setTimeRange}>
-                <SelectTrigger className="w-32">
+                <SelectTrigger className="w-32 bg-white text-[#030507]">
                   <Calendar className="h-4 w-4 mr-2" />
                   <SelectValue />
                 </SelectTrigger>
@@ -272,29 +272,29 @@ const AgentAnalytics = () => {
             value={analyticsData.totalAgents}
             change={12}
             icon={Users}
-            color="bg-blue-500"
-          />
+            color="bg-blue-500" />
+
           <MetricCard
             title="Active Agents"
             value={analyticsData.activeAgents}
             change={8}
             icon={Activity}
-            color="bg-green-500"
-          />
+            color="bg-green-500" />
+
           <MetricCard
             title="Total Revenue"
             value={`$${analyticsData.totalRevenue.toLocaleString()}`}
             change={15}
             icon={DollarSign}
-            color="bg-purple-500"
-          />
+            color="bg-purple-500" />
+
           <MetricCard
             title="Avg Response Time"
             value={`${analyticsData.avgResponseTime}s`}
             change={-5}
             icon={Clock}
-            color="bg-orange-500"
-          />
+            color="bg-orange-500" />
+
         </div>
 
         <Tabs defaultValue="overview" className="space-y-6">
@@ -317,15 +317,15 @@ const AgentAnalytics = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {analyticsData.agentTypeDistribution.map((item, index) => (
-                      <div key={index} className="space-y-2">
+                    {analyticsData.agentTypeDistribution.map((item, index) =>
+                    <div key={index} className="space-y-2">
                         <div className="flex justify-between text-sm">
                           <span className="font-medium">{item.type}</span>
                           <span>{item.count} agents ({item.percentage.toFixed(1)}%)</span>
                         </div>
                         <Progress value={item.percentage} className="h-2" />
                       </div>
-                    ))}
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -407,8 +407,8 @@ const AgentAnalytics = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {analyticsData.topPerformingAgents.map((agent, index) => (
-                      <TableRow key={agent.id}>
+                    {analyticsData.topPerformingAgents.map((agent, index) =>
+                    <TableRow key={agent.id}>
                         <TableCell className="font-medium">{agent.name}</TableCell>
                         <TableCell>
                           <Badge variant="secondary">{agent.type}</Badge>
@@ -427,7 +427,7 @@ const AgentAnalytics = () => {
                           </div>
                         </TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </CardContent>
@@ -441,14 +441,14 @@ const AgentAnalytics = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
-                  {analyticsData.recentActivity.map((activity) => (
-                    <div key={activity.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  {analyticsData.recentActivity.map((activity) =>
+                  <div key={activity.id} className="flex items-center justify-between p-3 border rounded-lg">
                       <div className="flex items-center space-x-3">
                         <div className={`w-2 h-2 rounded-full ${
-                          activity.status === 'success' ? 'bg-green-500' :
-                          activity.status === 'warning' ? 'bg-yellow-500' :
-                          activity.status === 'error' ? 'bg-red-500' : 'bg-gray-500'
-                        }`} />
+                      activity.status === 'success' ? 'bg-green-500' :
+                      activity.status === 'warning' ? 'bg-yellow-500' :
+                      activity.status === 'error' ? 'bg-red-500' : 'bg-gray-500'}`
+                      } />
                         <div>
                           <div className="font-medium">{activity.agent_name}</div>
                           <div className="text-sm text-muted-foreground">{activity.action}</div>
@@ -458,15 +458,15 @@ const AgentAnalytics = () => {
                         {new Date(activity.timestamp).toLocaleDateString()}
                       </div>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default AgentAnalytics;

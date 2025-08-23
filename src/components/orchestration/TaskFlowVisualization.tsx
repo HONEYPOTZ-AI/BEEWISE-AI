@@ -5,9 +5,9 @@ import { Badge } from '@/components/ui/badge';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Workflow, 
-  ArrowRight, 
+import {
+  Workflow,
+  ArrowRight,
   Circle,
   Square,
   Diamond,
@@ -18,8 +18,8 @@ import {
   ZoomIn,
   ZoomOut,
   Maximize2,
-  Filter
-} from 'lucide-react';
+  Filter } from
+'lucide-react';
 import { useAgentOrchestration } from '@/hooks/useAgentOrchestration';
 import { Task, Goal } from '@/utils/orchestrationEngine';
 
@@ -32,7 +32,7 @@ interface FlowNode {
   type: 'task' | 'goal' | 'agent' | 'dependency';
   label: string;
   status: string;
-  position: { x: number; y: number };
+  position: {x: number;y: number;};
   connections: string[];
   metadata: Record<string, any>;
 }
@@ -47,7 +47,7 @@ interface FlowEdge {
 
 const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className }) => {
   const { tasks, goals, agents } = useAgentOrchestration();
-  
+
   const [selectedGoal, setSelectedGoal] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'task-flow' | 'agent-network' | 'dependency-graph'>('task-flow');
   const [filterStatus, setFilterStatus] = useState<string>('all');
@@ -69,7 +69,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
             label: task.type,
             status: task.status,
             position: {
-              x: 100 + (index % 5) * 200,
+              x: 100 + index % 5 * 200,
               y: 100 + Math.floor(index / 5) * 150
             },
             connections: task.dependencies,
@@ -81,7 +81,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
           });
 
           // Create dependency edges
-          task.dependencies.forEach(depId => {
+          task.dependencies.forEach((depId) => {
             edges.push({
               id: `${depId}-${task.id}`,
               from: depId,
@@ -95,7 +95,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
 
       // Create nodes for goals if selected
       if (selectedGoal) {
-        const goal = goals.find(g => g.id === selectedGoal);
+        const goal = goals.find((g) => g.id === selectedGoal);
         if (goal) {
           nodes.push({
             id: goal.id,
@@ -111,8 +111,8 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
           });
 
           // Connect goal to its tasks
-          goal.tasks.forEach(taskId => {
-            if (nodes.find(n => n.id === taskId)) {
+          goal.tasks.forEach((taskId) => {
+            if (nodes.find((n) => n.id === taskId)) {
               edges.push({
                 id: `${goal.id}-${taskId}`,
                 from: goal.id,
@@ -133,7 +133,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
           label: agent.name,
           status: agent.status,
           position: {
-            x: 150 + (index % 4) * 250,
+            x: 150 + index % 4 * 250,
             y: 150 + Math.floor(index / 4) * 200
           },
           connections: agent.currentTasks,
@@ -145,10 +145,10 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
         });
 
         // Connect agents to their assigned tasks
-        agent.currentTasks.forEach(taskId => {
-          const task = tasks.find(t => t.id === taskId);
+        agent.currentTasks.forEach((taskId) => {
+          const task = tasks.find((t) => t.id === taskId);
           if (task) {
-            if (!nodes.find(n => n.id === taskId)) {
+            if (!nodes.find((n) => n.id === taskId)) {
               nodes.push({
                 id: taskId,
                 type: 'task',
@@ -175,27 +175,27 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
       });
     } else if (viewMode === 'dependency-graph') {
       // Create a pure dependency visualization
-      const processedTasks = tasks.filter(t => filterStatus === 'all' || t.status === filterStatus);
-      
+      const processedTasks = tasks.filter((t) => filterStatus === 'all' || t.status === filterStatus);
+
       // Use a simple layout algorithm for dependency visualization
       const levels: Record<string, number> = {};
       const calculateLevel = (taskId: string, visited: Set<string> = new Set()): number => {
         if (visited.has(taskId)) return 0; // Prevent infinite loops
         if (levels[taskId] !== undefined) return levels[taskId];
-        
+
         visited.add(taskId);
-        const task = processedTasks.find(t => t.id === taskId);
+        const task = processedTasks.find((t) => t.id === taskId);
         if (!task || task.dependencies.length === 0) {
           levels[taskId] = 0;
           return 0;
         }
-        
-        const maxDepLevel = Math.max(...task.dependencies.map(depId => calculateLevel(depId, visited)));
+
+        const maxDepLevel = Math.max(...task.dependencies.map((depId) => calculateLevel(depId, visited)));
         levels[taskId] = maxDepLevel + 1;
         return levels[taskId];
       };
 
-      processedTasks.forEach(task => calculateLevel(task.id));
+      processedTasks.forEach((task) => calculateLevel(task.id));
 
       // Position nodes based on dependency levels
       const levelGroups: Record<number, string[]> = {};
@@ -204,11 +204,11 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
         levelGroups[level].push(taskId);
       });
 
-      processedTasks.forEach(task => {
+      processedTasks.forEach((task) => {
         const level = levels[task.id] || 0;
         const levelIndex = levelGroups[level].indexOf(task.id);
         const levelSize = levelGroups[level].length;
-        
+
         nodes.push({
           id: task.id,
           type: 'task',
@@ -226,7 +226,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
         });
 
         // Add dependency edges
-        task.dependencies.forEach(depId => {
+        task.dependencies.forEach((depId) => {
           edges.push({
             id: `${depId}-${task.id}`,
             from: depId,
@@ -244,7 +244,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
   const getNodeColor = (node: FlowNode) => {
     const statusColors = {
       pending: 'border-yellow-300 bg-yellow-50',
-      assigned: 'border-blue-300 bg-blue-50', 
+      assigned: 'border-blue-300 bg-blue-50',
       running: 'border-purple-300 bg-purple-50',
       completed: 'border-green-300 bg-green-50',
       failed: 'border-red-300 bg-red-50',
@@ -263,19 +263,19 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
   // Get node shape component based on type
   const getNodeShape = (node: FlowNode) => {
     switch (node.type) {
-      case 'goal': return <Diamond className="w-4 h-4" />;
-      case 'agent': return <Circle className="w-4 h-4" />;
-      case 'task': return <Square className="w-4 h-4" />;
-      default: return <Triangle className="w-4 h-4" />;
+      case 'goal':return <Diamond className="w-4 h-4" />;
+      case 'agent':return <Circle className="w-4 h-4" />;
+      case 'task':return <Square className="w-4 h-4" />;
+      default:return <Triangle className="w-4 h-4" />;
     }
   };
 
   // Render SVG connections
   const renderConnections = () => {
-    return flowData.edges.map(edge => {
-      const fromNode = flowData.nodes.find(n => n.id === edge.from);
-      const toNode = flowData.nodes.find(n => n.id === edge.to);
-      
+    return flowData.edges.map((edge) => {
+      const fromNode = flowData.nodes.find((n) => n.id === edge.from);
+      const toNode = flowData.nodes.find((n) => n.id === edge.to);
+
       if (!fromNode || !toNode) return null;
 
       const x1 = fromNode.position.x + 75; // Half node width
@@ -284,7 +284,7 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
       const y2 = toNode.position.y + 40;
 
       const strokeColor = edge.type === 'dependency' ? '#e11d48' :
-                         edge.type === 'assignment' ? '#3b82f6' : '#10b981';
+      edge.type === 'assignment' ? '#3b82f6' : '#10b981';
 
       return (
         <g key={edge.id}>
@@ -296,21 +296,21 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
             stroke={strokeColor}
             strokeWidth="2"
             markerEnd="url(#arrowhead)"
-            opacity={0.7}
-          />
-          {edge.label && (
-            <text
-              x={(x1 + x2) / 2}
-              y={(y1 + y2) / 2 - 5}
-              fill="#6b7280"
-              fontSize="10"
-              textAnchor="middle"
-            >
+            opacity={0.7} />
+
+          {edge.label &&
+          <text
+            x={(x1 + x2) / 2}
+            y={(y1 + y2) / 2 - 5}
+            fill="#6b7280"
+            fontSize="10"
+            textAnchor="middle">
+
               {edge.label}
             </text>
-          )}
-        </g>
-      );
+          }
+        </g>);
+
     });
   };
 
@@ -333,15 +333,15 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => setIsPlaying(!isPlaying)}
-              >
+                onClick={() => setIsPlaying(!isPlaying)}>
+
                 {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
               </Button>
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => setZoomLevel(100)}
-              >
+                onClick={() => setZoomLevel(100)}>
+
                 <RotateCcw className="w-4 h-4" />
               </Button>
             </div>
@@ -377,19 +377,19 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
                 </SelectContent>
               </Select>
 
-              {viewMode === 'task-flow' && (
-                <Select value={selectedGoal || ''} onValueChange={(value) => setSelectedGoal(value || null)}>
+              {viewMode === 'task-flow' &&
+              <Select value={selectedGoal || ''} onValueChange={(value) => setSelectedGoal(value || null)}>
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Select goal (optional)" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="">No goal selected</SelectItem>
-                    {goals.map(goal => (
-                      <SelectItem key={goal.id} value={goal.id}>{goal.name}</SelectItem>
-                    ))}
+                    {goals.map((goal) =>
+                  <SelectItem key={goal.id} value={goal.id}>{goal.name}</SelectItem>
+                  )}
                   </SelectContent>
                 </Select>
-              )}
+              }
 
               <div className="flex items-center space-x-2">
                 <Button size="sm" variant="outline" onClick={() => setZoomLevel(Math.max(50, zoomLevel - 10))}>
@@ -404,16 +404,16 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
 
             {/* Visualization Area */}
             <div className="border rounded-lg overflow-hidden bg-gray-50" style={{ height: '600px' }}>
-              <div 
+              <div
                 className="relative w-full h-full overflow-auto"
-                style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: 'top left' }}
-              >
-                <svg 
+                style={{ transform: `scale(${zoomLevel / 100})`, transformOrigin: 'top left' }}>
+
+                <svg
                   className="absolute top-0 left-0 pointer-events-none"
                   width="100%"
                   height="100%"
-                  style={{ minWidth: '800px', minHeight: '600px' }}
-                >
+                  style={{ minWidth: '800px', minHeight: '600px' }}>
+
                   <defs>
                     <marker
                       id="arrowhead"
@@ -421,8 +421,8 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
                       markerHeight="7"
                       refX="9"
                       refY="3.5"
-                      orient="auto"
-                    >
+                      orient="auto">
+
                       <polygon points="0 0, 10 3.5, 0 7" fill="#6b7280" />
                     </marker>
                   </defs>
@@ -430,18 +430,18 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
                 </svg>
 
                 {/* Nodes */}
-                {flowData.nodes.map(node => (
-                  <div
-                    key={node.id}
-                    className={`absolute border-2 rounded-lg p-3 shadow-sm transition-all duration-200 hover:shadow-md cursor-pointer ${getNodeColor(node)}`}
-                    style={{
-                      left: node.position.x,
-                      top: node.position.y,
-                      width: '150px',
-                      minHeight: '80px',
-                      zIndex: 10
-                    }}
-                  >
+                {flowData.nodes.map((node) =>
+                <div
+                  key={node.id}
+                  className={`absolute border-2 rounded-lg p-3 shadow-sm transition-all duration-200 hover:shadow-md cursor-pointer ${getNodeColor(node)}`}
+                  style={{
+                    left: node.position.x,
+                    top: node.position.y,
+                    width: '150px',
+                    minHeight: '80px',
+                    zIndex: 10
+                  }}>
+
                     <div className="flex items-center space-x-2 mb-2">
                       {getNodeShape(node)}
                       <span className="font-medium text-sm truncate">{node.label}</span>
@@ -452,36 +452,36 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
                     </Badge>
                     
                     <div className="text-xs text-gray-600">
-                      {node.type === 'task' && (
-                        <>
+                      {node.type === 'task' &&
+                    <>
                           <div>Priority: {node.metadata.priority}</div>
-                          {node.metadata.assignedAgent && (
-                            <div>Agent: {node.metadata.assignedAgent.slice(-8)}</div>
-                          )}
+                          {node.metadata.assignedAgent &&
+                      <div>Agent: {node.metadata.assignedAgent.slice(-8)}</div>
+                      }
                         </>
-                      )}
-                      {node.type === 'agent' && (
-                        <>
+                    }
+                      {node.type === 'agent' &&
+                    <>
                           <div>Type: {node.metadata.type}</div>
                           <div>Tasks: {node.metadata.taskCount}</div>
                         </>
-                      )}
-                      {node.type === 'goal' && (
-                        <div>Progress: {Math.round(node.metadata.progress * 100)}%</div>
-                      )}
+                    }
+                      {node.type === 'goal' &&
+                    <div>Progress: {Math.round(node.metadata.progress * 100)}%</div>
+                    }
                     </div>
                   </div>
-                ))}
+                )}
 
-                {flowData.nodes.length === 0 && (
-                  <div className="flex items-center justify-center h-full text-gray-500">
+                {flowData.nodes.length === 0 &&
+                <div className="flex items-center justify-center h-full text-gray-500">
                     <div className="text-center">
                       <Workflow className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                       <p>No workflow data to visualize</p>
                       <p className="text-sm">Create some tasks or goals to see the flow</p>
                     </div>
                   </div>
-                )}
+                }
               </div>
             </div>
 
@@ -507,8 +507,8 @@ const TaskFlowVisualization: React.FC<TaskFlowVisualizationProps> = ({ className
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default TaskFlowVisualization;

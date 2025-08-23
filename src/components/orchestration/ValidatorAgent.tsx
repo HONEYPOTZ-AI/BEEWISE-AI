@@ -7,18 +7,18 @@ import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Shield, 
-  CheckCircle2, 
-  XCircle, 
-  AlertTriangle, 
-  Clock, 
+import {
+  Shield,
+  CheckCircle2,
+  XCircle,
+  AlertTriangle,
+  Clock,
   FileCheck,
   Scale,
   Eye,
   TrendingUp,
-  AlertCircle
-} from 'lucide-react';
+  AlertCircle } from
+'lucide-react';
 import { useAgentOrchestration } from '@/hooks/useAgentOrchestration';
 import { Task, Agent } from '@/utils/orchestrationEngine';
 import { useToast } from '@/hooks/use-toast';
@@ -54,7 +54,7 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
     registerAgent,
     updateTaskStatus
   } = useAgentOrchestration();
-  
+
   const { toast } = useToast();
   const [validatorStatus, setValidatorStatus] = useState<'initializing' | 'active' | 'validating' | 'monitoring'>('initializing');
   const [validationResults, setValidationResults] = useState<ValidationResult[]>([]);
@@ -68,55 +68,55 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
 
   // Default validation rules
   const [validationRules] = useState<ValidationRule[]>([
-    {
-      id: 'quality-001',
-      name: 'Output Quality Check',
-      type: 'quality',
-      description: 'Validates task output meets quality standards',
-      priority: 'high',
-      active: true
-    },
-    {
-      id: 'compliance-001', 
-      name: 'Regulatory Compliance',
-      type: 'compliance',
-      description: 'Ensures output complies with regulations',
-      priority: 'critical',
-      active: true
-    },
-    {
-      id: 'security-001',
-      name: 'Security Validation',
-      type: 'security', 
-      description: 'Checks for security vulnerabilities',
-      priority: 'critical',
-      active: true
-    },
-    {
-      id: 'performance-001',
-      name: 'Performance Threshold',
-      type: 'performance',
-      description: 'Validates task execution performance',
-      priority: 'medium',
-      active: true
-    },
-    {
-      id: 'quality-002',
-      name: 'Data Integrity Check',
-      type: 'quality',
-      description: 'Verifies data consistency and accuracy',
-      priority: 'high',
-      active: true
-    },
-    {
-      id: 'compliance-002',
-      name: 'Privacy Compliance',
-      type: 'compliance',
-      description: 'Ensures privacy requirements are met',
-      priority: 'critical',
-      active: true
-    }
-  ]);
+  {
+    id: 'quality-001',
+    name: 'Output Quality Check',
+    type: 'quality',
+    description: 'Validates task output meets quality standards',
+    priority: 'high',
+    active: true
+  },
+  {
+    id: 'compliance-001',
+    name: 'Regulatory Compliance',
+    type: 'compliance',
+    description: 'Ensures output complies with regulations',
+    priority: 'critical',
+    active: true
+  },
+  {
+    id: 'security-001',
+    name: 'Security Validation',
+    type: 'security',
+    description: 'Checks for security vulnerabilities',
+    priority: 'critical',
+    active: true
+  },
+  {
+    id: 'performance-001',
+    name: 'Performance Threshold',
+    type: 'performance',
+    description: 'Validates task execution performance',
+    priority: 'medium',
+    active: true
+  },
+  {
+    id: 'quality-002',
+    name: 'Data Integrity Check',
+    type: 'quality',
+    description: 'Verifies data consistency and accuracy',
+    priority: 'high',
+    active: true
+  },
+  {
+    id: 'compliance-002',
+    name: 'Privacy Compliance',
+    type: 'compliance',
+    description: 'Ensures privacy requirements are met',
+    priority: 'critical',
+    active: true
+  }]
+  );
 
   // Initialize validator agent
   useEffect(() => {
@@ -146,11 +146,11 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
 
   // Monitor completed tasks for validation
   useEffect(() => {
-    const completedTasks = tasks.filter(t => t.status === 'completed' && t.result);
-    
-    completedTasks.forEach(task => {
+    const completedTasks = tasks.filter((t) => t.status === 'completed' && t.result);
+
+    completedTasks.forEach((task) => {
       // Check if task has been validated
-      const existingValidation = validationResults.find(v => v.taskId === task.id);
+      const existingValidation = validationResults.find((v) => v.taskId === task.id);
       if (!existingValidation) {
         validateTask(task);
       }
@@ -159,9 +159,9 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
 
   // Update metrics
   useEffect(() => {
-    const passed = validationResults.filter(r => r.status === 'pass').length;
-    const failed = validationResults.filter(r => r.status === 'fail').length;
-    const warnings = validationResults.filter(r => r.status === 'warning').length;
+    const passed = validationResults.filter((r) => r.status === 'pass').length;
+    const failed = validationResults.filter((r) => r.status === 'fail').length;
+    const warnings = validationResults.filter((r) => r.status === 'warning').length;
 
     setValidationMetrics({
       totalValidations: validationResults.length,
@@ -176,7 +176,7 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
   const validateTask = async (task: Task) => {
     setValidatorStatus('validating');
 
-    const activeRules = validationRules.filter(rule => rule.active);
+    const activeRules = validationRules.filter((rule) => rule.active);
     const taskValidationResults: ValidationResult[] = [];
 
     for (const rule of activeRules) {
@@ -184,28 +184,28 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
       taskValidationResults.push(result);
     }
 
-    setValidationResults(prev => [...prev, ...taskValidationResults]);
+    setValidationResults((prev) => [...prev, ...taskValidationResults]);
 
     // Check if any critical validations failed
     const criticalFailures = taskValidationResults.filter(
-      r => r.status === 'fail' && validationRules.find(rule => rule.id === r.ruleId)?.priority === 'critical'
+      (r) => r.status === 'fail' && validationRules.find((rule) => rule.id === r.ruleId)?.priority === 'critical'
     );
 
     if (criticalFailures.length > 0) {
       // Mark task as failed due to validation
       updateTaskStatus(task.id, 'failed', undefined, 'Failed critical validation checks');
-      
+
       toast({
         title: 'Critical Validation Failure',
         description: `Task ${task.id} failed critical validation checks`,
         variant: 'destructive'
       });
     } else {
-      const warnings = taskValidationResults.filter(r => r.status === 'warning');
+      const warnings = taskValidationResults.filter((r) => r.status === 'warning');
       if (warnings.length > 0) {
         toast({
           title: 'Validation Warnings',
-          description: `Task ${task.id} has ${warnings.length} validation warnings`,
+          description: `Task ${task.id} has ${warnings.length} validation warnings`
         });
       }
     }
@@ -216,7 +216,7 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
   // Perform individual validation
   const performValidation = async (task: Task, rule: ValidationRule): Promise<ValidationResult> => {
     // Simulate validation logic based on rule type
-    await new Promise(resolve => setTimeout(resolve, 100 + Math.random() * 300));
+    await new Promise((resolve) => setTimeout(resolve, 100 + Math.random() * 300));
 
     let status: 'pass' | 'fail' | 'warning' = 'pass';
     let message = 'Validation passed';
@@ -271,7 +271,7 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
         // Simulate performance validation
         const executionTime = task.actualDuration || 0;
         const threshold = task.estimatedDuration ? task.estimatedDuration * 1.5 : 30000;
-        
+
         if (executionTime > threshold * 2) {
           status = 'fail';
           message = 'Performance significantly below expectations';
@@ -302,29 +302,29 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
   // Get validation status color
   const getValidationStatusColor = (status: string) => {
     switch (status) {
-      case 'pass': return 'text-green-600';
-      case 'fail': return 'text-red-600';
-      case 'warning': return 'text-yellow-600';
-      default: return 'text-gray-600';
+      case 'pass':return 'text-green-600';
+      case 'fail':return 'text-red-600';
+      case 'warning':return 'text-yellow-600';
+      default:return 'text-gray-600';
     }
   };
 
   const getValidationStatusIcon = (status: string) => {
     switch (status) {
-      case 'pass': return <CheckCircle2 className="w-4 h-4" />;
-      case 'fail': return <XCircle className="w-4 h-4" />;
-      case 'warning': return <AlertTriangle className="w-4 h-4" />;
-      default: return <Clock className="w-4 h-4" />;
+      case 'pass':return <CheckCircle2 className="w-4 h-4" />;
+      case 'fail':return <XCircle className="w-4 h-4" />;
+      case 'warning':return <AlertTriangle className="w-4 h-4" />;
+      default:return <Clock className="w-4 h-4" />;
     }
   };
 
   const getRuleTypeIcon = (type: string) => {
     switch (type) {
-      case 'quality': return <FileCheck className="w-4 h-4" />;
-      case 'compliance': return <Scale className="w-4 h-4" />;
-      case 'security': return <Shield className="w-4 h-4" />;
-      case 'performance': return <TrendingUp className="w-4 h-4" />;
-      default: return <Eye className="w-4 h-4" />;
+      case 'quality':return <FileCheck className="w-4 h-4" />;
+      case 'compliance':return <Scale className="w-4 h-4" />;
+      case 'security':return <Shield className="w-4 h-4" />;
+      case 'performance':return <TrendingUp className="w-4 h-4" />;
+      default:return <Eye className="w-4 h-4" />;
     }
   };
 
@@ -406,10 +406,10 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
               <ScrollArea className="h-64">
                 <div className="space-y-3">
                   {Object.entries(validationsByTask).map(([taskId, results]) => {
-                    const task = tasks.find(t => t.id === taskId);
-                    const overallStatus = results.some(r => r.status === 'fail') ? 'fail' :
-                                        results.some(r => r.status === 'warning') ? 'warning' : 'pass';
-                    
+                    const task = tasks.find((t) => t.id === taskId);
+                    const overallStatus = results.some((r) => r.status === 'fail') ? 'fail' :
+                    results.some((r) => r.status === 'warning') ? 'warning' : 'pass';
+
                     return (
                       <div key={taskId} className="p-4 rounded-lg border bg-white">
                         <div className="flex items-center justify-between mb-3">
@@ -427,10 +427,10 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
                         
                         <div className="space-y-2">
                           {results.map((result) => {
-                            const rule = validationRules.find(r => r.id === result.ruleId);
+                            const rule = validationRules.find((r) => r.id === result.ruleId);
                             return (
-                              <div key={`${result.taskId}-${result.ruleId}`} 
-                                   className="flex items-center justify-between p-2 rounded bg-gray-50">
+                              <div key={`${result.taskId}-${result.ruleId}`}
+                              className="flex items-center justify-between p-2 rounded bg-gray-50">
                                 <div className="flex items-center space-x-2">
                                   {rule && getRuleTypeIcon(rule.type)}
                                   <span className="text-sm">{result.ruleName}</span>
@@ -439,33 +439,33 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
                                   {getValidationStatusIcon(result.status)}
                                   <span className="text-xs">{result.message}</span>
                                 </div>
-                              </div>
-                            );
+                              </div>);
+
                           })}
                         </div>
-                      </div>
-                    );
+                      </div>);
+
                   })}
                   
-                  {Object.keys(validationsByTask).length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
+                  {Object.keys(validationsByTask).length === 0 &&
+                  <div className="text-center py-8 text-gray-500">
                       No validation results yet
                     </div>
-                  )}
+                  }
                 </div>
               </ScrollArea>
             </TabsContent>
             
             <TabsContent value="rules" className="space-y-4">
               <div className="space-y-3">
-                {validationRules.map((rule) => (
-                  <div key={rule.id} className="flex items-center justify-between p-3 rounded-lg border">
+                {validationRules.map((rule) =>
+                <div key={rule.id} className="flex items-center justify-between p-3 rounded-lg border">
                     <div className="flex items-center space-x-3">
                       <div className={`p-2 rounded ${
-                        rule.type === 'quality' ? 'bg-blue-100' :
-                        rule.type === 'compliance' ? 'bg-purple-100' :
-                        rule.type === 'security' ? 'bg-red-100' : 'bg-green-100'
-                      }`}>
+                    rule.type === 'quality' ? 'bg-blue-100' :
+                    rule.type === 'compliance' ? 'bg-purple-100' :
+                    rule.type === 'security' ? 'bg-red-100' : 'bg-green-100'}`
+                    }>
                         {getRuleTypeIcon(rule.type)}
                       </div>
                       <div>
@@ -483,7 +483,7 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
                       </Badge>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </TabsContent>
             
@@ -495,14 +495,14 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
                       <span>Passed</span>
-                      <span>{validationMetrics.totalValidations > 0 ? 
-                        ((validationMetrics.passedValidations / validationMetrics.totalValidations) * 100).toFixed(1) : 0}%</span>
+                      <span>{validationMetrics.totalValidations > 0 ?
+                        (validationMetrics.passedValidations / validationMetrics.totalValidations * 100).toFixed(1) : 0}%</span>
                     </div>
-                    <Progress 
-                      value={validationMetrics.totalValidations > 0 ? 
-                        (validationMetrics.passedValidations / validationMetrics.totalValidations) * 100 : 0}
-                      className="h-2"
-                    />
+                    <Progress
+                      value={validationMetrics.totalValidations > 0 ?
+                      validationMetrics.passedValidations / validationMetrics.totalValidations * 100 : 0}
+                      className="h-2" />
+
                   </div>
                 </div>
 
@@ -510,16 +510,16 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
                 <div className="p-4 rounded-lg border">
                   <h4 className="font-semibold mb-3">Rule Type Distribution</h4>
                   <div className="space-y-2">
-                    {['quality', 'compliance', 'security', 'performance'].map(type => {
-                      const typeRules = validationRules.filter(r => r.type === type);
-                      const percentage = (typeRules.length / validationRules.length) * 100;
-                      
+                    {['quality', 'compliance', 'security', 'performance'].map((type) => {
+                      const typeRules = validationRules.filter((r) => r.type === type);
+                      const percentage = typeRules.length / validationRules.length * 100;
+
                       return (
                         <div key={type} className="flex justify-between items-center">
                           <span className="text-sm capitalize">{type}</span>
                           <span className="text-sm font-medium">{percentage.toFixed(0)}%</span>
-                        </div>
-                      );
+                        </div>);
+
                     })}
                   </div>
                 </div>
@@ -538,7 +538,7 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
                   </div>
                   <div>
                     <span className="text-green-700">Active Rules:</span>
-                    <span className="ml-2 font-medium">{validationRules.filter(r => r.active).length}</span>
+                    <span className="ml-2 font-medium">{validationRules.filter((r) => r.active).length}</span>
                   </div>
                 </div>
               </div>
@@ -546,8 +546,8 @@ const ValidatorAgent: React.FC<ValidatorAgentProps> = ({ className, agentId = 'v
           </Tabs>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ValidatorAgent;

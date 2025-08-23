@@ -12,12 +12,12 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  Layers, 
-  Play, 
-  Pause, 
-  Square, 
-  RotateCcw, 
+import {
+  Layers,
+  Play,
+  Pause,
+  Square,
+  RotateCcw,
   FastForward,
   Settings,
   Plus,
@@ -29,8 +29,8 @@ import {
   AlertTriangle,
   GitBranch,
   Zap,
-  Activity
-} from 'lucide-react';
+  Activity } from
+'lucide-react';
 import { useAgentOrchestration } from '@/hooks/useAgentOrchestration';
 import { Task, Goal } from '@/utils/orchestrationEngine';
 import { useToast } from '@/hooks/use-toast';
@@ -74,7 +74,7 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
     createGoal,
     updateTaskStatus
   } = useAgentOrchestration();
-  
+
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('executions');
   const [workflowExecutions, setWorkflowExecutions] = useState<WorkflowExecution[]>([]);
@@ -84,158 +84,158 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
 
   // Predefined workflow templates
   const [workflowTemplates] = useState<WorkflowTemplate[]>([
+  {
+    id: 'data-processing-pipeline',
+    name: 'Data Processing Pipeline',
+    description: 'Complete data ingestion, processing, and analysis workflow',
+    tasks: [
     {
-      id: 'data-processing-pipeline',
-      name: 'Data Processing Pipeline',
-      description: 'Complete data ingestion, processing, and analysis workflow',
-      tasks: [
-        {
-          type: 'data-ingestion',
-          priority: 'high',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['data-processing', 'api-integration'],
-          payload: { source: 'external-api', format: 'json' },
-          maxRetries: 3
-        },
-        {
-          type: 'data-validation',
-          priority: 'high',
-          status: 'pending',
-          dependencies: [], // Will be set to data-ingestion task ID
-          requiredCapabilities: ['data-validation', 'quality-control'],
-          payload: { validationRules: ['schema-check', 'data-integrity'] },
-          maxRetries: 2
-        },
-        {
-          type: 'data-transformation',
-          priority: 'medium',
-          status: 'pending',
-          dependencies: [], // Will be set to data-validation task ID
-          requiredCapabilities: ['data-transformation', 'analytics'],
-          payload: { transformationType: 'normalization' },
-          maxRetries: 3
-        },
-        {
-          type: 'data-analysis',
-          priority: 'medium',
-          status: 'pending',
-          dependencies: [], // Will be set to data-transformation task ID
-          requiredCapabilities: ['analytics', 'machine-learning'],
-          payload: { analysisType: 'statistical-analysis' },
-          maxRetries: 2
-        }
-      ],
-      metadata: {
-        category: 'data-science',
-        estimatedDuration: 1800000, // 30 minutes
-        complexity: 'moderate',
-        tags: ['data', 'analytics', 'pipeline']
-      }
+      type: 'data-ingestion',
+      priority: 'high',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['data-processing', 'api-integration'],
+      payload: { source: 'external-api', format: 'json' },
+      maxRetries: 3
     },
     {
-      id: 'content-generation-workflow',
-      name: 'Content Generation Workflow',
-      description: 'AI-powered content creation and optimization workflow',
-      tasks: [
-        {
-          type: 'research-keywords',
-          priority: 'high',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['research', 'nlp'],
-          payload: { topic: 'user-defined', depth: 'comprehensive' },
-          maxRetries: 2
-        },
-        {
-          type: 'generate-outline',
-          priority: 'high',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['content-planning', 'nlp'],
-          payload: { contentType: 'article', length: 'long-form' },
-          maxRetries: 3
-        },
-        {
-          type: 'create-content',
-          priority: 'medium',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['content-generation', 'nlp'],
-          payload: { style: 'professional', tone: 'informative' },
-          maxRetries: 3
-        },
-        {
-          type: 'optimize-seo',
-          priority: 'low',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['seo-optimization', 'content-analysis'],
-          payload: { targetKeywords: [], readabilityScore: 80 },
-          maxRetries: 2
-        }
-      ],
-      metadata: {
-        category: 'content-marketing',
-        estimatedDuration: 2700000, // 45 minutes
-        complexity: 'moderate',
-        tags: ['content', 'seo', 'ai-generation']
-      }
+      type: 'data-validation',
+      priority: 'high',
+      status: 'pending',
+      dependencies: [], // Will be set to data-ingestion task ID
+      requiredCapabilities: ['data-validation', 'quality-control'],
+      payload: { validationRules: ['schema-check', 'data-integrity'] },
+      maxRetries: 2
     },
     {
-      id: 'system-health-check',
-      name: 'System Health Check',
-      description: 'Comprehensive system monitoring and health validation',
-      tasks: [
-        {
-          type: 'check-system-resources',
-          priority: 'high',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['system-monitoring', 'performance-analysis'],
-          payload: { metrics: ['cpu', 'memory', 'disk', 'network'] },
-          maxRetries: 1
-        },
-        {
-          type: 'validate-services',
-          priority: 'high',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['service-monitoring', 'health-checking'],
-          payload: { services: ['api', 'database', 'cache'] },
-          maxRetries: 2
-        },
-        {
-          type: 'security-scan',
-          priority: 'medium',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['security-scanning', 'vulnerability-assessment'],
-          payload: { scanType: 'comprehensive' },
-          maxRetries: 1
-        },
-        {
-          type: 'generate-report',
-          priority: 'low',
-          status: 'pending',
-          dependencies: [],
-          requiredCapabilities: ['report-generation', 'data-analysis'],
-          payload: { reportFormat: 'detailed', includeRecommendations: true },
-          maxRetries: 2
-        }
-      ],
-      metadata: {
-        category: 'system-administration',
-        estimatedDuration: 900000, // 15 minutes
-        complexity: 'simple',
-        tags: ['monitoring', 'health-check', 'security']
-      }
+      type: 'data-transformation',
+      priority: 'medium',
+      status: 'pending',
+      dependencies: [], // Will be set to data-validation task ID
+      requiredCapabilities: ['data-transformation', 'analytics'],
+      payload: { transformationType: 'normalization' },
+      maxRetries: 3
+    },
+    {
+      type: 'data-analysis',
+      priority: 'medium',
+      status: 'pending',
+      dependencies: [], // Will be set to data-transformation task ID
+      requiredCapabilities: ['analytics', 'machine-learning'],
+      payload: { analysisType: 'statistical-analysis' },
+      maxRetries: 2
+    }],
+
+    metadata: {
+      category: 'data-science',
+      estimatedDuration: 1800000, // 30 minutes
+      complexity: 'moderate',
+      tags: ['data', 'analytics', 'pipeline']
     }
-  ]);
+  },
+  {
+    id: 'content-generation-workflow',
+    name: 'Content Generation Workflow',
+    description: 'AI-powered content creation and optimization workflow',
+    tasks: [
+    {
+      type: 'research-keywords',
+      priority: 'high',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['research', 'nlp'],
+      payload: { topic: 'user-defined', depth: 'comprehensive' },
+      maxRetries: 2
+    },
+    {
+      type: 'generate-outline',
+      priority: 'high',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['content-planning', 'nlp'],
+      payload: { contentType: 'article', length: 'long-form' },
+      maxRetries: 3
+    },
+    {
+      type: 'create-content',
+      priority: 'medium',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['content-generation', 'nlp'],
+      payload: { style: 'professional', tone: 'informative' },
+      maxRetries: 3
+    },
+    {
+      type: 'optimize-seo',
+      priority: 'low',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['seo-optimization', 'content-analysis'],
+      payload: { targetKeywords: [], readabilityScore: 80 },
+      maxRetries: 2
+    }],
+
+    metadata: {
+      category: 'content-marketing',
+      estimatedDuration: 2700000, // 45 minutes
+      complexity: 'moderate',
+      tags: ['content', 'seo', 'ai-generation']
+    }
+  },
+  {
+    id: 'system-health-check',
+    name: 'System Health Check',
+    description: 'Comprehensive system monitoring and health validation',
+    tasks: [
+    {
+      type: 'check-system-resources',
+      priority: 'high',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['system-monitoring', 'performance-analysis'],
+      payload: { metrics: ['cpu', 'memory', 'disk', 'network'] },
+      maxRetries: 1
+    },
+    {
+      type: 'validate-services',
+      priority: 'high',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['service-monitoring', 'health-checking'],
+      payload: { services: ['api', 'database', 'cache'] },
+      maxRetries: 2
+    },
+    {
+      type: 'security-scan',
+      priority: 'medium',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['security-scanning', 'vulnerability-assessment'],
+      payload: { scanType: 'comprehensive' },
+      maxRetries: 1
+    },
+    {
+      type: 'generate-report',
+      priority: 'low',
+      status: 'pending',
+      dependencies: [],
+      requiredCapabilities: ['report-generation', 'data-analysis'],
+      payload: { reportFormat: 'detailed', includeRecommendations: true },
+      maxRetries: 2
+    }],
+
+    metadata: {
+      category: 'system-administration',
+      estimatedDuration: 900000, // 15 minutes
+      complexity: 'simple',
+      tags: ['monitoring', 'health-check', 'security']
+    }
+  }]
+  );
 
   // Execute a workflow template
   const executeWorkflow = async (templateId: string, customName?: string) => {
-    const template = workflowTemplates.find(t => t.id === templateId);
+    const template = workflowTemplates.find((t) => t.id === templateId);
     if (!template) {
       toast({
         title: 'Template Not Found',
@@ -262,7 +262,7 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
         totalSteps: template.tasks.length
       };
 
-      setWorkflowExecutions(prev => [...prev, execution]);
+      setWorkflowExecutions((prev) => [...prev, execution]);
 
       // Create tasks in sequence
       const createdTaskIds: string[] = [];
@@ -270,7 +270,7 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
 
       for (let i = 0; i < template.tasks.length; i++) {
         const taskTemplate = template.tasks[i];
-        
+
         const taskData = {
           ...taskTemplate,
           dependencies: previousTaskId ? [previousTaskId] : taskTemplate.dependencies,
@@ -287,12 +287,12 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
       }
 
       // Update execution with created task IDs
-      setWorkflowExecutions(prev => 
-        prev.map(exec => 
-          exec.id === executionId 
-            ? { ...exec, taskIds: createdTaskIds, status: 'running' }
-            : exec
-        )
+      setWorkflowExecutions((prev) =>
+      prev.map((exec) =>
+      exec.id === executionId ?
+      { ...exec, taskIds: createdTaskIds, status: 'running' } :
+      exec
+      )
       );
 
       toast({
@@ -311,41 +311,41 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
 
   // Update workflow execution progress based on task status
   useEffect(() => {
-    setWorkflowExecutions(prev => 
-      prev.map(execution => {
-        const executionTasks = tasks.filter(t => execution.taskIds.includes(t.id));
-        if (executionTasks.length === 0) return execution;
+    setWorkflowExecutions((prev) =>
+    prev.map((execution) => {
+      const executionTasks = tasks.filter((t) => execution.taskIds.includes(t.id));
+      if (executionTasks.length === 0) return execution;
 
-        const completedTasks = executionTasks.filter(t => t.status === 'completed').length;
-        const failedTasks = executionTasks.filter(t => t.status === 'failed').length;
-        const progress = (completedTasks / executionTasks.length) * 100;
+      const completedTasks = executionTasks.filter((t) => t.status === 'completed').length;
+      const failedTasks = executionTasks.filter((t) => t.status === 'failed').length;
+      const progress = completedTasks / executionTasks.length * 100;
 
-        let newStatus = execution.status;
-        if (failedTasks > 0 && execution.status === 'running') {
-          newStatus = 'failed';
-        } else if (completedTasks === executionTasks.length && execution.status === 'running') {
-          newStatus = 'completed';
-        }
+      let newStatus = execution.status;
+      if (failedTasks > 0 && execution.status === 'running') {
+        newStatus = 'failed';
+      } else if (completedTasks === executionTasks.length && execution.status === 'running') {
+        newStatus = 'completed';
+      }
 
-        return {
-          ...execution,
-          progress,
-          status: newStatus,
-          currentStep: completedTasks,
-          endTime: newStatus === 'completed' || newStatus === 'failed' ? Date.now() : execution.endTime
-        };
-      })
+      return {
+        ...execution,
+        progress,
+        status: newStatus,
+        currentStep: completedTasks,
+        endTime: newStatus === 'completed' || newStatus === 'failed' ? Date.now() : execution.endTime
+      };
+    })
     );
   }, [tasks]);
 
   // Control workflow execution
   const pauseWorkflow = (executionId: string) => {
-    setWorkflowExecutions(prev =>
-      prev.map(exec =>
-        exec.id === executionId ? { ...exec, status: 'paused' } : exec
-      )
+    setWorkflowExecutions((prev) =>
+    prev.map((exec) =>
+    exec.id === executionId ? { ...exec, status: 'paused' } : exec
+    )
     );
-    
+
     // In a real implementation, you would pause the actual tasks
     toast({
       title: 'Workflow Paused',
@@ -354,12 +354,12 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
   };
 
   const resumeWorkflow = (executionId: string) => {
-    setWorkflowExecutions(prev =>
-      prev.map(exec =>
-        exec.id === executionId ? { ...exec, status: 'running' } : exec
-      )
+    setWorkflowExecutions((prev) =>
+    prev.map((exec) =>
+    exec.id === executionId ? { ...exec, status: 'running' } : exec
+    )
     );
-    
+
     toast({
       title: 'Workflow Resumed',
       description: 'Workflow execution has been resumed.'
@@ -367,25 +367,25 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
   };
 
   const cancelWorkflow = (executionId: string) => {
-    const execution = workflowExecutions.find(e => e.id === executionId);
+    const execution = workflowExecutions.find((e) => e.id === executionId);
     if (execution) {
       // Cancel all pending/running tasks in the workflow
-      execution.taskIds.forEach(taskId => {
-        const task = tasks.find(t => t.id === taskId);
+      execution.taskIds.forEach((taskId) => {
+        const task = tasks.find((t) => t.id === taskId);
         if (task && (task.status === 'pending' || task.status === 'assigned' || task.status === 'running')) {
           updateTaskStatus(taskId, 'cancelled', undefined, 'Workflow cancelled by user');
         }
       });
     }
 
-    setWorkflowExecutions(prev =>
-      prev.map(exec =>
-        exec.id === executionId 
-          ? { ...exec, status: 'cancelled', endTime: Date.now() }
-          : exec
-      )
+    setWorkflowExecutions((prev) =>
+    prev.map((exec) =>
+    exec.id === executionId ?
+    { ...exec, status: 'cancelled', endTime: Date.now() } :
+    exec
+    )
     );
-    
+
     toast({
       title: 'Workflow Cancelled',
       description: 'Workflow execution has been cancelled.'
@@ -395,23 +395,23 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
   // Get status color and icon
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'running': return 'text-blue-600 bg-blue-100';
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'failed': return 'text-red-600 bg-red-100';
-      case 'paused': return 'text-yellow-600 bg-yellow-100';
-      case 'cancelled': return 'text-gray-600 bg-gray-100';
-      default: return 'text-purple-600 bg-purple-100';
+      case 'running':return 'text-blue-600 bg-blue-100';
+      case 'completed':return 'text-green-600 bg-green-100';
+      case 'failed':return 'text-red-600 bg-red-100';
+      case 'paused':return 'text-yellow-600 bg-yellow-100';
+      case 'cancelled':return 'text-gray-600 bg-gray-100';
+      default:return 'text-purple-600 bg-purple-100';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'running': return <Play className="w-4 h-4" />;
-      case 'completed': return <CheckCircle className="w-4 h-4" />;
-      case 'failed': return <XCircle className="w-4 h-4" />;
-      case 'paused': return <Pause className="w-4 h-4" />;
-      case 'cancelled': return <Square className="w-4 h-4" />;
-      default: return <Clock className="w-4 h-4" />;
+      case 'running':return <Play className="w-4 h-4" />;
+      case 'completed':return <CheckCircle className="w-4 h-4" />;
+      case 'failed':return <XCircle className="w-4 h-4" />;
+      case 'paused':return <Pause className="w-4 h-4" />;
+      case 'cancelled':return <Square className="w-4 h-4" />;
+      default:return <Clock className="w-4 h-4" />;
     }
   };
 
@@ -450,26 +450,26 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                           <SelectValue placeholder="Choose a workflow template" />
                         </SelectTrigger>
                         <SelectContent>
-                          {workflowTemplates.map(template => (
-                            <SelectItem key={template.id} value={template.id}>
+                          {workflowTemplates.map((template) =>
+                          <SelectItem key={template.id} value={template.id}>
                               {template.name} - {template.metadata.category}
                             </SelectItem>
-                          ))}
+                          )}
                         </SelectContent>
                       </Select>
                     </div>
                     
-                    {selectedTemplate && (
-                      <div className="space-y-2">
+                    {selectedTemplate &&
+                    <div className="space-y-2">
                         <Label>Custom Name (Optional)</Label>
-                        <Input 
-                          placeholder="Enter custom workflow name"
-                          id="custom-name"
-                        />
+                        <Input
+                        placeholder="Enter custom workflow name"
+                        id="custom-name" />
+
                       </div>
-                    )}
+                    }
                     
-                    <Button 
+                    <Button
                       onClick={() => {
                         if (selectedTemplate) {
                           const customName = (document.getElementById('custom-name') as HTMLInputElement)?.value;
@@ -479,8 +479,8 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                         }
                       }}
                       disabled={!selectedTemplate}
-                      className="w-full"
-                    >
+                      className="w-full">
+
                       Start Workflow
                     </Button>
                   </div>
@@ -501,8 +501,8 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
             <TabsContent value="executions" className="space-y-4">
               <ScrollArea className="h-80">
                 <div className="space-y-3">
-                  {workflowExecutions.map(execution => (
-                    <div key={execution.id} className="p-4 border rounded-lg bg-white">
+                  {workflowExecutions.map((execution) =>
+                  <div key={execution.id} className="p-4 border rounded-lg bg-white">
                       <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center space-x-2">
                           <h4 className="font-semibold">{execution.name}</h4>
@@ -515,21 +515,21 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                         </div>
                         
                         <div className="flex items-center space-x-2">
-                          {execution.status === 'running' && (
-                            <Button size="sm" variant="outline" onClick={() => pauseWorkflow(execution.id)}>
+                          {execution.status === 'running' &&
+                        <Button size="sm" variant="outline" onClick={() => pauseWorkflow(execution.id)}>
                               <Pause className="w-4 h-4" />
                             </Button>
-                          )}
-                          {execution.status === 'paused' && (
-                            <Button size="sm" variant="outline" onClick={() => resumeWorkflow(execution.id)}>
+                        }
+                          {execution.status === 'paused' &&
+                        <Button size="sm" variant="outline" onClick={() => resumeWorkflow(execution.id)}>
                               <Play className="w-4 h-4" />
                             </Button>
-                          )}
-                          {(execution.status === 'running' || execution.status === 'paused') && (
-                            <Button size="sm" variant="outline" onClick={() => cancelWorkflow(execution.id)}>
+                        }
+                          {(execution.status === 'running' || execution.status === 'paused') &&
+                        <Button size="sm" variant="outline" onClick={() => cancelWorkflow(execution.id)}>
                               <Square className="w-4 h-4" />
                             </Button>
-                          )}
+                        }
                         </div>
                       </div>
                       
@@ -543,42 +543,42 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                       
                       <div className="flex items-center justify-between mt-3 text-sm text-gray-600">
                         <span>Started: {new Date(execution.startTime).toLocaleString()}</span>
-                        {execution.endTime && (
-                          <span>
+                        {execution.endTime &&
+                      <span>
                             Duration: {Math.round((execution.endTime - execution.startTime) / 1000)}s
                           </span>
-                        )}
+                      }
                       </div>
                     </div>
-                  ))}
+                  )}
                   
-                  {workflowExecutions.length === 0 && (
-                    <div className="text-center py-8 text-gray-500">
+                  {workflowExecutions.length === 0 &&
+                  <div className="text-center py-8 text-gray-500">
                       <Activity className="w-12 h-12 mx-auto mb-4 text-gray-300" />
                       <p>No active workflow executions</p>
                       <p className="text-sm">Start a workflow to see execution status</p>
                     </div>
-                  )}
+                  }
                 </div>
               </ScrollArea>
             </TabsContent>
             
             <TabsContent value="templates" className="space-y-4">
               <div className="space-y-3">
-                {workflowTemplates.map(template => (
-                  <div key={template.id} className="p-4 border rounded-lg bg-white">
+                {workflowTemplates.map((template) =>
+                <div key={template.id} className="p-4 border rounded-lg bg-white">
                     <div className="flex items-center justify-between mb-2">
                       <h4 className="font-semibold">{template.name}</h4>
                       <div className="flex items-center space-x-2">
                         <Badge variant="outline">{template.metadata.category}</Badge>
                         <Badge variant="secondary">{template.metadata.complexity}</Badge>
                         <Button
-                          size="sm"
-                          onClick={() => {
-                            setSelectedTemplate(template.id);
-                            setShowExecuteWorkflow(true);
-                          }}
-                        >
+                        size="sm"
+                        onClick={() => {
+                          setSelectedTemplate(template.id);
+                          setShowExecuteWorkflow(true);
+                        }}>
+
                           <Play className="w-4 h-4 mr-2" />
                           Execute
                         </Button>
@@ -593,15 +593,15 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                         <span>~{Math.round(template.metadata.estimatedDuration / 60000)} min</span>
                       </div>
                       <div className="flex items-center space-x-1">
-                        {template.metadata.tags.map(tag => (
-                          <Badge key={tag} variant="outline" className="text-xs">
+                        {template.metadata.tags.map((tag) =>
+                      <Badge key={tag} variant="outline" className="text-xs">
                             {tag}
                           </Badge>
-                        ))}
+                      )}
                       </div>
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </TabsContent>
             
@@ -614,14 +614,14 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                 
                 <div className="text-center p-4 border rounded-lg">
                   <div className="text-2xl font-bold text-green-600">
-                    {workflowExecutions.filter(e => e.status === 'completed').length}
+                    {workflowExecutions.filter((e) => e.status === 'completed').length}
                   </div>
                   <div className="text-sm text-gray-600">Completed</div>
                 </div>
                 
                 <div className="text-center p-4 border rounded-lg">
                   <div className="text-2xl font-bold text-purple-600">
-                    {workflowExecutions.filter(e => e.status === 'running').length}
+                    {workflowExecutions.filter((e) => e.status === 'running').length}
                   </div>
                   <div className="text-sm text-gray-600">Running</div>
                 </div>
@@ -634,26 +634,26 @@ const TaskWorkflowManager: React.FC<TaskWorkflowManagerProps> = ({ className }) 
                     <span>Overall Success Rate</span>
                     <span>
                       {workflowExecutions.length > 0 ?
-                        Math.round((workflowExecutions.filter(e => e.status === 'completed').length / workflowExecutions.length) * 100) :
-                        0
+                      Math.round(workflowExecutions.filter((e) => e.status === 'completed').length / workflowExecutions.length * 100) :
+                      0
                       }%
                     </span>
                   </div>
-                  <Progress 
+                  <Progress
                     value={workflowExecutions.length > 0 ?
-                      (workflowExecutions.filter(e => e.status === 'completed').length / workflowExecutions.length) * 100 :
-                      0
+                    workflowExecutions.filter((e) => e.status === 'completed').length / workflowExecutions.length * 100 :
+                    0
                     }
-                    className="h-2"
-                  />
+                    className="h-2" />
+
                 </div>
               </div>
             </TabsContent>
           </Tabs>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default TaskWorkflowManager;

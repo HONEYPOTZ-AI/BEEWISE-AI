@@ -21,8 +21,8 @@ import {
   CheckCircle,
   AlertCircle,
   Info,
-  Sparkles
-} from 'lucide-react';
+  Sparkles } from
+'lucide-react';
 
 interface AgentType {
   id: number;
@@ -50,8 +50,8 @@ interface AgentFormData {
   price_per_hour: number;
   capabilities: string[];
   tools: string[];
-  custom_capabilities: Array<{ name: string; description: string; proficiency: number }>;
-  custom_tools: Array<{ name: string; description: string; version: string }>;
+  custom_capabilities: Array<{name: string;description: string;proficiency: number;}>;
+  custom_tools: Array<{name: string;description: string;version: string;}>;
   api_endpoint?: string;
   authentication_method?: string;
   configuration_json?: string;
@@ -112,59 +112,59 @@ const AgentOnboarding = () => {
   };
 
   const handleInputChange = (field: keyof AgentFormData, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [field]: value
     }));
   };
 
   const addCustomCapability = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       custom_capabilities: [
-        ...prev.custom_capabilities,
-        { name: '', description: '', proficiency: 50 }
-      ]
+      ...prev.custom_capabilities,
+      { name: '', description: '', proficiency: 50 }]
+
     }));
   };
 
   const updateCustomCapability = (index: number, field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       custom_capabilities: prev.custom_capabilities.map((cap, i) =>
-        i === index ? { ...cap, [field]: value } : cap
+      i === index ? { ...cap, [field]: value } : cap
       )
     }));
   };
 
   const removeCustomCapability = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       custom_capabilities: prev.custom_capabilities.filter((_, i) => i !== index)
     }));
   };
 
   const addCustomTool = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       custom_tools: [
-        ...prev.custom_tools,
-        { name: '', description: '', version: '1.0' }
-      ]
+      ...prev.custom_tools,
+      { name: '', description: '', version: '1.0' }]
+
     }));
   };
 
   const updateCustomTool = (index: number, field: string, value: any) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       custom_tools: prev.custom_tools.map((tool, i) =>
-        i === index ? { ...tool, [field]: value } : tool
+      i === index ? { ...tool, [field]: value } : tool
       )
     }));
   };
 
   const removeCustomTool = (index: number) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       custom_tools: prev.custom_tools.filter((_, i) => i !== index)
     }));
@@ -177,7 +177,7 @@ const AgentOnboarding = () => {
       const agentData = {
         name: formData.name,
         description: formData.description,
-        agent_type: agentTypes.find(t => t.id.toString() === formData.agent_type_id)?.name || '',
+        agent_type: agentTypes.find((t) => t.id.toString() === formData.agent_type_id)?.name || '',
         status: 'pending',
         price_per_hour: formData.price_per_hour,
         rating: 0,
@@ -198,7 +198,7 @@ const AgentOnboarding = () => {
         await window.ezsite.apis.tableCreate(37241, {
           agent_id: agentId,
           capability_id: parseInt(capId),
-          capability_name: availableCapabilities.find(c => c.id.toString() === capId)?.name || '',
+          capability_name: availableCapabilities.find((c) => c.id.toString() === capId)?.name || '',
           proficiency_level: 85
         });
       }
@@ -220,7 +220,7 @@ const AgentOnboarding = () => {
         await window.ezsite.apis.tableCreate(37242, {
           agent_id: agentId,
           tool_id: parseInt(toolId),
-          tool_name: availableTools.find(t => t.id.toString() === toolId)?.name || ''
+          tool_name: availableTools.find((t) => t.id.toString() === toolId)?.name || ''
         });
       }
 
@@ -238,7 +238,7 @@ const AgentOnboarding = () => {
 
       toast({
         title: 'Success!',
-        description: 'Your agent has been submitted for review and will be available in the marketplace shortly.',
+        description: 'Your agent has been submitted for review and will be available in the marketplace shortly.'
       });
 
       navigate('/agent-marketplace');
@@ -271,9 +271,9 @@ const AgentOnboarding = () => {
       case 1:
         return formData.name && formData.description && formData.agent_type_id;
       case 2:
-        return formData.capabilities.length > 0 || formData.custom_capabilities.some(c => c.name);
+        return formData.capabilities.length > 0 || formData.custom_capabilities.some((c) => c.name);
       case 3:
-        return formData.tools.length > 0 || formData.custom_tools.some(t => t.name);
+        return formData.tools.length > 0 || formData.custom_tools.some((t) => t.name);
       case 4:
         return formData.price_per_hour > 0;
       default:
@@ -281,8 +281,8 @@ const AgentOnboarding = () => {
     }
   };
 
-  const renderStep1 = () => (
-    <Card>
+  const renderStep1 = () =>
+  <Card>
       <CardHeader>
         <CardTitle className="flex items-center">
           <Bot className="h-5 w-5 mr-2" />
@@ -293,22 +293,22 @@ const AgentOnboarding = () => {
         <div className="space-y-2">
           <Label htmlFor="name">Agent Name *</Label>
           <Input
-            id="name"
-            placeholder="Enter agent name"
-            value={formData.name}
-            onChange={(e) => handleInputChange('name', e.target.value)}
-          />
+          id="name"
+          placeholder="Enter agent name"
+          value={formData.name}
+          onChange={(e) => handleInputChange('name', e.target.value)} />
+
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="description">Description *</Label>
           <Textarea
-            id="description"
-            placeholder="Describe what your agent does and its key features"
-            value={formData.description}
-            onChange={(e) => handleInputChange('description', e.target.value)}
-            rows={4}
-          />
+          id="description"
+          placeholder="Describe what your agent does and its key features"
+          value={formData.description}
+          onChange={(e) => handleInputChange('description', e.target.value)}
+          rows={4} />
+
         </div>
 
         <div className="space-y-2">
@@ -318,14 +318,14 @@ const AgentOnboarding = () => {
               <SelectValue placeholder="Select agent type" />
             </SelectTrigger>
             <SelectContent>
-              {agentTypes.map((type) => (
-                <SelectItem key={type.id} value={type.id.toString()}>
+              {agentTypes.map((type) =>
+            <SelectItem key={type.id} value={type.id.toString()}>
                   <div>
                     <div className="font-medium">{type.name}</div>
                     <div className="text-sm text-muted-foreground">{type.description}</div>
                   </div>
                 </SelectItem>
-              ))}
+            )}
             </SelectContent>
           </Select>
         </div>
@@ -340,11 +340,11 @@ const AgentOnboarding = () => {
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 
-  const renderStep2 = () => (
-    <Card>
+
+  const renderStep2 = () =>
+  <Card>
       <CardHeader>
         <CardTitle className="flex items-center">
           <Sparkles className="h-5 w-5 mr-2" />
@@ -355,19 +355,19 @@ const AgentOnboarding = () => {
         <div>
           <Label className="text-base font-medium">Select Existing Capabilities</Label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-            {availableCapabilities.map((capability) => (
-              <div key={capability.id} className="flex items-center space-x-2 p-3 border rounded-lg">
+            {availableCapabilities.map((capability) =>
+          <div key={capability.id} className="flex items-center space-x-2 p-3 border rounded-lg">
                 <Checkbox
-                  id={`capability-${capability.id}`}
-                  checked={formData.capabilities.includes(capability.id.toString())}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      handleInputChange('capabilities', [...formData.capabilities, capability.id.toString()]);
-                    } else {
-                      handleInputChange('capabilities', formData.capabilities.filter(id => id !== capability.id.toString()));
-                    }
-                  }}
-                />
+              id={`capability-${capability.id}`}
+              checked={formData.capabilities.includes(capability.id.toString())}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  handleInputChange('capabilities', [...formData.capabilities, capability.id.toString()]);
+                } else {
+                  handleInputChange('capabilities', formData.capabilities.filter((id) => id !== capability.id.toString()));
+                }
+              }} />
+
                 <div className="flex-1">
                   <Label htmlFor={`capability-${capability.id}`} className="font-medium cursor-pointer">
                     {capability.name}
@@ -375,7 +375,7 @@ const AgentOnboarding = () => {
                   <p className="text-sm text-muted-foreground">{capability.description}</p>
                 </div>
               </div>
-            ))}
+          )}
           </div>
         </div>
 
@@ -391,16 +391,16 @@ const AgentOnboarding = () => {
           </div>
 
           <div className="space-y-4">
-            {formData.custom_capabilities.map((capability, index) => (
-              <div key={index} className="p-4 border rounded-lg space-y-3">
+            {formData.custom_capabilities.map((capability, index) =>
+          <div key={index} className="p-4 border rounded-lg space-y-3">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium">Custom Capability #{index + 1}</h4>
                   <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeCustomCapability(index)}
-                  >
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => removeCustomCapability(index)}>
+
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -409,42 +409,42 @@ const AgentOnboarding = () => {
                   <div>
                     <Label>Name</Label>
                     <Input
-                      placeholder="Capability name"
-                      value={capability.name}
-                      onChange={(e) => updateCustomCapability(index, 'name', e.target.value)}
-                    />
+                  placeholder="Capability name"
+                  value={capability.name}
+                  onChange={(e) => updateCustomCapability(index, 'name', e.target.value)} />
+
                   </div>
                   <div>
                     <Label>Proficiency Level (%)</Label>
                     <Input
-                      type="number"
-                      min="0"
-                      max="100"
-                      value={capability.proficiency}
-                      onChange={(e) => updateCustomCapability(index, 'proficiency', parseInt(e.target.value) || 0)}
-                    />
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={capability.proficiency}
+                  onChange={(e) => updateCustomCapability(index, 'proficiency', parseInt(e.target.value) || 0)} />
+
                   </div>
                 </div>
                 
                 <div>
                   <Label>Description</Label>
                   <Textarea
-                    placeholder="Describe this capability"
-                    value={capability.description}
-                    onChange={(e) => updateCustomCapability(index, 'description', e.target.value)}
-                    rows={2}
-                  />
+                placeholder="Describe this capability"
+                value={capability.description}
+                onChange={(e) => updateCustomCapability(index, 'description', e.target.value)}
+                rows={2} />
+
                 </div>
               </div>
-            ))}
+          )}
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 
-  const renderStep3 = () => (
-    <Card>
+
+  const renderStep3 = () =>
+  <Card>
       <CardHeader>
         <CardTitle className="flex items-center">
           <Upload className="h-5 w-5 mr-2" />
@@ -455,19 +455,19 @@ const AgentOnboarding = () => {
         <div>
           <Label className="text-base font-medium">Select Available Tools</Label>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-            {availableTools.map((tool) => (
-              <div key={tool.id} className="flex items-center space-x-2 p-3 border rounded-lg">
+            {availableTools.map((tool) =>
+          <div key={tool.id} className="flex items-center space-x-2 p-3 border rounded-lg">
                 <Checkbox
-                  id={`tool-${tool.id}`}
-                  checked={formData.tools.includes(tool.id.toString())}
-                  onCheckedChange={(checked) => {
-                    if (checked) {
-                      handleInputChange('tools', [...formData.tools, tool.id.toString()]);
-                    } else {
-                      handleInputChange('tools', formData.tools.filter(id => id !== tool.id.toString()));
-                    }
-                  }}
-                />
+              id={`tool-${tool.id}`}
+              checked={formData.tools.includes(tool.id.toString())}
+              onCheckedChange={(checked) => {
+                if (checked) {
+                  handleInputChange('tools', [...formData.tools, tool.id.toString()]);
+                } else {
+                  handleInputChange('tools', formData.tools.filter((id) => id !== tool.id.toString()));
+                }
+              }} />
+
                 <div className="flex-1">
                   <Label htmlFor={`tool-${tool.id}`} className="font-medium cursor-pointer">
                     {tool.name}
@@ -478,7 +478,7 @@ const AgentOnboarding = () => {
                   </div>
                 </div>
               </div>
-            ))}
+          )}
           </div>
         </div>
 
@@ -494,16 +494,16 @@ const AgentOnboarding = () => {
           </div>
 
           <div className="space-y-4">
-            {formData.custom_tools.map((tool, index) => (
-              <div key={index} className="p-4 border rounded-lg space-y-3">
+            {formData.custom_tools.map((tool, index) =>
+          <div key={index} className="p-4 border rounded-lg space-y-3">
                 <div className="flex items-center justify-between">
                   <h4 className="font-medium">Custom Tool #{index + 1}</h4>
                   <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeCustomTool(index)}
-                  >
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => removeCustomTool(index)}>
+
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
@@ -512,40 +512,40 @@ const AgentOnboarding = () => {
                   <div>
                     <Label>Tool Name</Label>
                     <Input
-                      placeholder="Tool name"
-                      value={tool.name}
-                      onChange={(e) => updateCustomTool(index, 'name', e.target.value)}
-                    />
+                  placeholder="Tool name"
+                  value={tool.name}
+                  onChange={(e) => updateCustomTool(index, 'name', e.target.value)} />
+
                   </div>
                   <div>
                     <Label>Version</Label>
                     <Input
-                      placeholder="1.0"
-                      value={tool.version}
-                      onChange={(e) => updateCustomTool(index, 'version', e.target.value)}
-                    />
+                  placeholder="1.0"
+                  value={tool.version}
+                  onChange={(e) => updateCustomTool(index, 'version', e.target.value)} />
+
                   </div>
                 </div>
                 
                 <div>
                   <Label>Description</Label>
                   <Textarea
-                    placeholder="Describe this tool and its integration"
-                    value={tool.description}
-                    onChange={(e) => updateCustomTool(index, 'description', e.target.value)}
-                    rows={2}
-                  />
+                placeholder="Describe this tool and its integration"
+                value={tool.description}
+                onChange={(e) => updateCustomTool(index, 'description', e.target.value)}
+                rows={2} />
+
                 </div>
               </div>
-            ))}
+          )}
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 
-  const renderStep4 = () => (
-    <Card>
+
+  const renderStep4 = () =>
+  <Card>
       <CardHeader>
         <CardTitle className="flex items-center">
           <CheckCircle className="h-5 w-5 mr-2" />
@@ -556,14 +556,14 @@ const AgentOnboarding = () => {
         <div className="space-y-2">
           <Label htmlFor="price">Price per Hour (USD) *</Label>
           <Input
-            id="price"
-            type="number"
-            min="0"
-            step="0.01"
-            placeholder="0.00"
-            value={formData.price_per_hour}
-            onChange={(e) => handleInputChange('price_per_hour', parseFloat(e.target.value) || 0)}
-          />
+          id="price"
+          type="number"
+          min="0"
+          step="0.01"
+          placeholder="0.00"
+          value={formData.price_per_hour}
+          onChange={(e) => handleInputChange('price_per_hour', parseFloat(e.target.value) || 0)} />
+
           <p className="text-sm text-muted-foreground">
             Set a competitive price for your agent. This will be displayed in the marketplace.
           </p>
@@ -577,19 +577,19 @@ const AgentOnboarding = () => {
           <div className="space-y-2">
             <Label htmlFor="api-endpoint">API Endpoint</Label>
             <Input
-              id="api-endpoint"
-              placeholder="https://api.youragent.com/v1"
-              value={formData.api_endpoint}
-              onChange={(e) => handleInputChange('api_endpoint', e.target.value)}
-            />
+            id="api-endpoint"
+            placeholder="https://api.youragent.com/v1"
+            value={formData.api_endpoint}
+            onChange={(e) => handleInputChange('api_endpoint', e.target.value)} />
+
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="auth-method">Authentication Method</Label>
-            <Select 
-              value={formData.authentication_method} 
-              onValueChange={(value) => handleInputChange('authentication_method', value)}
-            >
+            <Select
+            value={formData.authentication_method}
+            onValueChange={(value) => handleInputChange('authentication_method', value)}>
+
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -605,12 +605,12 @@ const AgentOnboarding = () => {
           <div className="space-y-2">
             <Label htmlFor="config-json">Configuration JSON</Label>
             <Textarea
-              id="config-json"
-              placeholder="Additional configuration in JSON format"
-              value={formData.configuration_json}
-              onChange={(e) => handleInputChange('configuration_json', e.target.value)}
-              rows={4}
-            />
+            id="config-json"
+            placeholder="Additional configuration in JSON format"
+            value={formData.configuration_json}
+            onChange={(e) => handleInputChange('configuration_json', e.target.value)}
+            rows={4} />
+
           </div>
         </div>
 
@@ -624,8 +624,8 @@ const AgentOnboarding = () => {
           </div>
         </div>
       </CardContent>
-    </Card>
-  );
+    </Card>;
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -635,7 +635,7 @@ const AgentOnboarding = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link to="/agent-marketplace">
-                <Button variant="ghost" size="sm">
+                <Button variant="ghost" size="sm" className="bg-black text-[#65758b]">
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Back to Marketplace
                 </Button>
@@ -654,28 +654,28 @@ const AgentOnboarding = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-4">
-              {[1, 2, 3, 4].map((step) => (
-                <div key={step} className="flex items-center">
+              {[1, 2, 3, 4].map((step) =>
+              <div key={step} className="flex items-center">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium ${
-                    step <= currentStep 
-                      ? 'bg-primary text-primary-foreground' 
-                      : 'bg-muted text-muted-foreground'
-                  }`}>
+                step <= currentStep ?
+                'bg-primary text-primary-foreground' :
+                'bg-muted text-muted-foreground'}`
+                }>
                     {step < currentStep ? <CheckCircle className="h-5 w-5" /> : step}
                   </div>
-                  {step < 4 && (
-                    <div className={`w-12 h-0.5 mx-2 ${
-                      step < currentStep ? 'bg-primary' : 'bg-muted'
-                    }`} />
-                  )}
+                  {step < 4 &&
+                <div className={`w-12 h-0.5 mx-2 ${
+                step < currentStep ? 'bg-primary' : 'bg-muted'}`
+                } />
+                }
                 </div>
-              ))}
+              )}
             </div>
             <div className="text-sm text-muted-foreground">
               Step {currentStep} of 4
             </div>
           </div>
-          <Progress value={(currentStep / 4) * 100} className="h-2" />
+          <Progress value={currentStep / 4 * 100} className="h-2" />
         </div>
 
         {/* Step Content */}
@@ -687,41 +687,41 @@ const AgentOnboarding = () => {
 
           {/* Navigation */}
           <div className="flex items-center justify-between mt-8">
-            <Button 
-              variant="outline" 
+            <Button
+              variant="outline"
               onClick={prevStep}
-              disabled={currentStep === 1}
-            >
+              disabled={currentStep === 1}>
+
               Previous
             </Button>
 
             <div className="flex space-x-3">
-              {currentStep < 4 ? (
-                <Button 
-                  onClick={nextStep}
-                  disabled={!isStepValid(currentStep)}
-                >
+              {currentStep < 4 ?
+              <Button
+                onClick={nextStep}
+                disabled={!isStepValid(currentStep)}>
+
                   Next Step
+                </Button> :
+
+              <Button
+                onClick={handleSubmit}
+                disabled={!isStepValid(4) || loading}
+                className="min-w-32">
+
+                  {loading ?
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" /> :
+
+                'Submit Agent'
+                }
                 </Button>
-              ) : (
-                <Button 
-                  onClick={handleSubmit}
-                  disabled={!isStepValid(4) || loading}
-                  className="min-w-32"
-                >
-                  {loading ? (
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                  ) : (
-                    'Submit Agent'
-                  )}
-                </Button>
-              )}
+              }
             </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default AgentOnboarding;

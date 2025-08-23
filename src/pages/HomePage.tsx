@@ -24,7 +24,9 @@ import {
   Play,
   BarChart3,
   Bot,
-  Activity } from
+  Activity,
+  Brain,
+  MessageSquare } from
 'lucide-react';
 
 const HomePage = () => {
@@ -34,14 +36,28 @@ const HomePage = () => {
     description: 'Easily configure and manage multiple API endpoints with authentication',
     icon: Settings,
     color: 'bg-blue-500',
-    href: '/apiconfig'
+    href: '/api-config'
   },
   {
     name: 'API Testing',
     description: 'Comprehensive testing suite for API endpoints with detailed reports',
     icon: TestTube,
     color: 'bg-green-500',
-    href: '/apitesting'
+    href: '/api-testing'
+  },
+  {
+    name: 'Memory Management',
+    description: 'Advanced memory management system for AI agents with context persistence',
+    icon: Brain,
+    color: 'bg-purple-600',
+    href: '/memory-management'
+  },
+  {
+    name: 'Context Sessions',
+    description: 'Real-time session monitoring and context continuity management',
+    icon: MessageSquare,
+    color: 'bg-teal-500',
+    href: '/context-sessions'
   },
   {
     name: 'Agent Marketplace',
@@ -141,6 +157,12 @@ const HomePage = () => {
                   data-testid="nav-documentation">
 
                   Documentation
+                </Link>
+                <Link
+                  to="/memory-sessions-dashboard"
+                  className="text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-105 focus-enhanced"
+                  data-testid="nav-memory-sessions">
+                  Memory & Sessions
                 </Link>
                 <Link
                   to="/agent-marketplace"

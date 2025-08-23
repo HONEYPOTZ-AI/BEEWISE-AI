@@ -19,8 +19,8 @@ import {
   RefreshCw,
   Pause,
   Play,
-  Settings
-} from 'lucide-react';
+  Settings } from
+'lucide-react';
 
 interface AgentStatus {
   id: number;
@@ -44,7 +44,7 @@ const AgentStatusMonitor = () => {
 
   useEffect(() => {
     fetchAgentStatuses();
-    
+
     // Set up auto-refresh every 30 seconds
     const interval = setInterval(fetchAgentStatuses, 30000);
     setRefreshInterval(interval);
@@ -98,7 +98,7 @@ const AgentStatusMonitor = () => {
     const weights = [0.5, 0.3, 0.15, 0.03, 0.02]; // Probability weights
     const random = Math.random();
     let cumulative = 0;
-    
+
     for (let i = 0; i < statuses.length; i++) {
       cumulative += weights[i];
       if (random <= cumulative) {
@@ -145,24 +145,24 @@ const AgentStatusMonitor = () => {
   const handleAgentAction = (agentId: number, action: 'start' | 'stop' | 'restart') => {
     toast({
       title: `Agent ${action.charAt(0).toUpperCase() + action.slice(1)}`,
-      description: `Agent ${agentId} ${action} command sent`,
+      description: `Agent ${agentId} ${action} command sent`
     });
   };
 
   const getHealthScore = (agent: AgentStatus) => {
     const cpuScore = Math.max(0, 100 - agent.cpu_usage);
     const memoryScore = Math.max(0, 100 - agent.memory_usage);
-    const responseScore = Math.max(0, 100 - (agent.response_time * 20));
-    const errorScore = Math.max(0, 100 - (agent.error_count * 20));
-    
+    const responseScore = Math.max(0, 100 - agent.response_time * 20);
+    const errorScore = Math.max(0, 100 - agent.error_count * 20);
+
     return Math.floor((cpuScore + memoryScore + responseScore + errorScore) / 4);
   };
 
   const overallStats = {
     total: agents.length,
-    active: agents.filter(a => a.status === 'active').length,
-    busy: agents.filter(a => a.status === 'busy').length,
-    error: agents.filter(a => a.status === 'error').length,
+    active: agents.filter((a) => a.status === 'active').length,
+    busy: agents.filter((a) => a.status === 'busy').length,
+    error: agents.filter((a) => a.status === 'error').length,
     avgResponseTime: agents.length > 0 ? agents.reduce((sum, a) => sum + a.response_time, 0) / agents.length : 0,
     avgCpuUsage: agents.length > 0 ? agents.reduce((sum, a) => sum + a.cpu_usage, 0) / agents.length : 0
   };
@@ -178,8 +178,8 @@ const AgentStatusMonitor = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {[...Array(3)].map((_, index) => (
-              <div key={index} className="animate-pulse">
+            {[...Array(3)].map((_, index) =>
+            <div key={index} className="animate-pulse">
                 <div className="flex items-center space-x-4 p-4 border rounded-lg">
                   <div className="w-10 h-10 bg-muted rounded-lg" />
                   <div className="flex-1 space-y-2">
@@ -189,11 +189,11 @@ const AgentStatusMonitor = () => {
                   <div className="w-16 h-8 bg-muted rounded" />
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -254,8 +254,8 @@ const AgentStatusMonitor = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {agents.map((agent) => (
-              <div key={agent.id} className="p-4 border rounded-lg hover:bg-accent/50 transition-colors">
+            {agents.map((agent) =>
+            <div key={agent.id} className="p-4 border rounded-lg hover:bg-accent/50 transition-colors">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
@@ -274,15 +274,15 @@ const AgentStatusMonitor = () => {
                     </Badge>
                     
                     <div className="flex space-x-1">
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        onClick={() => handleAgentAction(agent.id, agent.status === 'active' ? 'stop' : 'start')}
-                      >
-                        {agent.status === 'active' ? 
-                          <Pause className="h-4 w-4" /> : 
-                          <Play className="h-4 w-4" />
-                        }
+                      <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleAgentAction(agent.id, agent.status === 'active' ? 'stop' : 'start')}>
+
+                        {agent.status === 'active' ?
+                      <Pause className="h-4 w-4" /> :
+                      <Play className="h-4 w-4" />
+                      }
                       </Button>
                       <Button variant="ghost" size="sm">
                         <Settings className="h-4 w-4" />
@@ -331,9 +331,9 @@ const AgentStatusMonitor = () => {
                     <div className="text-muted-foreground mb-1">Health</div>
                     <div className="flex items-center space-x-2">
                       <div className={`text-sm font-medium ${
-                        getHealthScore(agent) > 80 ? 'text-green-600' :
-                        getHealthScore(agent) > 60 ? 'text-yellow-600' : 'text-red-600'
-                      }`}>
+                    getHealthScore(agent) > 80 ? 'text-green-600' :
+                    getHealthScore(agent) > 60 ? 'text-yellow-600' : 'text-red-600'}`
+                    }>
                         {getHealthScore(agent)}%
                       </div>
                     </div>
@@ -349,29 +349,29 @@ const AgentStatusMonitor = () => {
                   <div>
                     Uptime: {Math.floor(agent.uptime_hours / 24)}d {agent.uptime_hours % 24}h
                   </div>
-                  {agent.error_count > 0 && (
-                    <div className="text-red-600">
+                  {agent.error_count > 0 &&
+                <div className="text-red-600">
                       {agent.error_count} errors
                     </div>
-                  )}
+                }
                 </div>
               </div>
-            ))}
+            )}
 
-            {agents.length === 0 && (
-              <div className="text-center py-12">
+            {agents.length === 0 &&
+            <div className="text-center py-12">
                 <Bot className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">No Active Agents</h3>
                 <p className="text-muted-foreground">
                   Deploy agents from the marketplace to see their status here.
                 </p>
               </div>
-            )}
+            }
           </div>
         </CardContent>
       </Card>
-    </div>
-  );
+    </div>);
+
 };
 
 export default AgentStatusMonitor;
