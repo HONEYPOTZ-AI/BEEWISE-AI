@@ -27,7 +27,7 @@ const ThemeToggle: React.FC = () => {
       variant="ghost"
       size="sm"
       onClick={handleToggle}
-      className="relative w-10 h-10 p-0 rounded-full glass hover:bg-accent/80 hover:border-accent-foreground/20 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl group overflow-hidden focus-enhanced bg-black text-white"
+      className="relative w-10 h-10 p-0 rounded-full glass hover:bg-accent/80 hover:border-accent-foreground/20 transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl group overflow-hidden focus-enhanced"
       aria-label={`Switch to ${nextTheme.label} theme`}>
 
       {/* Background gradient overlay */}

@@ -57,63 +57,13 @@ export default defineConfig(({ mode }) => {
       minify: isProd ? 'terser' : false,
       terserOptions: isProd ? {
         compress: {
-          // Remove console logs and debugging code
           drop_console: true,
           drop_debugger: true,
-          // Remove specific console methods
-          pure_funcs: ['console.log', 'console.info', 'console.debug', 'console.warn'],
-          // Remove unused code
-          dead_code: true,
-          // Remove unused imports
-          side_effects: false,
-          // Optimize comparisons
-          comparisons: true,
-          // Inline simple functions
-          inline: 2,
-          // Join consecutive var statements
-          join_vars: true,
-          // Optimize loops
-          loops: true,
-          // Remove unnecessary blocks
-          reduce_vars: true,
-          // Collapse single-use variables
-          collapse_vars: true,
-          // Evaluate constant expressions
-          evaluate: true,
-          // Remove unreachable code
-          conditionals: true,
-          // Optimize if statements
-          if_return: true,
-          // Remove unnecessary semicolons
-          semicolons: true,
-          // Optimize sequences
-          sequences: true,
-          // Remove unused function arguments
-          unused: true
+          pure_funcs: ['console.log', 'console.info', 'console.debug']
         },
         format: {
-          // Remove all comments
-          comments: false,
-          // Preserve ASCII characters only
-          ascii_only: true,
-          // Use shorter function names when possible
-          beautify: false,
-          // Remove unnecessary whitespace
-          indent_level: 0
-        },
-        mangle: {
-          // Mangle all variable names for better compression
-          properties: {
-            // Keep quoted properties intact
-            keep_quoted: true
-          },
-          // Preserve specific global variables if needed
-          reserved: ['$', 'jQuery', 'React', 'ReactDOM']
-        },
-        // Enable top-level minification
-        toplevel: true,
-        // Parse module syntax
-        module: true
+          comments: false
+        }
       } : {},
       rollupOptions: {
         output: {
@@ -156,7 +106,7 @@ export default defineConfig(({ mode }) => {
       __APP_ENV__: JSON.stringify(env.VITE_APP_ENV || mode)
     },
     esbuild: {
-      // Remove console logs in production (complementary to terser)
+      // Remove console logs in production
       drop: isProd ? ['console', 'debugger'] : [],
       // Improve bundle size by removing comments
       legalComments: isProd ? 'none' : 'inline'
