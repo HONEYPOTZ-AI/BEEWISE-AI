@@ -1,0 +1,70 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    - cron: '0 3 * * 2' # Weekly on Tuesdays at 3 AM
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Update dependencies
+        run: |
+          npm update
+          npm audit fix --dry-run
+
+      - name: Check for updates
+        id: updates
+        run: |
+          npm outdated --json > outdated.json || true
+          if [ -s outdated.json ]; then
+            echo "updates=true" >> $GITHUB_OUTPUT
+          else
+            echo "updates=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create Pull Request
+        if: steps.updates.outputs.updates == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: 'chore: Automated dependency updates'
+          body: |
+            This PR contains automated dependency updates.
+            
+            Please review the changes and test thoroughly before merging.
+            
+            **Updated packages:**
+            ```json
+            $(cat outdated.json)
+            ```
+          branch: dependency-updates
+          delete-branch: true
+
+  renovate:
+    runs-on: ubuntu-latest
+    if: github.repository_owner == 'your-organization' # Replace with your org
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Self-hosted Renovate
+        uses: renovatebot/github-action@v39.2.3
+        with:
+          configurationFile: .github/renovate.json
+          token: ${{ secrets.RENOVATE_TOKEN }}
