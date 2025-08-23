@@ -22,7 +22,9 @@ import {
   Database,
   BookOpen,
   Play,
-  BarChart3 } from
+  BarChart3,
+  Bot,
+  Activity } from
 'lucide-react';
 
 const HomePage = () => {
@@ -40,6 +42,20 @@ const HomePage = () => {
     icon: TestTube,
     color: 'bg-green-500',
     href: '/apitesting'
+  },
+  {
+    name: 'Agent Marketplace',
+    description: 'Discover and deploy AI agents for enhanced API testing and automation',
+    icon: Bot,
+    color: 'bg-indigo-500',
+    href: '/agent-marketplace'
+  },
+  {
+    name: 'Agent Orchestration',
+    description: 'Coordinate multiple AI agents for complex task workflows and automation',
+    icon: Activity,
+    color: 'bg-indigo-500',
+    href: '/orchestration'
   },
   {
     name: 'Test Automation',
@@ -125,6 +141,18 @@ const HomePage = () => {
                   data-testid="nav-documentation">
 
                   Documentation
+                </Link>
+                <Link
+                  to="/agent-marketplace"
+                  className="text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-105 focus-enhanced"
+                  data-testid="nav-agent-marketplace">
+                  Agents
+                </Link>
+                <Link
+                  to="/orchestration"
+                  className="text-muted-foreground hover:text-primary transition-all duration-200 hover:scale-105 focus-enhanced"
+                  data-testid="nav-orchestration">
+                  Orchestration
                 </Link>
               </div>
               <ThemeToggle data-testid="theme-toggle" />

@@ -13,6 +13,11 @@ const ApiConfigPage = lazy(() => import('@/pages/ApiConfigPage'));
 const ApiTestingPage = lazy(() => import('@/pages/ApiTestingPage'));
 const TestingPage = lazy(() => import('@/pages/TestingPage'));
 const DocumentationPage = lazy(() => import('@/pages/DocumentationPage'));
+const AgentMarketplace = lazy(() => import('@/pages/AgentMarketplace'));
+const AgentDetails = lazy(() => import('@/pages/AgentDetails'));
+const AgentOnboarding = lazy(() => import('@/pages/AgentOnboarding'));
+const AgentAnalytics = lazy(() => import('@/pages/AgentAnalytics'));
+const OrchestrationPage = lazy(() => import('@/pages/OrchestrationPage'));
 
 // Utilities
 import { analytics } from '@/utils/analytics';
@@ -58,6 +63,11 @@ function App() {
                   <Route path="/apitesting" element={<ApiTestingPage />} />
                   <Route path="/testing" element={<TestingPage />} />
                   <Route path="/documentation" element={<DocumentationPage />} />
+                  <Route path="/agent-marketplace" element={<AgentMarketplace />} />
+                  <Route path="/agent-marketplace/agent/:id" element={<AgentDetails />} />
+                  <Route path="/agent-marketplace/onboarding" element={<AgentOnboarding />} />
+                  <Route path="/agent-marketplace/analytics" element={<AgentAnalytics />} />
+                  <Route path="/orchestration" element={<OrchestrationPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>
