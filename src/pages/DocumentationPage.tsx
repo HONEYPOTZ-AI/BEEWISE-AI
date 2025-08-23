@@ -7,15 +7,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  BookOpen, 
-  Search, 
-  Download, 
-  Code, 
-  Settings, 
-  TestTube, 
-  Rocket, 
-  Shield, 
+import {
+  BookOpen,
+  Search,
+  Download,
+  Code,
+  Settings,
+  TestTube,
+  Rocket,
+  Shield,
   Zap,
   FileText,
   Users,
@@ -29,8 +29,8 @@ import {
   ExternalLink,
   Copy,
   Play,
-  Globe
-} from 'lucide-react';
+  Globe } from
+'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from '@/hooks/use-toast';
 
@@ -50,18 +50,18 @@ const DocumentationPage: React.FC = () => {
     navigator.clipboard.writeText(text);
     toast({
       title: "Copied to clipboard",
-      description: "Code example has been copied to your clipboard.",
+      description: "Code example has been copied to your clipboard."
     });
   };
 
   const documentationSections: DocumentationSection[] = [
-    {
-      id: 'overview',
-      title: 'Overview',
-      icon: <BookOpen className="h-4 w-4" />,
-      searchable: 'overview introduction system architecture features capabilities API configuration management',
-      content: (
-        <div className="space-y-6">
+  {
+    id: 'overview',
+    title: 'Overview',
+    icon: <BookOpen className="h-4 w-4" />,
+    searchable: 'overview introduction system architecture features capabilities API configuration management',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">API Configuration Management System</h2>
             <p className="text-muted-foreground mb-6">
@@ -117,7 +117,7 @@ const DocumentationPage: React.FC = () => {
             <h3 className="text-xl font-semibold mb-3">System Architecture</h3>
             <div className="bg-muted/50 p-4 rounded-lg">
               <pre className="text-sm">
-{`┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+            {`┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Frontend UI   │    │  Configuration  │    │  Testing Engine │
 │   (React App)   │◄──►│    Service      │◄──►│   & Reports     │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
@@ -173,15 +173,15 @@ const DocumentationPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'getting-started',
-      title: 'Getting Started',
-      icon: <Rocket className="h-4 w-4" />,
-      searchable: 'getting started quick start tutorial setup first time basic usage examples',
-      content: (
-        <div className="space-y-6">
+
+  },
+  {
+    id: 'getting-started',
+    title: 'Getting Started',
+    icon: <Rocket className="h-4 w-4" />,
+    searchable: 'getting started quick start tutorial setup first time basic usage examples',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">Quick Start Guide</h2>
             <p className="text-muted-foreground mb-6">
@@ -244,10 +244,10 @@ const DocumentationPage: React.FC = () => {
               <div className="bg-muted/50 p-4 rounded-lg">
                 <div className="flex justify-between items-center mb-2">
                   <h4 className="font-medium">Example Configuration:</h4>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    onClick={() => copyToClipboard(`{
+                  <Button
+                variant="outline"
+                size="sm"
+                onClick={() => copyToClipboard(`{
   "name": "User Service API",
   "baseUrl": "https://api.example.com/v1",
   "environment": "development",
@@ -262,14 +262,14 @@ const DocumentationPage: React.FC = () => {
       "description": "Fetch user list"
     }
   ]
-}`)}
-                  >
+}`)}>
+
                     <Copy className="h-4 w-4 mr-1" />
                     Copy
                   </Button>
                 </div>
                 <pre className="text-sm overflow-x-auto">
-{`{
+              {`{
   "name": "User Service API",
   "baseUrl": "https://api.example.com/v1",
   "environment": "development",
@@ -319,15 +319,15 @@ const DocumentationPage: React.FC = () => {
             </ul>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'features',
-      title: 'Feature Documentation',
-      icon: <Settings className="h-4 w-4" />,
-      searchable: 'features documentation CRUD operations search filtering import export status management connection testing',
-      content: (
-        <div className="space-y-6">
+
+  },
+  {
+    id: 'features',
+    title: 'Feature Documentation',
+    icon: <Settings className="h-4 w-4" />,
+    searchable: 'features documentation CRUD operations search filtering import export status management connection testing',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">Feature Documentation</h2>
             <p className="text-muted-foreground mb-6">
@@ -347,7 +347,7 @@ const DocumentationPage: React.FC = () => {
                     Create new API configurations with comprehensive validation and testing.
                   </p>
                   <div className="bg-muted/50 p-3 rounded text-sm">
-                    <strong>Required Fields:</strong> Name, Base URL, Environment<br/>
+                    <strong>Required Fields:</strong> Name, Base URL, Environment<br />
                     <strong>Optional Fields:</strong> Authentication, Headers, Timeouts
                   </div>
                 </CardContent>
@@ -362,7 +362,7 @@ const DocumentationPage: React.FC = () => {
                     View and search configurations with advanced filtering options.
                   </p>
                   <div className="bg-muted/50 p-3 rounded text-sm">
-                    <strong>Search Fields:</strong> Name, Environment, Status, Tags<br/>
+                    <strong>Search Fields:</strong> Name, Environment, Status, Tags<br />
                     <strong>Filters:</strong> Environment, Status, Date Range, Owner
                   </div>
                 </CardContent>
@@ -377,7 +377,7 @@ const DocumentationPage: React.FC = () => {
                     Modify existing configurations with version tracking and rollback capability.
                   </p>
                   <div className="bg-muted/50 p-3 rounded text-sm">
-                    <strong>Features:</strong> Version History, Change Tracking, Rollback<br/>
+                    <strong>Features:</strong> Version History, Change Tracking, Rollback<br />
                     <strong>Validation:</strong> Real-time validation and testing
                   </div>
                 </CardContent>
@@ -392,7 +392,7 @@ const DocumentationPage: React.FC = () => {
                     Safely remove configurations with confirmation and dependency checking.
                   </p>
                   <div className="bg-muted/50 p-3 rounded text-sm">
-                    <strong>Safety Features:</strong> Confirmation Dialog, Dependency Check<br/>
+                    <strong>Safety Features:</strong> Confirmation Dialog, Dependency Check<br />
                     <strong>Options:</strong> Soft Delete, Archive, Permanent Removal
                   </div>
                 </CardContent>
@@ -520,15 +520,15 @@ const DocumentationPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'testing',
-      title: 'Testing Documentation',
-      icon: <TestTube className="h-4 w-4" />,
-      searchable: 'testing documentation test suite categories results reports generation automated',
-      content: (
-        <div className="space-y-6">
+
+  },
+  {
+    id: 'testing',
+    title: 'Testing Documentation',
+    icon: <TestTube className="h-4 w-4" />,
+    searchable: 'testing documentation test suite categories results reports generation automated',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">Testing Documentation</h2>
             <p className="text-muted-foreground mb-6">
@@ -715,15 +715,15 @@ const DocumentationPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'deployment',
-      title: 'Deployment',
-      icon: <Server className="h-4 w-4" />,
-      searchable: 'deployment environment setup build process configuration troubleshooting nginx docker static hosting',
-      content: (
-        <div className="space-y-6">
+
+  },
+  {
+    id: 'deployment',
+    title: 'Deployment',
+    icon: <Server className="h-4 w-4" />,
+    searchable: 'deployment environment setup build process configuration troubleshooting nginx docker static hosting',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">Deployment Documentation</h2>
             <p className="text-muted-foreground mb-6">
@@ -793,14 +793,14 @@ const DocumentationPage: React.FC = () => {
             <div className="bg-muted/50 p-4 rounded-lg">
               <div className="flex justify-between items-center mb-2">
                 <h4 className="font-medium">Required Environment Variables:</h4>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => copyToClipboard(`VITE_APP_ENV=production
+                <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyToClipboard(`VITE_APP_ENV=production
 VITE_API_BASE_URL=https://api.example.com
 VITE_ENABLE_LOGGING=true
-VITE_SENTRY_DSN=https://...@sentry.io/...`)}
-                >
+VITE_SENTRY_DSN=https://...@sentry.io/...`)}>
+
                   <Copy className="h-4 w-4 mr-1" />
                   Copy Example
                 </Button>
@@ -849,24 +849,24 @@ VITE_SENTRY_DSN=https://...@sentry.io/...`)}
             <div className="bg-muted/50 p-4 rounded-lg">
               <div className="flex justify-between items-center mb-2">
                 <h4 className="font-medium">Build Commands:</h4>
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => copyToClipboard(`# Development build
+                <Button
+              variant="outline"
+              size="sm"
+              onClick={() => copyToClipboard(`# Development build
 npm run build:dev
 
 # Staging build
 npm run build --mode staging
 
 # Production build
-npm run build`)}
-                >
+npm run build`)}>
+
                   <Copy className="h-4 w-4 mr-1" />
                   Copy Commands
                 </Button>
               </div>
               <pre className="text-sm">
-{`# Development build
+            {`# Development build
 npm run build:dev
 
 # Staging build
@@ -896,10 +896,10 @@ npm run build`}
                   <div className="mt-4">
                     <div className="flex justify-between items-center mb-2">
                       <h5 className="font-medium">Example Nginx Configuration:</h5>
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        onClick={() => copyToClipboard(`server {
+                      <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => copyToClipboard(`server {
     listen 80;
     server_name example.com;
     root /var/www/html;
@@ -919,14 +919,14 @@ npm run build`}
     # Security headers
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-Frame-Options "DENY" always;
-}`)}
-                      >
+}`)}>
+
                         <Copy className="h-4 w-4 mr-1" />
                         Copy Config
                       </Button>
                     </div>
                     <pre className="text-xs bg-black/5 dark:bg-white/5 p-3 rounded overflow-x-auto">
-{`server {
+                  {`server {
     listen 80;
     server_name example.com;
     root /var/www/html;
@@ -962,10 +962,10 @@ npm run build`}
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">1. Create Dockerfile:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`FROM node:18-alpine AS builder
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -976,14 +976,14 @@ FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]`)}
-                        >
+CMD ["nginx", "-g", "daemon off;"]`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-black/5 dark:bg-white/5 p-3 rounded overflow-x-auto">
-{`FROM node:18-alpine AS builder
+                    {`FROM node:18-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -1001,18 +1001,18 @@ CMD ["nginx", "-g", "daemon off;"]`}
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">2. Build and run:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`docker build -t api-config-app .
-docker run -p 80:80 api-config-app`)}
-                        >
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`docker build -t api-config-app .
+docker run -p 80:80 api-config-app`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy Commands
                         </Button>
                       </div>
                       <pre className="text-xs bg-black/5 dark:bg-white/5 p-3 rounded">
-{`docker build -t api-config-app .
+                    {`docker build -t api-config-app .
 docker run -p 80:80 api-config-app`}
                       </pre>
                     </div>
@@ -1113,15 +1113,15 @@ docker run -p 80:80 api-config-app`}
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'api-reference',
-      title: 'API Reference',
-      icon: <Code className="h-4 w-4" />,
-      searchable: 'API reference endpoints request response formats error handling authentication requirements',
-      content: (
-        <div className="space-y-6">
+
+  },
+  {
+    id: 'api-reference',
+    title: 'API Reference',
+    icon: <Code className="h-4 w-4" />,
+    searchable: 'API reference endpoints request response formats error handling authentication requirements',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">API Reference</h2>
             <p className="text-muted-foreground mb-6">
@@ -1148,11 +1148,11 @@ docker run -p 80:80 api-config-app`}
                     <div>
                       <Badge variant="outline" className="mb-2">Bearer Token</Badge>
                       <div className="flex justify-end mb-1">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard('Authorization: Bearer your-access-token')}
-                        >
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard('Authorization: Bearer your-access-token')}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
@@ -1164,11 +1164,11 @@ Authorization: Bearer your-access-token
                     <div>
                       <Badge variant="outline" className="mb-2">API Key</Badge>
                       <div className="flex justify-end mb-1">
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard('X-API-Key: your-api-key')}
-                        >
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard('X-API-Key: your-api-key')}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
@@ -1209,10 +1209,10 @@ X-API-Key: your-api-key
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">Response:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`{
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`{
   "data": {
     "List": [
       {
@@ -1227,14 +1227,14 @@ X-API-Key: your-api-key
     "VirtualCount": 100
   },
   "error": null
-}`)}
-                        >
+}`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-muted/50 p-3 rounded overflow-x-auto">
-{`{
+                    {`{
   "data": {
     "List": [
       {
@@ -1269,10 +1269,10 @@ X-API-Key: your-api-key
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">Request Body:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`{
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`{
   "name": "New API Service",
   "base_url": "https://api.newservice.com",
   "environment": "development",
@@ -1282,14 +1282,14 @@ X-API-Key: your-api-key
   "headers": {
     "Content-Type": "application/json"
   }
-}`)}
-                        >
+}`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-muted/50 p-3 rounded overflow-x-auto">
-{`{
+                    {`{
   "name": "New API Service",
   "base_url": "https://api.newservice.com",
   "environment": "development",
@@ -1305,23 +1305,23 @@ X-API-Key: your-api-key
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">Response:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`{
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`{
   "data": {
     "id": 123,
     "message": "Configuration created successfully"
   },
   "error": null
-}`)}
-                        >
+}`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-muted/50 p-3 rounded">
-{`{
+                    {`{
   "data": {
     "id": 123,
     "message": "Configuration created successfully"
@@ -1377,22 +1377,22 @@ X-API-Key: your-api-key
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">Response:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`{
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`{
   "data": {
     "message": "Configuration deleted successfully"
   },
   "error": null
-}`)}
-                        >
+}`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-muted/50 p-3 rounded">
-{`{
+                    {`{
   "data": {
     "message": "Configuration deleted successfully"
   },
@@ -1422,20 +1422,20 @@ X-API-Key: your-api-key
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">Request Body:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`{
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`{
   "configuration_id": 123,
   "test_types": ["connectivity", "authentication", "endpoints"]
-}`)}
-                        >
+}`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-muted/50 p-3 rounded">
-{`{
+                    {`{
   "configuration_id": 123,
   "test_types": ["connectivity", "authentication", "endpoints"]
 }`}
@@ -1458,10 +1458,10 @@ X-API-Key: your-api-key
                     <div>
                       <div className="flex justify-between items-center mb-2">
                         <h5 className="font-medium">Response:</h5>
-                        <Button 
-                          variant="outline" 
-                          size="sm" 
-                          onClick={() => copyToClipboard(`{
+                        <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => copyToClipboard(`{
   "data": {
     "test_id": "test-123",
     "configuration_id": 123,
@@ -1475,14 +1475,14 @@ X-API-Key: your-api-key
     "created_at": "2024-01-01T00:00:00Z"
   },
   "error": null
-}`)}
-                        >
+}`)}>
+
                           <Copy className="h-4 w-4 mr-1" />
                           Copy
                         </Button>
                       </div>
                       <pre className="text-xs bg-muted/50 p-3 rounded overflow-x-auto">
-{`{
+                    {`{
   "data": {
     "test_id": "test-123",
     "configuration_id": 123,
@@ -1515,20 +1515,20 @@ X-API-Key: your-api-key
                 <CardContent>
                   <div className="flex justify-between items-center mb-2">
                     <span></span>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => copyToClipboard(`{
+                    <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => copyToClipboard(`{
   "data": null,
   "error": "Detailed error message for user display"
-}`)}
-                    >
+}`)}>
+
                       <Copy className="h-4 w-4 mr-1" />
                       Copy
                     </Button>
                   </div>
                   <pre className="text-xs bg-muted/50 p-3 rounded overflow-x-auto">
-{`{
+                {`{
   "data": null,
   "error": "Detailed error message for user display"
 }`}
@@ -1566,13 +1566,13 @@ X-API-Key: your-api-key
                 <CardContent>
                   <div className="flex justify-between items-center mb-2">
                     <span></span>
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      onClick={() => copyToClipboard(`X-RateLimit-Limit: 1000
+                    <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => copyToClipboard(`X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 999
-X-RateLimit-Reset: 1609459200`)}
-                    >
+X-RateLimit-Reset: 1609459200`)}>
+
                       <Copy className="h-4 w-4 mr-1" />
                       Copy
                     </Button>
@@ -1587,15 +1587,15 @@ X-RateLimit-Reset: 1609459200
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      id: 'best-practices',
-      title: 'Best Practices',
-      icon: <Shield className="h-4 w-4" />,
-      searchable: 'best practices configuration management security performance optimization maintenance recommendations guidelines',
-      content: (
-        <div className="space-y-6">
+
+  },
+  {
+    id: 'best-practices',
+    title: 'Best Practices',
+    icon: <Shield className="h-4 w-4" />,
+    searchable: 'best practices configuration management security performance optimization maintenance recommendations guidelines',
+    content:
+    <div className="space-y-6">
           <div>
             <h2 className="text-2xl font-bold mb-4">Best Practices</h2>
             <p className="text-muted-foreground mb-6">
@@ -1838,17 +1838,17 @@ X-RateLimit-Reset: 1609459200
             </ul>
           </div>
         </div>
-      )
-    }
-  ];
+
+  }];
+
 
   const filteredSections = useMemo(() => {
     if (!searchTerm) return documentationSections;
-    
+
     const lowerSearchTerm = searchTerm.toLowerCase();
-    return documentationSections.filter(section => 
-      section.title.toLowerCase().includes(lowerSearchTerm) ||
-      section.searchable.toLowerCase().includes(lowerSearchTerm)
+    return documentationSections.filter((section) =>
+    section.title.toLowerCase().includes(lowerSearchTerm) ||
+    section.searchable.toLowerCase().includes(lowerSearchTerm)
     );
   }, [searchTerm, documentationSections]);
 
@@ -1858,7 +1858,7 @@ X-RateLimit-Reset: 1609459200
       const exportContent = {
         title: 'API Configuration Management System Documentation',
         generated: new Date().toISOString(),
-        sections: documentationSections.map(section => ({
+        sections: documentationSections.map((section) => ({
           id: section.id,
           title: section.title,
           content: section.searchable // Using searchable text for export
@@ -1868,9 +1868,9 @@ X-RateLimit-Reset: 1609459200
       // Create and download file
       const dataStr = JSON.stringify(exportContent, null, 2);
       const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-      
+
       const exportFileDefaultName = 'api-config-documentation.json';
-      
+
       const linkElement = document.createElement('a');
       linkElement.setAttribute('href', dataUri);
       linkElement.setAttribute('download', exportFileDefaultName);
@@ -1878,14 +1878,14 @@ X-RateLimit-Reset: 1609459200
 
       toast({
         title: "Documentation Exported",
-        description: "Documentation has been exported successfully.",
+        description: "Documentation has been exported successfully."
       });
     } catch (error) {
       console.error('Export error:', error);
       toast({
         title: "Export Failed",
         description: "Failed to export documentation. Please try again.",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -1921,8 +1921,8 @@ X-RateLimit-Reset: 1609459200
               placeholder="Search documentation..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
+              className="pl-10" />
+
           </div>
           
           <Card>
@@ -1932,17 +1932,17 @@ X-RateLimit-Reset: 1609459200
             <CardContent className="p-0">
               <ScrollArea className="h-[500px]">
                 <div className="space-y-1 p-4 pt-0">
-                  {filteredSections.map((section) => (
-                    <Button
-                      key={section.id}
-                      variant={activeTab === section.id ? "default" : "ghost"}
-                      onClick={() => setActiveTab(section.id)}
-                      className="w-full justify-start gap-2 h-auto p-3"
-                    >
+                  {filteredSections.map((section) =>
+                  <Button
+                    key={section.id}
+                    variant={activeTab === section.id ? "default" : "ghost"}
+                    onClick={() => setActiveTab(section.id)}
+                    className="w-full justify-start gap-2 h-auto p-3 bg-black text-white">
+
                       {section.icon}
                       <span className="text-left">{section.title}</span>
                     </Button>
-                  ))}
+                  )}
                 </div>
               </ScrollArea>
             </CardContent>
@@ -1978,16 +1978,16 @@ X-RateLimit-Reset: 1609459200
         <div className="flex-1">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
-              {documentationSections.map((section) => (
-                <TabsTrigger key={section.id} value={section.id} className="flex items-center gap-1 text-xs">
+              {documentationSections.map((section) =>
+              <TabsTrigger key={section.id} value={section.id} className="flex items-center gap-1 text-xs">
                   {section.icon}
                   <span className="hidden sm:inline">{section.title}</span>
                 </TabsTrigger>
-              ))}
+              )}
             </TabsList>
 
-            {filteredSections.map((section) => (
-              <TabsContent key={section.id} value={section.id}>
+            {filteredSections.map((section) =>
+            <TabsContent key={section.id} value={section.id}>
                 <Card>
                   <CardContent className="p-6">
                     <ScrollArea className="h-[600px] lg:h-[800px]">
@@ -1996,12 +1996,12 @@ X-RateLimit-Reset: 1609459200
                   </CardContent>
                 </Card>
               </TabsContent>
-            ))}
+            )}
           </Tabs>
         </div>
       </div>
-    </div>
-  );
+    </div>);
+
 };
 
 export default DocumentationPage;

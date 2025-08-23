@@ -1778,7 +1778,7 @@ const ApiTestingPage = () => {
                           e.stopPropagation();
                           runTest(test.id);
                         }}
-                        disabled={test.status === 'running' || testResults.running}>
+                        disabled={test.status === 'running' || testResults.running} className="bg-white text-[#030507]">
 
                             {test.status === 'running' ?
                         <RefreshCw className="h-4 w-4 animate-spin" /> :
