@@ -17,7 +17,7 @@ import {
   Database,
   Search,
   Filter,
-  Toggle,
+  ToggleLeft,
   Upload,
   Download } from
 'lucide-react';
@@ -728,7 +728,7 @@ const ApiConfigTestSuite: React.FC = () => {
       case 'DELETE':return <XCircle className="h-4 w-4 text-red-500" />;
       case 'VALIDATION':return <CheckCircle className="h-4 w-4 text-purple-500" />;
       case 'SEARCH':return <Filter className="h-4 w-4 text-teal-500" />;
-      case 'STATUS':return <Toggle className="h-4 w-4 text-indigo-500" />;
+      case 'STATUS':return <ToggleLeft className="h-4 w-4 text-indigo-500" />;
       case 'IMPORT_EXPORT':return <Upload className="h-4 w-4 text-pink-500" />;
       default:return <FileText className="h-4 w-4" />;
     }

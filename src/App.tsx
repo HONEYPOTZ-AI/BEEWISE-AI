@@ -13,6 +13,7 @@ const ApiConfigPage = lazy(() => import('@/pages/ApiConfigPage'));
 const ApiTestingPage = lazy(() => import('@/pages/ApiTestingPage'));
 const TestingPage = lazy(() => import('@/pages/TestingPage'));
 const DocumentationPage = lazy(() => import('@/pages/DocumentationPage'));
+const DocumentationIndexPage = lazy(() => import('@/pages/DocumentationIndexPage'));
 
 // Utilities
 import { analytics } from '@/utils/analytics';
@@ -58,6 +59,7 @@ function App() {
                   <Route path="/apitesting" element={<ApiTestingPage />} />
                   <Route path="/testing" element={<TestingPage />} />
                   <Route path="/documentation" element={<DocumentationPage />} />
+                  <Route path="/docs" element={<DocumentationIndexPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Suspense>

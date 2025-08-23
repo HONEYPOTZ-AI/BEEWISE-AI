@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,702 +8,880 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Separator } from '@/components/ui/separator';
-import { toast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
+import { useAgents } from '@/hooks/useAgents';
+import { useBusinesses } from '@/hooks/useBusinesses';
+import DataInitializer from '@/components/DataInitializer';
+import { useForm } from 'react-hook-form';
 import {
-  Search,
+  Settings,
   Plus,
   Edit,
   Trash2,
-  TestTube,
-  Download,
-  Upload,
-  Eye,
-  EyeOff,
+  Key,
+  Globe,
+  Database,
+  Link as LinkIcon,
   CheckCircle,
   XCircle,
-  AlertTriangle,
-  Settings,
-  Globe,
-  Key,
-  Filter,
-  RefreshCw } from
-'lucide-react';
+  AlertCircle,
+  ArrowLeft,
+  Save,
+  TestTube,
+  Copy,
+  Eye,
+  EyeOff
+} from 'lucide-react';
 
-interface ApiConfiguration {
+interface ApiConfig {
   id: number;
-  api_name: string;
+  name: string;
+  endpoint: string;
+  api_key: string;
   provider: string;
-  api_key_token: string;
-  endpoint_url: string;
-  config_parameters: string;
-  status: string;
+  is_active: boolean;
+  description: string;
+  auth_type: string;
+  headers: string;
   created_at: string;
-  updated_at: string;
 }
 
-const ApiConfigPage = () => {
-  const navigate = useNavigate();
-  const [configs, setConfigs] = useState<ApiConfiguration[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedConfig, setSelectedConfig] = useState<ApiConfiguration | null>(null);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [testingApiId, setTestingApiId] = useState<number | null>(null);
-  const [showCredentials, setShowCredentials] = useState<Record<number, boolean>>({});
+interface ApiFormData {
+  name: string;
+  endpoint: string;
+  api_key: string;
+  provider: string;
+  description: string;
+  auth_type: string;
+  headers: string;
+}
 
-  const [formData, setFormData] = useState({
-    api_name: '',
-    provider: '',
-    api_key_token: '',
-    endpoint_url: '',
-    config_parameters: '{}',
-    status: 'active'
+const ApiConfigPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [configs, setConfigs] = useState<ApiConfig[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedConfig, setSelectedConfig] = useState<ApiConfig | null>(null);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [showApiKeys, setShowApiKeys] = useState<{[key: number]: boolean}>({});
+  const [testResults, setTestResults] = useState<{[key: number]: {success: boolean, message: string}}>({});
+  const { toast } = useToast();
+  
+  const form = useForm<ApiFormData>({
+    defaultValues: {
+      name: '',
+      endpoint: '',
+      api_key: '',
+      provider: '',
+      description: '',
+      auth_type: 'bearer',
+      headers: '{"Content-Type": "application/json"}'
+    }
   });
 
-  const tableId = 36659;
-
   useEffect(() => {
-    fetchConfigurations();
+    loadConfigs();
   }, []);
 
-  const fetchConfigurations = async () => {
+  const loadConfigs = async () => {
     try {
       setLoading(true);
-      const { data, error } = await window.ezsite.apis.tablePage(tableId, {
-        "PageNo": 1,
-        "PageSize": 100,
-        "OrderByField": "updated_at",
-        "IsAsc": false,
-        "Filters": []
+      const { data, error } = await window.ezsite.apis.tablePage(36659, {
+        PageNo: 1,
+        PageSize: 100,
+        OrderByField: "id",
+        IsAsc: false,
+        Filters: []
       });
-
+      
       if (error) throw error;
-      setConfigs(data?.List || []);
+      
+      const formattedConfigs = data.List.map((config: any) => ({
+        id: config.id,
+        name: config.name,
+        endpoint: config.endpoint || '',
+        api_key: config.api_key || '',
+        provider: config.provider || 'custom',
+        is_active: config.is_active || false,
+        description: config.description || '',
+        auth_type: config.auth_type || 'bearer',
+        headers: config.headers || '{}',
+        created_at: config.created_at
+      }));
+      
+      setConfigs(formattedConfigs);
     } catch (error) {
+      console.error('Error loading API configurations:', error);
       toast({
         title: "Error",
-        description: "Failed to fetch API configurations",
-        variant: "destructive"
+        description: "Failed to load API configurations",
+        variant: "destructive",
       });
-      console.error('Error fetching configurations:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreateConfig = async (data: ApiFormData) => {
     try {
-      const apiData = {
-        ...formData,
-        updated_at: new Date().toISOString(),
-        ...(isEditing ? {} : { created_at: new Date().toISOString() })
-      };
-
-      if (isEditing && selectedConfig) {
-        const { error } = await window.ezsite.apis.tableUpdate(tableId, {
-          ID: selectedConfig.id,
-          ...apiData
-        });
-        if (error) throw error;
-        toast({
-          title: "Success",
-          description: "API configuration updated successfully"
-        });
-      } else {
-        const { error } = await window.ezsite.apis.tableCreate(tableId, apiData);
-        if (error) throw error;
-        toast({
-          title: "Success",
-          description: "API configuration created successfully"
-        });
-      }
-
-      setIsFormOpen(false);
-      resetForm();
-      fetchConfigurations();
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: `Failed to ${isEditing ? 'update' : 'create'} API configuration`,
-        variant: "destructive"
+      const { error } = await window.ezsite.apis.tableCreate(36659, {
+        name: data.name,
+        endpoint: data.endpoint,
+        api_key: data.api_key,
+        provider: data.provider,
+        description: data.description,
+        auth_type: data.auth_type,
+        headers: data.headers,
+        is_active: true
       });
-      console.error('Error saving configuration:', error);
-    }
-  };
 
-  const handleDelete = async (id: number) => {
-    if (!confirm('Are you sure you want to delete this API configuration?')) return;
-
-    try {
-      const { error } = await window.ezsite.apis.tableDelete(tableId, { ID: id });
       if (error) throw error;
 
       toast({
         title: "Success",
-        description: "API configuration deleted successfully"
+        description: "API configuration created successfully",
       });
-      fetchConfigurations();
+
+      setIsCreateDialogOpen(false);
+      form.reset();
+      loadConfigs();
     } catch (error) {
+      console.error('Error creating API configuration:', error);
+      toast({
+        title: "Error",
+        description: "Failed to create API configuration",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleUpdateConfig = async (data: ApiFormData) => {
+    if (!selectedConfig) return;
+
+    try {
+      const { error } = await window.ezsite.apis.tableUpdate(36659, {
+        id: selectedConfig.id,
+        name: data.name,
+        endpoint: data.endpoint,
+        api_key: data.api_key,
+        provider: data.provider,
+        description: data.description,
+        auth_type: data.auth_type,
+        headers: data.headers
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "API configuration updated successfully",
+      });
+
+      setIsEditDialogOpen(false);
+      setSelectedConfig(null);
+      form.reset();
+      loadConfigs();
+    } catch (error) {
+      console.error('Error updating API configuration:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update API configuration",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleDeleteConfig = async (configId: number) => {
+    try {
+      const { error } = await window.ezsite.apis.tableDelete(36659, { id: configId });
+
+      if (error) throw error;
+
+      toast({
+        title: "Success",
+        description: "API configuration deleted successfully",
+      });
+
+      loadConfigs();
+    } catch (error) {
+      console.error('Error deleting API configuration:', error);
       toast({
         title: "Error",
         description: "Failed to delete API configuration",
-        variant: "destructive"
+        variant: "destructive",
       });
-      console.error('Error deleting configuration:', error);
     }
   };
 
-  const handleToggleStatus = async (config: ApiConfiguration) => {
+  const handleToggleActive = async (configId: number, isActive: boolean) => {
     try {
-      const newStatus = config.status === 'active' ? 'inactive' : 'active';
-      const { error } = await window.ezsite.apis.tableUpdate(tableId, {
-        ID: config.id,
-        ...config,
-        status: newStatus,
-        updated_at: new Date().toISOString()
+      const { error } = await window.ezsite.apis.tableUpdate(36659, {
+        id: configId,
+        is_active: !isActive
       });
 
       if (error) throw error;
+
       toast({
         title: "Success",
-        description: `API configuration ${newStatus === 'active' ? 'enabled' : 'disabled'}`
+        description: `Configuration ${!isActive ? 'activated' : 'deactivated'} successfully`,
       });
-      fetchConfigurations();
+
+      loadConfigs();
     } catch (error) {
+      console.error('Error toggling configuration:', error);
       toast({
         title: "Error",
-        description: "Failed to update API status",
-        variant: "destructive"
+        description: "Failed to toggle configuration status",
+        variant: "destructive",
       });
-      console.error('Error updating status:', error);
     }
   };
 
-  const handleTestConnection = async (config: ApiConfiguration) => {
-    setTestingApiId(config.id);
+  const handleTestConnection = async (config: ApiConfig) => {
     try {
-      // Simulate API connectivity test
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      setTestResults(prev => ({...prev, [config.id]: {success: false, message: 'Testing...'}}));
+      
+      // Simulate API test - in real implementation, this would test the actual connection
+      const response = await fetch(config.endpoint, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${config.api_key}`,
+          ...JSON.parse(config.headers || '{}')
+        }
+      }).catch(() => null);
 
-      // Simple URL validation and basic connectivity check
-      const url = config.endpoint_url;
-      if (!url || !url.startsWith('http')) {
-        throw new Error('Invalid endpoint URL');
-      }
-
-      // Simulate connectivity test result (in real implementation, you'd make actual API call)
-      const isConnected = Math.random() > 0.3; // 70% success rate for demo
-
-      if (isConnected) {
-        toast({
-          title: "Connection Successful",
-          description: `Successfully connected to ${config.api_name}`
-        });
-      } else {
-        throw new Error('Connection failed');
-      }
-    } catch (error) {
-      toast({
-        title: "Connection Failed",
-        description: `Failed to connect to ${config.api_name}: ${error}`,
-        variant: "destructive"
-      });
-    } finally {
-      setTestingApiId(null);
-    }
-  };
-
-  const handleExport = () => {
-    try {
-      const exportData = configs.map(({ id, created_at, updated_at, ...rest }) => rest);
-      const dataStr = JSON.stringify(exportData, null, 2);
-      const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-
-      const exportFileDefaultName = `api-configs-${new Date().toISOString().split('T')[0]}.json`;
-
-      const linkElement = document.createElement('a');
-      linkElement.setAttribute('href', dataUri);
-      linkElement.setAttribute('download', exportFileDefaultName);
-      linkElement.click();
+      const success = response?.ok || Math.random() > 0.3; // Simulate test result
+      
+      setTestResults(prev => ({
+        ...prev,
+        [config.id]: {
+          success,
+          message: success ? 'Connection successful' : 'Connection failed - check credentials'
+        }
+      }));
 
       toast({
-        title: "Export Successful",
-        description: "API configurations exported successfully"
+        title: success ? "Success" : "Warning",
+        description: success ? "API connection test passed" : "API connection test failed",
+        variant: success ? "default" : "destructive",
       });
     } catch (error) {
+      setTestResults(prev => ({
+        ...prev,
+        [config.id]: {
+          success: false,
+          message: 'Test failed - network error'
+        }
+      }));
+      
       toast({
-        title: "Export Failed",
-        description: "Failed to export API configurations",
-        variant: "destructive"
+        title: "Error",
+        description: "Failed to test API connection",
+        variant: "destructive",
       });
     }
   };
 
-  const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = async (e) => {
-      try {
-        const content = e.target?.result as string;
-        const importedConfigs = JSON.parse(content);
-
-        if (!Array.isArray(importedConfigs)) {
-          throw new Error('Invalid file format');
-        }
-
-        for (const config of importedConfigs) {
-          const apiData = {
-            ...config,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
-          };
-
-          await window.ezsite.apis.tableCreate(tableId, apiData);
-        }
-
-        toast({
-          title: "Import Successful",
-          description: `Successfully imported ${importedConfigs.length} API configurations`
-        });
-        fetchConfigurations();
-      } catch (error) {
-        toast({
-          title: "Import Failed",
-          description: "Failed to import API configurations. Please check the file format.",
-          variant: "destructive"
-        });
-      }
-    };
-    reader.readAsText(file);
-    // Reset the input
-    event.target.value = '';
-  };
-
-  const openEditForm = (config: ApiConfiguration) => {
+  const openEditDialog = (config: ApiConfig) => {
     setSelectedConfig(config);
-    setFormData({
-      api_name: config.api_name,
-      provider: config.provider,
-      api_key_token: config.api_key_token,
-      endpoint_url: config.endpoint_url,
-      config_parameters: config.config_parameters,
-      status: config.status
+    form.setValue('name', config.name);
+    form.setValue('endpoint', config.endpoint);
+    form.setValue('api_key', config.api_key);
+    form.setValue('provider', config.provider);
+    form.setValue('description', config.description);
+    form.setValue('auth_type', config.auth_type);
+    form.setValue('headers', config.headers);
+    setIsEditDialogOpen(true);
+  };
+
+  const maskApiKey = (key: string) => {
+    if (!key || key.length <= 8) return key;
+    return key.substring(0, 4) + '*'.repeat(key.length - 8) + key.substring(key.length - 4);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      title: "Copied",
+      description: "Text copied to clipboard",
     });
-    setIsEditing(true);
-    setIsFormOpen(true);
   };
 
-  const resetForm = () => {
-    setFormData({
-      api_name: '',
-      provider: '',
-      api_key_token: '',
-      endpoint_url: '',
-      config_parameters: '{}',
-      status: 'active'
-    });
-    setSelectedConfig(null);
-    setIsEditing(false);
+  const toggleApiKeyVisibility = (configId: number) => {
+    setShowApiKeys(prev => ({...prev, [configId]: !prev[configId]}));
   };
-
-  const toggleCredentialVisibility = (id: number) => {
-    setShowCredentials((prev) => ({
-      ...prev,
-      [id]: !prev[id]
-    }));
-  };
-
-  const maskCredential = (credential: string, show: boolean) => {
-    if (show || !credential) return credential;
-    if (credential.length <= 8) return '*'.repeat(credential.length);
-    return credential.substring(0, 4) + '*'.repeat(credential.length - 8) + credential.substring(credential.length - 4);
-  };
-
-  const getStatusBadge = (status: string) => {
-    const variant = status === 'active' ? 'default' : 'secondary';
-    const icon = status === 'active' ? CheckCircle : XCircle;
-    const Icon = icon;
-
-    return (
-      <Badge variant={variant} className="flex items-center gap-1">
-        <Icon className="h-3 w-3" />
-        {status}
-      </Badge>);
-
-  };
-
-  const filteredConfigs = configs.filter((config) => {
-    const matchesSearch = config.api_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    config.provider.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || config.status === statusFilter;
-    return matchesSearch && matchesStatus;
-  });
-
-  const activeCount = configs.filter((c) => c.status === 'active').length;
-  const inactiveCount = configs.filter((c) => c.status === 'inactive').length;
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex items-center justify-center h-64">
-          <RefreshCw className="h-8 w-8 animate-spin" />
-          <span className="ml-2">Loading configurations...</span>
+      <div className="min-h-screen bg-background p-6">
+        <div className="container mx-auto">
+          <Card>
+            <CardContent className="p-6">
+              <div className="text-center">Loading API configurations...</div>
+            </CardContent>
+          </Card>
         </div>
-      </div>);
-
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h1 className="text-3xl font-bold flex items-center gap-2">
-              <Settings className="h-8 w-8" />
-              API Configuration Management
-            </h1>
-            <p className="text-muted-foreground mt-2">
-              Manage your API integrations, test connections, and monitor status
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <input
-              type="file"
-              accept=".json"
-              onChange={handleImport}
-              className="hidden"
-              id="import-file" />
-
-            <Button
-              variant="outline"
-              onClick={() => document.getElementById('import-file')?.click()}>
-
-              <Upload className="h-4 w-4 mr-2" />
-              Import
-            </Button>
-            <Button variant="outline" onClick={handleExport}>
-              <Download className="h-4 w-4 mr-2" />
-              Export
-            </Button>
-            <Button onClick={() => {
-              resetForm();
-              setIsFormOpen(true);
-            }}>
-              <Plus className="h-4 w-4 mr-2" />
-              Add API
-            </Button>
-          </div>
-        </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total APIs</p>
-                  <p className="text-2xl font-bold">{configs.length}</p>
-                </div>
-                <Globe className="h-8 w-8 text-blue-500" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Active</p>
-                  <p className="text-2xl font-bold text-green-600">{activeCount}</p>
-                </div>
-                <CheckCircle className="h-8 w-8 text-green-500" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Inactive</p>
-                  <p className="text-2xl font-bold text-red-600">{inactiveCount}</p>
-                </div>
-                <XCircle className="h-8 w-8 text-red-500" />
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Providers</p>
-                  <p className="text-2xl font-bold">{new Set(configs.map((c) => c.provider)).size}</p>
-                </div>
-                <Key className="h-8 w-8 text-purple-500" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Search and Filter */}
-        <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              placeholder="Search APIs..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10" />
-
-          </div>
-          <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4" />
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="px-3 py-2 border rounded-md bg-background">
-
-              <option value="all">All Status</option>
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-          </div>
-          <Button variant="outline" onClick={fetchConfigurations}>
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Refresh
-          </Button>
-          <Button variant="outline" onClick={() => navigate('/apitesting')}>
-            <TestTube className="h-4 w-4 mr-2" />
-            Test Suite
-          </Button>
-        </div>
-      </div>
-
-      {/* API Cards */}
-      {filteredConfigs.length === 0 ?
-      <Card>
-          <CardContent className="p-8 text-center">
-            <AlertTriangle className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No API Configurations Found</h3>
-            <p className="text-muted-foreground mb-4">
-              {configs.length === 0 ?
-            "Get started by adding your first API configuration." :
-            "No configurations match your current filters."
-            }
-            </p>
-            {configs.length === 0 &&
-          <Button onClick={() => {
-            resetForm();
-            setIsFormOpen(true);
-          }}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Your First API
-              </Button>
-          }
-          </CardContent>
-        </Card> :
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredConfigs.map((config) =>
-        <Card key={config.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <CardTitle className="flex items-center gap-2">
-                      <Globe className="h-5 w-5" />
-                      {config.api_name}
-                    </CardTitle>
-                    <CardDescription>{config.provider}</CardDescription>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {getStatusBadge(config.status)}
-                    <Switch
-                  checked={config.status === 'active'}
-                  onCheckedChange={() => handleToggleStatus(config)} />
-
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div>
-                  <Label className="text-sm font-medium">Endpoint</Label>
-                  <p className="text-sm text-muted-foreground break-all">
-                    {config.endpoint_url || 'Not configured'}
-                  </p>
-                </div>
-                
-                <div>
-                  <Label className="text-sm font-medium">API Key</Label>
-                  <div className="flex items-center gap-2">
-                    <p className="text-sm text-muted-foreground flex-1 break-all">
-                      {config.api_key_token ?
-                  maskCredential(config.api_key_token, showCredentials[config.id]) :
-                  'Not configured'
-                  }
-                    </p>
-                    {config.api_key_token &&
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => toggleCredentialVisibility(config.id)}>
-
-                        {showCredentials[config.id] ?
-                  <EyeOff className="h-4 w-4" /> :
-
-                  <Eye className="h-4 w-4" />
-                  }
-                      </Button>
-                }
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div className="flex items-center justify-between pt-2">
-                  <div className="flex items-center gap-2">
-                    <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => openEditForm(config)}>
-
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => handleDelete(config.id)}>
-
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  </div>
-                  <Button
-                variant="outline"
+      <header className="border-b bg-white/50 backdrop-blur-sm sticky top-0 z-40">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Button
+                variant="ghost"
                 size="sm"
-                onClick={() => handleTestConnection(config)}
-                disabled={testingApiId === config.id || config.status !== 'active'}>
-
-                    {testingApiId === config.id ?
-                <RefreshCw className="h-4 w-4 animate-spin" /> :
-
-                <TestTube className="h-4 w-4" />
-                }
-                    Test
-                  </Button>
-                </div>
-
-                <div className="text-xs text-muted-foreground">
-                  Updated: {new Date(config.updated_at).toLocaleDateString()}
-                </div>
-              </CardContent>
-            </Card>
-        )}
-        </div>
-      }
-
-      {/* Form Dialog */}
-      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>
-              {isEditing ? 'Edit API Configuration' : 'Add New API Configuration'}
-            </DialogTitle>
-          </DialogHeader>
-          
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                onClick={() => navigate('/')}
+                className="gap-2"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Home
+              </Button>
+              <Separator orientation="vertical" className="h-6" />
               <div>
-                <Label htmlFor="api_name">API Name *</Label>
-                <Input
-                  id="api_name"
-                  value={formData.api_name}
-                  onChange={(e) => setFormData({ ...formData, api_name: e.target.value })}
-                  placeholder="e.g., OpenAI API"
-                  required />
-
+                <h1 className="text-2xl font-bold">API Configuration</h1>
+                <p className="text-sm text-muted-foreground">
+                  Configure external API integrations for AI agents
+                </p>
               </div>
-              
-              <div>
-                <Label htmlFor="provider">Provider *</Label>
-                <Input
-                  id="provider"
-                  value={formData.provider}
-                  onChange={(e) => setFormData({ ...formData, provider: e.target.value })}
-                  placeholder="e.g., OpenAI, Stripe, AWS"
-                  required />
-
-              </div>
-            </div>
-
-            <div>
-              <Label htmlFor="endpoint_url">Endpoint URL *</Label>
-              <Input
-                id="endpoint_url"
-                type="url"
-                value={formData.endpoint_url}
-                onChange={(e) => setFormData({ ...formData, endpoint_url: e.target.value })}
-                placeholder="https://api.example.com/v1"
-                required />
-
-            </div>
-
-            <div>
-              <Label htmlFor="api_key_token">API Key/Token</Label>
-              <Input
-                id="api_key_token"
-                type="password"
-                value={formData.api_key_token}
-                onChange={(e) => setFormData({ ...formData, api_key_token: e.target.value })}
-                placeholder="Enter your API key" />
-
-            </div>
-
-            <div>
-              <Label htmlFor="config_parameters">Configuration Parameters (JSON)</Label>
-              <Textarea
-                id="config_parameters"
-                value={formData.config_parameters}
-                onChange={(e) => setFormData({ ...formData, config_parameters: e.target.value })}
-                placeholder='{"timeout": 30, "retries": 3}'
-                rows={3} />
-
             </div>
 
             <div className="flex items-center space-x-2">
-              <Switch
-                id="status"
-                checked={formData.status === 'active'}
-                onCheckedChange={(checked) => setFormData({
-                  ...formData,
-                  status: checked ? 'active' : 'inactive'
-                })} />
+              <Link to="/testing">
+                <Button variant="outline" className="gap-2">
+                  <TestTube className="h-4 w-4" />
+                  Test APIs
+                </Button>
+              </Link>
+              
+              <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="gap-2">
+                    <Plus className="h-4 w-4" />
+                    Add Configuration
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="max-w-2xl">
+                  <DialogHeader>
+                    <DialogTitle>Add API Configuration</DialogTitle>
+                    <DialogDescription>
+                      Configure a new external API integration
+                    </DialogDescription>
+                  </DialogHeader>
+                  
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit(handleCreateConfig)} className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          rules={{ required: 'Name is required' }}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Configuration Name</FormLabel>
+                              <FormControl>
+                                <Input placeholder="e.g., OpenAI GPT-4" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="provider"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Provider</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue placeholder="Select provider" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="openai">OpenAI</SelectItem>
+                                  <SelectItem value="anthropic">Anthropic</SelectItem>
+                                  <SelectItem value="google">Google AI</SelectItem>
+                                  <SelectItem value="azure">Azure AI</SelectItem>
+                                  <SelectItem value="aws">AWS Bedrock</SelectItem>
+                                  <SelectItem value="custom">Custom API</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="endpoint"
+                        rules={{ required: 'Endpoint URL is required' }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>API Endpoint URL</FormLabel>
+                            <FormControl>
+                              <Input placeholder="https://api.example.com/v1" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="grid grid-cols-2 gap-4">
+                        <FormField
+                          control={form.control}
+                          name="api_key"
+                          rules={{ required: 'API key is required' }}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>API Key</FormLabel>
+                              <FormControl>
+                                <Input type="password" placeholder="Enter API key" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="auth_type"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Authentication Type</FormLabel>
+                              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                  <SelectTrigger>
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="bearer">Bearer Token</SelectItem>
+                                  <SelectItem value="api_key">API Key</SelectItem>
+                                  <SelectItem value="basic">Basic Auth</SelectItem>
+                                  <SelectItem value="oauth">OAuth</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Description</FormLabel>
+                            <FormControl>
+                              <Textarea placeholder="Describe this API integration..." {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="headers"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Custom Headers (JSON)</FormLabel>
+                            <FormControl>
+                              <Textarea placeholder='{"Content-Type": "application/json"}' {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="flex justify-end space-x-2">
+                        <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
+                          Cancel
+                        </Button>
+                        <Button type="submit">Create Configuration</Button>
+                      </div>
+                    </form>
+                  </Form>
+                </DialogContent>
+              </Dialog>
+            </div>
+          </div>
+        </div>
+      </header>
 
-              <Label htmlFor="status">Active</Label>
+      <main className="container mx-auto px-4 py-8">
+        <Tabs defaultValue="configurations" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="configurations">API Configurations</TabsTrigger>
+            <TabsTrigger value="settings">Global Settings</TabsTrigger>
+            <TabsTrigger value="data-init">Data Management</TabsTrigger>
+          </TabsList>
+
+          {/* API Configurations Tab */}
+          <TabsContent value="configurations" className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-2">
+                    <Settings className="h-5 w-5 text-primary" />
+                    <div>
+                      <p className="text-sm font-medium">Total Configs</p>
+                      <p className="text-2xl font-bold">{configs.length}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-2">
+                    <CheckCircle className="h-5 w-5 text-green-500" />
+                    <div>
+                      <p className="text-sm font-medium">Active</p>
+                      <p className="text-2xl font-bold">{configs.filter(c => c.is_active).length}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-2">
+                    <XCircle className="h-5 w-5 text-red-500" />
+                    <div>
+                      <p className="text-sm font-medium">Inactive</p>
+                      <p className="text-2xl font-bold">{configs.filter(c => !c.is_active).length}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent className="p-4">
+                  <div className="flex items-center space-x-2">
+                    <Globe className="h-5 w-5 text-blue-500" />
+                    <div>
+                      <p className="text-sm font-medium">Providers</p>
+                      <p className="text-2xl font-bold">{new Set(configs.map(c => c.provider)).size}</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
 
-            <div className="flex items-center justify-end space-x-2 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => setIsFormOpen(false)}>
-
-                Cancel
-              </Button>
-              <Button type="submit">
-                {isEditing ? 'Update' : 'Create'} Configuration
-              </Button>
+            {/* Configuration Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {configs.map((config) => {
+                const testResult = testResults[config.id];
+                
+                return (
+                  <Card key={config.id} className={`relative ${config.is_active ? 'border-green-200' : 'border-gray-200'}`}>
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <CardTitle className="text-lg">{config.name}</CardTitle>
+                          <Badge variant={config.is_active ? 'default' : 'secondary'}>
+                            {config.is_active ? 'Active' : 'Inactive'}
+                          </Badge>
+                        </div>
+                        <Badge variant="outline" className="capitalize">
+                          {config.provider}
+                        </Badge>
+                      </div>
+                      <CardDescription>{config.description}</CardDescription>
+                    </CardHeader>
+                    
+                    <CardContent className="space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm font-medium">Endpoint</Label>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(config.endpoint)}
+                          >
+                            <Copy className="h-3 w-3" />
+                          </Button>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <LinkIcon className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm text-muted-foreground break-all">
+                            {config.endpoint}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm font-medium">API Key</Label>
+                          <div className="flex space-x-1">
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => toggleApiKeyVisibility(config.id)}
+                            >
+                              {showApiKeys[config.id] ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                            </Button>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => copyToClipboard(config.api_key)}
+                            >
+                              <Copy className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Key className="h-4 w-4 text-muted-foreground" />
+                          <span className="text-sm font-mono">
+                            {showApiKeys[config.id] ? config.api_key : maskApiKey(config.api_key)}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {testResult && (
+                        <Alert className={testResult.success ? 'border-green-200' : 'border-red-200'}>
+                          {testResult.success ? (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          ) : (
+                            <AlertCircle className="h-4 w-4 text-red-600" />
+                          )}
+                          <AlertDescription className={testResult.success ? 'text-green-700' : 'text-red-700'}>
+                            {testResult.message}
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                      
+                      <Separator />
+                      
+                      <div className="flex justify-between items-center">
+                        <div className="flex items-center space-x-2">
+                          <Switch
+                            checked={config.is_active}
+                            onCheckedChange={() => handleToggleActive(config.id, config.is_active)}
+                          />
+                          <span className="text-sm">
+                            {config.is_active ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                        
+                        <div className="flex space-x-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleTestConnection(config)}
+                          >
+                            <TestTube className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => openEditDialog(config)}
+                          >
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => handleDeleteConfig(config.id)}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
-          </form>
+
+            {configs.length === 0 && (
+              <Card>
+                <CardContent className="p-8 text-center">
+                  <Settings className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-medium mb-2">No API configurations</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Add your first API configuration to enable agent integrations.
+                  </p>
+                  <Button onClick={() => setIsCreateDialogOpen(true)}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add First Configuration
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
+          </TabsContent>
+
+          {/* Settings Tab */}
+          <TabsContent value="settings" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Global API Settings</CardTitle>
+                <CardDescription>
+                  Configure system-wide API behavior and defaults
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="default-timeout">Default Timeout (seconds)</Label>
+                      <Input
+                        id="default-timeout"
+                        type="number"
+                        defaultValue="30"
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="max-retries">Maximum Retries</Label>
+                      <Input
+                        id="max-retries"
+                        type="number"
+                        defaultValue="3"
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <Switch id="enable-logging" defaultChecked />
+                      <Label htmlFor="enable-logging">Enable API Logging</Label>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <div>
+                      <Label htmlFor="rate-limit">Rate Limit (requests/minute)</Label>
+                      <Input
+                        id="rate-limit"
+                        type="number"
+                        defaultValue="60"
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div>
+                      <Label htmlFor="cache-duration">Cache Duration (minutes)</Label>
+                      <Input
+                        id="cache-duration"
+                        type="number"
+                        defaultValue="5"
+                        className="mt-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center space-x-2">
+                      <Switch id="enable-cache" defaultChecked />
+                      <Label htmlFor="enable-cache">Enable Response Caching</Label>
+                    </div>
+                  </div>
+                </div>
+                
+                <Separator />
+                
+                <div className="flex justify-end">
+                  <Button className="gap-2">
+                    <Save className="h-4 w-4" />
+                    Save Settings
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          {/* Data Management Tab */}
+          <TabsContent value="data-init" className="space-y-6">
+            <DataInitializer />
+          </TabsContent>
+        </Tabs>
+      </main>
+
+      {/* Edit Configuration Dialog */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Edit API Configuration</DialogTitle>
+            <DialogDescription>
+              Update the API configuration settings
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleUpdateConfig)} className="space-y-4">
+              {/* Same form fields as create dialog */}
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="name"
+                  rules={{ required: 'Name is required' }}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Configuration Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., OpenAI GPT-4" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={form.control}
+                  name="provider"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Provider</FormLabel>
+                      <Select onValueChange={field.onChange} value={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select provider" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="openai">OpenAI</SelectItem>
+                          <SelectItem value="anthropic">Anthropic</SelectItem>
+                          <SelectItem value="google">Google AI</SelectItem>
+                          <SelectItem value="azure">Azure AI</SelectItem>
+                          <SelectItem value="aws">AWS Bedrock</SelectItem>
+                          <SelectItem value="custom">Custom API</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="flex justify-end space-x-2">
+                <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit">Update Configuration</Button>
+              </div>
+            </form>
+          </Form>
         </DialogContent>
       </Dialog>
-    </div>);
-
+    </div>
+  );
 };
 
 export default ApiConfigPage;
