@@ -6,42 +6,42 @@ const path = require('path');
 console.log('🚀 Starting Comprehensive Test Suite...\n');
 
 const testCommands = [
-  {
-    name: 'Lint Check',
-    command: 'npm run lint',
-    description: 'Running ESLint checks...'
-  },
-  {
-    name: 'Type Check',
-    command: 'npx tsc --noEmit',
-    description: 'Running TypeScript type checks...'
-  },
-  {
-    name: 'Unit Tests',
-    command: 'npm run test:run',
-    description: 'Running unit tests...'
-  },
-  {
-    name: 'Coverage Report',
-    command: 'npm run test:coverage',
-    description: 'Generating coverage report...'
-  }
-];
+{
+  name: 'Lint Check',
+  command: 'npm run lint',
+  description: 'Running ESLint checks...'
+},
+{
+  name: 'Type Check',
+  command: 'npx tsc --noEmit',
+  description: 'Running TypeScript type checks...'
+},
+{
+  name: 'Unit Tests',
+  command: 'npm run test:run',
+  description: 'Running unit tests...'
+},
+{
+  name: 'Coverage Report',
+  command: 'npm run test:coverage',
+  description: 'Generating coverage report...'
+}];
+
 
 let allTestsPassed = true;
 const results = [];
 
 for (const test of testCommands) {
   console.log(`📋 ${test.description}`);
-  
+
   try {
     const startTime = Date.now();
-    const output = execSync(test.command, { 
+    const output = execSync(test.command, {
       encoding: 'utf8',
       stdio: 'pipe'
     });
     const duration = Date.now() - startTime;
-    
+
     console.log(`✅ ${test.name} passed (${duration}ms)\n`);
     results.push({
       name: test.name,
@@ -53,7 +53,7 @@ for (const test of testCommands) {
     console.log(`❌ ${test.name} failed\n`);
     console.log(error.stdout?.slice(-1000) || error.message);
     console.log('\n');
-    
+
     allTestsPassed = false;
     results.push({
       name: test.name,

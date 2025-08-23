@@ -1,72 +1,72 @@
 
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'vitest';
 
 export interface TestResult {
-  testSuite: string
-  testName: string
-  status: 'passed' | 'failed' | 'skipped'
-  duration: number
-  error?: string
+  testSuite: string;
+  testName: string;
+  status: 'passed' | 'failed' | 'skipped';
+  duration: number;
+  error?: string;
 }
 
 export interface TestReport {
-  totalTests: number
-  passedTests: number
-  failedTests: number
-  skippedTests: number
+  totalTests: number;
+  passedTests: number;
+  failedTests: number;
+  skippedTests: number;
   coverage: {
-    statements: number
-    branches: number
-    functions: number
-    lines: number
-  }
-  duration: number
-  suites: TestSuiteResult[]
+    statements: number;
+    branches: number;
+    functions: number;
+    lines: number;
+  };
+  duration: number;
+  suites: TestSuiteResult[];
 }
 
 export interface TestSuiteResult {
-  name: string
-  tests: TestResult[]
-  duration: number
-  status: 'passed' | 'failed' | 'partial'
+  name: string;
+  tests: TestResult[];
+  duration: number;
+  status: 'passed' | 'failed' | 'partial';
 }
 
 export class TestResultsGenerator {
-  private results: TestResult[] = []
-  
+  private results: TestResult[] = [];
+
   addResult(result: TestResult): void {
-    this.results.push(result)
+    this.results.push(result);
   }
-  
+
   generateReport(): TestReport {
-    const totalTests = this.results.length
-    const passedTests = this.results.filter(r => r.status === 'passed').length
-    const failedTests = this.results.filter(r => r.status === 'failed').length
-    const skippedTests = this.results.filter(r => r.status === 'skipped').length
-    
-    const duration = this.results.reduce((sum, r) => sum + r.duration, 0)
-    
-    const suiteMap = new Map<string, TestResult[]>()
-    this.results.forEach(result => {
+    const totalTests = this.results.length;
+    const passedTests = this.results.filter((r) => r.status === 'passed').length;
+    const failedTests = this.results.filter((r) => r.status === 'failed').length;
+    const skippedTests = this.results.filter((r) => r.status === 'skipped').length;
+
+    const duration = this.results.reduce((sum, r) => sum + r.duration, 0);
+
+    const suiteMap = new Map<string, TestResult[]>();
+    this.results.forEach((result) => {
       if (!suiteMap.has(result.testSuite)) {
-        suiteMap.set(result.testSuite, [])
+        suiteMap.set(result.testSuite, []);
       }
-      suiteMap.get(result.testSuite)!.push(result)
-    })
-    
+      suiteMap.get(result.testSuite)!.push(result);
+    });
+
     const suites: TestSuiteResult[] = Array.from(suiteMap.entries()).map(([name, tests]) => {
-      const suiteDuration = tests.reduce((sum, t) => sum + t.duration, 0)
-      const hasFailures = tests.some(t => t.status === 'failed')
-      const allPassed = tests.every(t => t.status === 'passed')
-      
+      const suiteDuration = tests.reduce((sum, t) => sum + t.duration, 0);
+      const hasFailures = tests.some((t) => t.status === 'failed');
+      const allPassed = tests.every((t) => t.status === 'passed');
+
       return {
         name,
         tests,
         duration: suiteDuration,
         status: hasFailures ? 'failed' : allPassed ? 'passed' : 'partial'
-      }
-    })
-    
+      };
+    });
+
     return {
       totalTests,
       passedTests,
@@ -80,15 +80,15 @@ export class TestResultsGenerator {
       },
       duration,
       suites
-    }
+    };
   }
-  
+
   exportToJson(): string {
-    return JSON.stringify(this.generateReport(), null, 2)
+    return JSON.stringify(this.generateReport(), null, 2);
   }
-  
+
   exportToHtml(): string {
-    const report = this.generateReport()
+    const report = this.generateReport();
     return `
 <!DOCTYPE html>
 <html lang="en">
@@ -149,13 +149,13 @@ export class TestResultsGenerator {
         </div>
         
         <h2>📊 Test Suites</h2>
-        ${report.suites.map(suite => `
+        ${report.suites.map((suite) => `
             <div class="suite">
                 <div class="suite-header ${suite.status}">
                     ${suite.name} (${suite.tests.length} tests, ${suite.duration}ms)
                 </div>
                 <ul class="test-list">
-                    ${suite.tests.map(test => `
+                    ${suite.tests.map((test) => `
                         <li class="test-item">
                             <span>${test.testName}</span>
                             <span class="test-status ${test.status}">${test.status}</span>
@@ -172,8 +172,8 @@ export class TestResultsGenerator {
     </div>
 </body>
 </html>
-    `
+    `;
   }
 }
 
-export const testReporter = new TestResultsGenerator()
+export const testReporter = new TestResultsGenerator();

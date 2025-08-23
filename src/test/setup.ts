@@ -1,20 +1,20 @@
 
-import '@testing-library/jest-dom'
-import { beforeAll, afterAll, afterEach } from 'vitest'
-import { cleanup } from '@testing-library/react'
-import { server } from './mocks/server'
+import '@testing-library/jest-dom';
+import { beforeAll, afterAll, afterEach } from 'vitest';
+import { cleanup } from '@testing-library/react';
+import { server } from './mocks/server';
 
 // Start server before all tests
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 
 // Close server after all tests
-afterAll(() => server.close())
+afterAll(() => server.close());
 
 // Reset handlers after each test `important for test isolation`
 afterEach(() => {
-  server.resetHandlers()
-  cleanup()
-})
+  server.resetHandlers();
+  cleanup();
+});
 
 // Mock window.ezsite APIs
 Object.defineProperty(window, 'ezsite', {
@@ -32,11 +32,11 @@ Object.defineProperty(window, 'ezsite', {
       tableDelete: vi.fn(),
       upload: vi.fn(),
       getUploadUrl: vi.fn(),
-      run: vi.fn(),
+      run: vi.fn()
     }
   },
   writable: true
-})
+});
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {
@@ -44,7 +44,7 @@ global.IntersectionObserver = class IntersectionObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
 
 // Mock ResizeObserver
 global.ResizeObserver = class ResizeObserver {
@@ -52,4 +52,4 @@ global.ResizeObserver = class ResizeObserver {
   disconnect() {}
   observe() {}
   unobserve() {}
-}
+};
