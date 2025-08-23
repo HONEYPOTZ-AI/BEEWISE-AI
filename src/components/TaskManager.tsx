@@ -27,8 +27,8 @@ import {
   CheckCircle2,
   Calendar,
   Filter,
-  Search
-} from 'lucide-react';
+  Search } from
+'lucide-react';
 
 interface Task {
   id: number;
@@ -68,7 +68,7 @@ const TaskManager: React.FC = () => {
   const [filterPriority, setFilterPriority] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const { toast } = useToast();
-  
+
   const form = useForm<TaskFormData>({
     defaultValues: {
       title: '',
@@ -89,16 +89,16 @@ const TaskManager: React.FC = () => {
     try {
       setLoading(true);
       await Promise.all([
-        loadTasks(),
-        loadAgents(),
-        loadBusinesses()
-      ]);
+      loadTasks(),
+      loadAgents(),
+      loadBusinesses()]
+      );
     } catch (error) {
       console.error('Error loading data:', error);
       toast({
         title: "Error",
         description: "Failed to load data",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -113,9 +113,9 @@ const TaskManager: React.FC = () => {
       IsAsc: false,
       Filters: []
     });
-    
+
     if (error) throw error;
-    
+
     const formattedTasks = data.List.map((task: any) => ({
       id: task.id,
       title: task.title,
@@ -129,7 +129,7 @@ const TaskManager: React.FC = () => {
       due_date: task.due_date || '',
       task_type: task.task_type || 'general'
     }));
-    
+
     setTasks(formattedTasks);
   };
 
@@ -141,7 +141,7 @@ const TaskManager: React.FC = () => {
       IsAsc: false,
       Filters: []
     });
-    
+
     if (!error) {
       setAgents(data.List);
     }
@@ -151,11 +151,11 @@ const TaskManager: React.FC = () => {
     const { data, error } = await window.ezsite.apis.tablePage(37247, {
       PageNo: 1,
       PageSize: 100,
-      OrderByField: "id", 
+      OrderByField: "id",
       IsAsc: false,
       Filters: []
     });
-    
+
     if (!error) {
       setBusinesses(data.List);
     }
@@ -187,7 +187,7 @@ const TaskManager: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Task created successfully",
+        description: "Task created successfully"
       });
 
       setIsCreateDialogOpen(false);
@@ -198,7 +198,7 @@ const TaskManager: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to create task",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -222,7 +222,7 @@ const TaskManager: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Task updated successfully",
+        description: "Task updated successfully"
       });
 
       setIsEditDialogOpen(false);
@@ -234,7 +234,7 @@ const TaskManager: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update task",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -247,7 +247,7 @@ const TaskManager: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Task deleted successfully",
+        description: "Task deleted successfully"
       });
 
       loadTasks();
@@ -256,7 +256,7 @@ const TaskManager: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to delete task",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -264,7 +264,7 @@ const TaskManager: React.FC = () => {
   const handleStatusChange = async (taskId: number, newStatus: string) => {
     try {
       const progress = newStatus === 'completed' ? 100 : newStatus === 'in_progress' ? 50 : 0;
-      
+
       const { error } = await window.ezsite.apis.tableUpdate(37243, {
         id: taskId,
         status: newStatus,
@@ -275,7 +275,7 @@ const TaskManager: React.FC = () => {
 
       toast({
         title: "Success",
-        description: `Task ${newStatus.replace('_', ' ')} successfully`,
+        description: `Task ${newStatus.replace('_', ' ')} successfully`
       });
 
       loadTasks();
@@ -284,7 +284,7 @@ const TaskManager: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update task status",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -303,40 +303,40 @@ const TaskManager: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'text-green-600 bg-green-100';
-      case 'in_progress': return 'text-blue-600 bg-blue-100';
-      case 'pending': return 'text-yellow-600 bg-yellow-100';
-      case 'failed': return 'text-red-600 bg-red-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'completed':return 'text-green-600 bg-green-100';
+      case 'in_progress':return 'text-blue-600 bg-blue-100';
+      case 'pending':return 'text-yellow-600 bg-yellow-100';
+      case 'failed':return 'text-red-600 bg-red-100';
+      default:return 'text-gray-600 bg-gray-100';
     }
   };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'text-red-600 bg-red-100';
-      case 'high': return 'text-orange-600 bg-orange-100';
-      case 'medium': return 'text-yellow-600 bg-yellow-100';
-      case 'low': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'urgent':return 'text-red-600 bg-red-100';
+      case 'high':return 'text-orange-600 bg-orange-100';
+      case 'medium':return 'text-yellow-600 bg-yellow-100';
+      case 'low':return 'text-green-600 bg-green-100';
+      default:return 'text-gray-600 bg-gray-100';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'completed': return <CheckCircle2 className="h-4 w-4" />;
-      case 'in_progress': return <PlayCircle className="h-4 w-4" />;
-      case 'pending': return <Clock className="h-4 w-4" />;
-      case 'failed': return <AlertCircle className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case 'completed':return <CheckCircle2 className="h-4 w-4" />;
+      case 'in_progress':return <PlayCircle className="h-4 w-4" />;
+      case 'pending':return <Clock className="h-4 w-4" />;
+      case 'failed':return <AlertCircle className="h-4 w-4" />;
+      default:return <Clock className="h-4 w-4" />;
     }
   };
 
-  const filteredTasks = tasks.filter(task => {
+  const filteredTasks = tasks.filter((task) => {
     const matchesStatus = filterStatus === 'all' || task.status === filterStatus;
     const matchesPriority = filterPriority === 'all' || task.priority === filterPriority;
     const matchesSearch = task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         task.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
+    task.description.toLowerCase().includes(searchQuery.toLowerCase());
+
     return matchesStatus && matchesPriority && matchesSearch;
   });
 
@@ -346,8 +346,8 @@ const TaskManager: React.FC = () => {
         <CardContent className="p-6">
           <div className="text-center">Loading tasks...</div>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -380,38 +380,38 @@ const TaskManager: React.FC = () => {
                   control={form.control}
                   name="title"
                   rules={{ required: 'Title is required' }}
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Task Title</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter task title" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="description"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea placeholder="Describe the task requirements" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <div className="grid grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
                     name="task_type"
                     rules={{ required: 'Task type is required' }}
-                    render={({ field }) => (
-                      <FormItem>
+                    render={({ field }) =>
+                    <FormItem>
                         <FormLabel>Task Type</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -432,14 +432,14 @@ const TaskManager: React.FC = () => {
                         </Select>
                         <FormMessage />
                       </FormItem>
-                    )}
-                  />
+                    } />
+
                   
                   <FormField
                     control={form.control}
                     name="priority"
-                    render={({ field }) => (
-                      <FormItem>
+                    render={({ field }) =>
+                    <FormItem>
                         <FormLabel>Priority</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -456,8 +456,8 @@ const TaskManager: React.FC = () => {
                         </Select>
                         <FormMessage />
                       </FormItem>
-                    )}
-                  />
+                    } />
+
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">
@@ -465,8 +465,8 @@ const TaskManager: React.FC = () => {
                     control={form.control}
                     name="assigned_agent_id"
                     rules={{ required: 'Agent is required' }}
-                    render={({ field }) => (
-                      <FormItem>
+                    render={({ field }) =>
+                    <FormItem>
                         <FormLabel>Assigned Agent</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -475,24 +475,24 @@ const TaskManager: React.FC = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {agents.map((agent) => (
-                              <SelectItem key={agent.id} value={agent.id.toString()}>
+                            {agents.map((agent) =>
+                          <SelectItem key={agent.id} value={agent.id.toString()}>
                                 {agent.name} ({agent.agent_type})
                               </SelectItem>
-                            ))}
+                          )}
                           </SelectContent>
                         </Select>
                         <FormMessage />
                       </FormItem>
-                    )}
-                  />
+                    } />
+
                   
                   <FormField
                     control={form.control}
                     name="business_id"
                     rules={{ required: 'Business is required' }}
-                    render={({ field }) => (
-                      <FormItem>
+                    render={({ field }) =>
+                    <FormItem>
                         <FormLabel>Business</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
@@ -501,32 +501,32 @@ const TaskManager: React.FC = () => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {businesses.map((business) => (
-                              <SelectItem key={business.id} value={business.id.toString()}>
+                            {businesses.map((business) =>
+                          <SelectItem key={business.id} value={business.id.toString()}>
                                 {business.name}
                               </SelectItem>
-                            ))}
+                          )}
                           </SelectContent>
                         </Select>
                         <FormMessage />
                       </FormItem>
-                    )}
-                  />
+                    } />
+
                 </div>
                 
                 <FormField
                   control={form.control}
                   name="due_date"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Due Date</FormLabel>
                       <FormControl>
                         <Input type="date" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
@@ -553,8 +553,8 @@ const TaskManager: React.FC = () => {
                 placeholder="Search tasks..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-8"
-              />
+                className="pl-8" />
+
             </div>
             
             <Select value={filterStatus} onValueChange={setFilterStatus}>
@@ -612,7 +612,7 @@ const TaskManager: React.FC = () => {
               <PlayCircle className="h-5 w-5 text-blue-500" />
               <div>
                 <p className="text-sm font-medium">In Progress</p>
-                <p className="text-2xl font-bold">{tasks.filter(t => t.status === 'in_progress').length}</p>
+                <p className="text-2xl font-bold">{tasks.filter((t) => t.status === 'in_progress').length}</p>
               </div>
             </div>
           </CardContent>
@@ -624,7 +624,7 @@ const TaskManager: React.FC = () => {
               <CheckCircle2 className="h-5 w-5 text-green-500" />
               <div>
                 <p className="text-sm font-medium">Completed</p>
-                <p className="text-2xl font-bold">{tasks.filter(t => t.status === 'completed').length}</p>
+                <p className="text-2xl font-bold">{tasks.filter((t) => t.status === 'completed').length}</p>
               </div>
             </div>
           </CardContent>
@@ -636,7 +636,7 @@ const TaskManager: React.FC = () => {
               <Clock className="h-5 w-5 text-yellow-500" />
               <div>
                 <p className="text-sm font-medium">Pending</p>
-                <p className="text-2xl font-bold">{tasks.filter(t => t.status === 'pending').length}</p>
+                <p className="text-2xl font-bold">{tasks.filter((t) => t.status === 'pending').length}</p>
               </div>
             </div>
           </CardContent>
@@ -646,9 +646,9 @@ const TaskManager: React.FC = () => {
       {/* Task List */}
       <div className="space-y-4">
         {filteredTasks.map((task) => {
-          const agent = agents.find(a => a.id === task.assigned_agent_id);
-          const business = businesses.find(b => b.id === task.business_id);
-          
+          const agent = agents.find((a) => a.id === task.assigned_agent_id);
+          const business = businesses.find((b) => b.id === task.business_id);
+
           return (
             <Card key={task.id}>
               <CardContent className="p-6">
@@ -672,72 +672,72 @@ const TaskManager: React.FC = () => {
                         <User className="h-3 w-3" />
                         <span>{agent?.name || 'Unassigned'}</span>
                       </div>
-                      {business && (
-                        <div className="flex items-center space-x-1">
+                      {business &&
+                      <div className="flex items-center space-x-1">
                           <Calendar className="h-3 w-3" />
                           <span>{business.name}</span>
                         </div>
-                      )}
-                      {task.due_date && (
-                        <div className="flex items-center space-x-1">
+                      }
+                      {task.due_date &&
+                      <div className="flex items-center space-x-1">
                           <Clock className="h-3 w-3" />
                           <span>Due: {new Date(task.due_date).toLocaleDateString()}</span>
                         </div>
-                      )}
+                      }
                     </div>
                     
-                    {task.progress > 0 && (
-                      <div className="space-y-1">
+                    {task.progress > 0 &&
+                    <div className="space-y-1">
                         <div className="flex justify-between text-sm">
                           <span>Progress</span>
                           <span>{task.progress}%</span>
                         </div>
                         <Progress value={task.progress} className="w-full" />
                       </div>
-                    )}
+                    }
                   </div>
                   
                   <div className="flex items-center space-x-2">
-                    {task.status === 'pending' && (
-                      <Button
-                        size="sm"
-                        onClick={() => handleStatusChange(task.id, 'in_progress')}
-                      >
+                    {task.status === 'pending' &&
+                    <Button
+                      size="sm"
+                      onClick={() => handleStatusChange(task.id, 'in_progress')}>
+
                         <PlayCircle className="h-3 w-3" />
                         Start
                       </Button>
-                    )}
+                    }
                     
-                    {task.status === 'in_progress' && (
-                      <Button
-                        size="sm"
-                        onClick={() => handleStatusChange(task.id, 'completed')}
-                      >
+                    {task.status === 'in_progress' &&
+                    <Button
+                      size="sm"
+                      onClick={() => handleStatusChange(task.id, 'completed')}>
+
                         <CheckCircle2 className="h-3 w-3" />
                         Complete
                       </Button>
-                    )}
+                    }
                     
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => openEditDialog(task)}
-                    >
+                      onClick={() => openEditDialog(task)}>
+
                       <Edit className="h-3 w-3" />
                     </Button>
                     
                     <Button
                       size="sm"
                       variant="destructive"
-                      onClick={() => handleDeleteTask(task.id)}
-                    >
+                      onClick={() => handleDeleteTask(task.id)}>
+
                       <Trash2 className="h-3 w-3" />
                     </Button>
                   </div>
                 </div>
               </CardContent>
-            </Card>
-          );
+            </Card>);
+
         })}
       </div>
 
@@ -756,16 +756,16 @@ const TaskManager: React.FC = () => {
                 control={form.control}
                 name="title"
                 rules={{ required: 'Title is required' }}
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Task Title</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter task title" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
@@ -778,27 +778,27 @@ const TaskManager: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {filteredTasks.length === 0 && (
-        <Card>
+      {filteredTasks.length === 0 &&
+      <Card>
           <CardContent className="p-8 text-center">
             <CheckSquare className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-medium mb-2">No tasks found</h3>
             <p className="text-muted-foreground mb-4">
-              {searchQuery || filterStatus !== 'all' || filterPriority !== 'all' 
-                ? 'Try adjusting your filters' 
-                : 'Create your first task to get started.'}
+              {searchQuery || filterStatus !== 'all' || filterPriority !== 'all' ?
+            'Try adjusting your filters' :
+            'Create your first task to get started.'}
             </p>
-            {!searchQuery && filterStatus === 'all' && filterPriority === 'all' && (
-              <Button onClick={() => setIsCreateDialogOpen(true)}>
+            {!searchQuery && filterStatus === 'all' && filterPriority === 'all' &&
+          <Button onClick={() => setIsCreateDialogOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
                 Create First Task
               </Button>
-            )}
+          }
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
 export default TaskManager;

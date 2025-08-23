@@ -32,7 +32,7 @@ export const useTasks = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
     } finally {
       setLoading(false);
@@ -42,14 +42,14 @@ export const useTasks = (params?: QueryParams) => {
   const createTask = useCallback(async (taskData: Omit<Task, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       const response = await apiService.createTask(taskData);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Task created successfully',
+        description: 'Task created successfully'
       });
 
       fetchTasks();
@@ -59,7 +59,7 @@ export const useTasks = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
@@ -68,14 +68,14 @@ export const useTasks = (params?: QueryParams) => {
   const updateTask = useCallback(async (taskData: Task) => {
     try {
       const response = await apiService.updateTask(taskData);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Task updated successfully',
+        description: 'Task updated successfully'
       });
 
       fetchTasks();
@@ -85,7 +85,7 @@ export const useTasks = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
@@ -94,14 +94,14 @@ export const useTasks = (params?: QueryParams) => {
   const deleteTask = useCallback(async (id: number) => {
     try {
       const response = await apiService.deleteTask(id);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Task deleted successfully',
+        description: 'Task deleted successfully'
       });
 
       fetchTasks();
@@ -111,22 +111,22 @@ export const useTasks = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
   }, [fetchTasks, toast]);
 
   const getTasksByStatus = useCallback((status: string) => {
-    return tasks.filter(task => task.status === status);
+    return tasks.filter((task) => task.status === status);
   }, [tasks]);
 
   const getTasksByPriority = useCallback((priority: string) => {
-    return tasks.filter(task => task.priority === priority);
+    return tasks.filter((task) => task.priority === priority);
   }, [tasks]);
 
   const getTasksByBusiness = useCallback((businessId: number) => {
-    return tasks.filter(task => task.business_id === businessId);
+    return tasks.filter((task) => task.business_id === businessId);
   }, [tasks]);
 
   useEffect(() => {
@@ -144,6 +144,6 @@ export const useTasks = (params?: QueryParams) => {
     getTasksByStatus,
     getTasksByPriority,
     getTasksByBusiness,
-    refresh: fetchTasks,
+    refresh: fetchTasks
   };
 };

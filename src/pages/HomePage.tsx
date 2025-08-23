@@ -6,59 +6,59 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import ThemeToggle from  '@/components/ThemeToggle';
+import ThemeToggle from '@/components/ThemeToggle';
 import AgentDashboard from '@/components/AgentDashboard';
 import BusinessDashboard from '@/components/BusinessDashboard';
 import TaskManager from '@/components/TaskManager';
 import NavigationMenuComponent from '@/components/NavigationMenu';
-import { 
-  Bot, 
-  Building2, 
-  Zap, 
-  Shield, 
-  Sparkles, 
-  ArrowRight, 
+import {
+  Bot,
+  Building2,
+  Zap,
+  Shield,
+  Sparkles,
+  ArrowRight,
   Play,
   Settings,
   FileText,
   TestTube,
-  CheckSquare
-} from 'lucide-react';
+  CheckSquare } from
+'lucide-react';
 
 const HomePage: React.FC = () => {
   const features = [
-    {
-      icon: <Bot className="h-8 w-8" />,
-      title: 'Multi-Agent Orchestration',
-      description: 'Deploy specialized AI agents for every business function - from startup ideation to growth optimization.'
-    },
-    {
-      icon: <Building2 className="h-8 w-8" />,
-      title: 'Autonomous Business Lifecycle',
-      description: 'Guide businesses through ideation, formation, launch, growth, and optimization stages automatically.'
-    },
-    {
-      icon: <Zap className="h-8 w-8" />,
-      title: 'Agent-as-a-Service (AaaS)',
-      description: 'Flexible pricing models including pay-per-task, subscriptions, and revenue sharing.'
-    },
-    {
-      icon: <Shield className="h-8 w-8" />,
-      title: 'Enterprise Security',
-      description: 'TEE-enabled infrastructure with robust security, compliance, and data protection.'
-    }
-  ];
+  {
+    icon: <Bot className="h-8 w-8" />,
+    title: 'Multi-Agent Orchestration',
+    description: 'Deploy specialized AI agents for every business function - from startup ideation to growth optimization.'
+  },
+  {
+    icon: <Building2 className="h-8 w-8" />,
+    title: 'Autonomous Business Lifecycle',
+    description: 'Guide businesses through ideation, formation, launch, growth, and optimization stages automatically.'
+  },
+  {
+    icon: <Zap className="h-8 w-8" />,
+    title: 'Agent-as-a-Service (AaaS)',
+    description: 'Flexible pricing models including pay-per-task, subscriptions, and revenue sharing.'
+  },
+  {
+    icon: <Shield className="h-8 w-8" />,
+    title: 'Enterprise Security',
+    description: 'TEE-enabled infrastructure with robust security, compliance, and data protection.'
+  }];
+
 
   const agentTypes = [
-    { name: 'Startup Agent', role: 'Business model generation, niche analysis', tools: 'GPT-4, Market Research APIs' },
-    { name: 'Branding Agent', role: 'Logo, name, tagline, domain suggestions', tools: 'DALL•E, Namecheap API' },
-    { name: 'Legal Agent', role: 'Incorporation, contracts, compliance', tools: 'LegalZoom, Contract AI' },
-    { name: 'Finance Agent', role: 'Pricing, budgeting, revenue modeling', tools: 'QuickBooks, Financial APIs' },
-    { name: 'Marketing Agent', role: 'Ads, SEO, social media, email campaigns', tools: 'Meta Ads, Google Ads' },
-    { name: 'Sales Agent', role: 'CRM, lead gen, outreach', tools: 'Salesforce, LinkedIn' },
-    { name: 'Support Agent', role: 'Customer service, ticketing, chatbot', tools: 'Zendesk, Intercom' },
-    { name: 'Analytics Agent', role: 'KPI tracking, dashboards, insights', tools: 'GA4, Mixpanel' }
-  ];
+  { name: 'Startup Agent', role: 'Business model generation, niche analysis', tools: 'GPT-4, Market Research APIs' },
+  { name: 'Branding Agent', role: 'Logo, name, tagline, domain suggestions', tools: 'DALL•E, Namecheap API' },
+  { name: 'Legal Agent', role: 'Incorporation, contracts, compliance', tools: 'LegalZoom, Contract AI' },
+  { name: 'Finance Agent', role: 'Pricing, budgeting, revenue modeling', tools: 'QuickBooks, Financial APIs' },
+  { name: 'Marketing Agent', role: 'Ads, SEO, social media, email campaigns', tools: 'Meta Ads, Google Ads' },
+  { name: 'Sales Agent', role: 'CRM, lead gen, outreach', tools: 'Salesforce, LinkedIn' },
+  { name: 'Support Agent', role: 'Customer service, ticketing, chatbot', tools: 'Zendesk, Intercom' },
+  { name: 'Analytics Agent', role: 'KPI tracking, dashboards, insights', tools: 'GA4, Mixpanel' }];
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -157,8 +157,8 @@ const HomePage: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
-              <Card key={index} className="text-center hover:shadow-md transition-shadow">
+            {features.map((feature, index) =>
+            <Card key={index} className="text-center hover:shadow-md transition-shadow">
                 <CardHeader>
                   <div className="mx-auto w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary">
                     {feature.icon}
@@ -169,7 +169,7 @@ const HomePage: React.FC = () => {
                   <p className="text-sm text-muted-foreground">{feature.description}</p>
                 </CardContent>
               </Card>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -185,8 +185,8 @@ const HomePage: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {agentTypes.slice(0, 8).map((agent, index) => (
-              <Card key={index} className="hover:shadow-md transition-shadow">
+            {agentTypes.slice(0, 8).map((agent, index) =>
+            <Card key={index} className="hover:shadow-md transition-shadow">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="text-sm">{agent.name}</CardTitle>
@@ -201,7 +201,7 @@ const HomePage: React.FC = () => {
                   </p>
                 </CardContent>
               </Card>
-            ))}
+            )}
           </div>
           
           <div className="text-center mt-8">
@@ -295,8 +295,8 @@ const HomePage: React.FC = () => {
           <p>&copy; 2024 BeeWise-AI. Next-generation multi-agent business automation platform.</p>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default HomePage;

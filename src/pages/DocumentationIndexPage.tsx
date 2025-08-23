@@ -3,90 +3,90 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  BookOpen, 
-  Code, 
-  Zap, 
-  Building2, 
-  Cpu, 
-  Database, 
-  GitBranch, 
-  Layers, 
-  Shield, 
-  Users, 
+import {
+  BookOpen,
+  Code,
+  Zap,
+  Building2,
+  Cpu,
+  Database,
+  GitBranch,
+  Layers,
+  Shield,
+  Users,
   Wrench,
   ArrowRight,
   Search,
-  Download
-} from 'lucide-react';
+  Download } from
+'lucide-react';
 
 const DocumentationIndexPage: React.FC = () => {
   const documentationSections = [
-    {
-      id: 'getting-started',
-      title: 'Getting Started',
-      description: 'Begin your journey with BeeWise-AI platform',
-      icon: <BookOpen className="h-6 w-6" />,
-      color: 'bg-blue-100 text-blue-800',
-      articles: 5
-    },
-    {
-      id: 'agent-types',
-      title: 'Agent Types & Capabilities',
-      description: 'Explore specialized AI agents and their functions',
-      icon: <Zap className="h-6 w-6" />,
-      color: 'bg-purple-100 text-purple-800',
-      articles: 8
-    },
-    {
-      id: 'business-lifecycle',
-      title: 'Business Lifecycle Management',
-      description: 'Guide businesses through all stages of growth',
-      icon: <Building2 className="h-6 w-6" />,
-      color: 'bg-green-100 text-green-800',
-      articles: 6
-    },
-    {
-      id: 'api-reference',
-      title: 'API Reference',
-      description: 'Complete API documentation and integration guides',
-      icon: <Code className="h-6 w-6" />,
-      color: 'bg-gray-100 text-gray-800',
-      articles: 12
-    },
-    {
-      id: 'system-architecture',
-      title: 'System Architecture',
-      description: 'Understand the platform architecture and components',
-      icon: <Cpu className="h-6 w-6" />,
-      color: 'bg-cyan-100 text-cyan-800',
-      articles: 7
-    },
-    {
-      id: 'user-guides',
-      title: 'User Guides',
-      description: 'Step-by-step instructions for platform features',
-      icon: <Users className="h-6 w-6" />,
-      color: 'bg-orange-100 text-orange-800',
-      articles: 9
-    },
-    {
-      id: 'technical-docs',
-      title: 'Technical Documentation',
-      description: 'In-depth technical details for developers',
-      icon: <Wrench className="h-6 w-6" />,
-      color: 'bg-red-100 text-red-800',
-      articles: 11
-    },
-    {
-      id: 'security-compliance',
-      title: 'Security & Compliance',
-      description: 'Security measures and compliance information',
-      icon: <Shield className="h-6 w-6" />,
-      color: 'bg-indigo-100 text-indigo-800',
-      articles: 4
-    }
-  ];
+  {
+    id: 'getting-started',
+    title: 'Getting Started',
+    description: 'Begin your journey with BeeWise-AI platform',
+    icon: <BookOpen className="h-6 w-6" />,
+    color: 'bg-blue-100 text-blue-800',
+    articles: 5
+  },
+  {
+    id: 'agent-types',
+    title: 'Agent Types & Capabilities',
+    description: 'Explore specialized AI agents and their functions',
+    icon: <Zap className="h-6 w-6" />,
+    color: 'bg-purple-100 text-purple-800',
+    articles: 8
+  },
+  {
+    id: 'business-lifecycle',
+    title: 'Business Lifecycle Management',
+    description: 'Guide businesses through all stages of growth',
+    icon: <Building2 className="h-6 w-6" />,
+    color: 'bg-green-100 text-green-800',
+    articles: 6
+  },
+  {
+    id: 'api-reference',
+    title: 'API Reference',
+    description: 'Complete API documentation and integration guides',
+    icon: <Code className="h-6 w-6" />,
+    color: 'bg-gray-100 text-gray-800',
+    articles: 12
+  },
+  {
+    id: 'system-architecture',
+    title: 'System Architecture',
+    description: 'Understand the platform architecture and components',
+    icon: <Cpu className="h-6 w-6" />,
+    color: 'bg-cyan-100 text-cyan-800',
+    articles: 7
+  },
+  {
+    id: 'user-guides',
+    title: 'User Guides',
+    description: 'Step-by-step instructions for platform features',
+    icon: <Users className="h-6 w-6" />,
+    color: 'bg-orange-100 text-orange-800',
+    articles: 9
+  },
+  {
+    id: 'technical-docs',
+    title: 'Technical Documentation',
+    description: 'In-depth technical details for developers',
+    icon: <Wrench className="h-6 w-6" />,
+    color: 'bg-red-100 text-red-800',
+    articles: 11
+  },
+  {
+    id: 'security-compliance',
+    title: 'Security & Compliance',
+    description: 'Security measures and compliance information',
+    icon: <Shield className="h-6 w-6" />,
+    color: 'bg-indigo-100 text-indigo-800',
+    articles: 4
+  }];
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -149,8 +149,8 @@ const DocumentationIndexPage: React.FC = () => {
         <section className="mb-12">
           <h3 className="text-2xl font-semibold mb-6">Documentation Categories</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {documentationSections.map((section) => (
-              <Card key={section.id} className="hover:shadow-md transition-shadow">
+            {documentationSections.map((section) =>
+            <Card key={section.id} className="hover:shadow-md transition-shadow">
                 <CardHeader>
                   <div className={`w-12 h-12 rounded-lg ${section.color} flex items-center justify-center mb-4`}>
                     {section.icon}
@@ -170,7 +170,7 @@ const DocumentationIndexPage: React.FC = () => {
                   </Button>
                 </CardContent>
               </Card>
-            ))}
+            )}
           </div>
         </section>
 
@@ -265,8 +265,8 @@ const DocumentationIndexPage: React.FC = () => {
           </div>
         </section>
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default DocumentationIndexPage;

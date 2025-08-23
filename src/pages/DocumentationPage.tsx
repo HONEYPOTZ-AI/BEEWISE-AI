@@ -42,8 +42,8 @@ import {
   Play,
   Server,
   Network,
-  Workflow
-} from 'lucide-react';
+  Workflow } from
+'lucide-react';
 
 interface DocumentationSection {
   id: string;
@@ -70,7 +70,7 @@ const DocumentationPage: React.FC = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [documentation, setDocumentation] = useState<DocumentationSection[]>([]);
   const [loading, setLoading] = useState(false);
-  
+
   const form = useForm<DocumentFormData>({
     defaultValues: {
       title: '',
@@ -87,10 +87,10 @@ const DocumentationPage: React.FC = () => {
 
   const loadDocumentation = () => {
     const sampleDocs: DocumentationSection[] = [
-      {
-        id: '1',
-        title: 'Getting Started with BeeWise-AI',
-        content: `# Getting Started with BeeWise-AI
+    {
+      id: '1',
+      title: 'Getting Started with BeeWise-AI',
+      content: `# Getting Started with BeeWise-AI
 
 Welcome to BeeWise-AI, the next-generation multi-agent business automation platform. This guide will help you get up and running quickly.
 
@@ -138,14 +138,14 @@ Guide businesses through:
 - Real-time performance optimization
 
 Ready to get started? Head to the [API Configuration](/api-config) page to set up your first integration.`,
-        category: 'getting-started',
-        tags: ['getting-started', 'overview', 'quickstart'],
-        lastUpdated: '2024-01-15'
-      },
-      {
-        id: '2',
-        title: 'API Configuration Guide',
-        content: `# API Configuration Guide
+      category: 'getting-started',
+      tags: ['getting-started', 'overview', 'quickstart'],
+      lastUpdated: '2024-01-15'
+    },
+    {
+      id: '2',
+      title: 'API Configuration Guide',
+      content: `# API Configuration Guide
 
 Learn how to configure external API integrations for your AI agents.
 
@@ -183,14 +183,14 @@ Use the built-in connection tester to verify your API configurations:
 - Monitor API usage and rate limits
 - Regularly test connections
 - Keep configurations up to date`,
-        category: 'api',
-        tags: ['api', 'configuration', 'setup'],
-        lastUpdated: '2024-01-14'
-      },
-      {
-        id: '3',
-        title: 'Agent Development Tutorial',
-        content: `# Agent Development Tutorial
+      category: 'api',
+      tags: ['api', 'configuration', 'setup'],
+      lastUpdated: '2024-01-14'
+    },
+    {
+      id: '3',
+      title: 'Agent Development Tutorial',
+      content: `# Agent Development Tutorial
 
 Create custom AI agents for specific business functions.
 
@@ -250,14 +250,14 @@ Each agent consists of:
 - Monitor performance metrics
 - Iterate based on results
 - Document agent capabilities`,
-        category: 'tutorials',
-        tags: ['agents', 'development', 'tutorial'],
-        lastUpdated: '2024-01-13'
-      },
-      {
-        id: '4',
-        title: 'Business Lifecycle Management',
-        content: `# Business Lifecycle Management
+      category: 'tutorials',
+      tags: ['agents', 'development', 'tutorial'],
+      lastUpdated: '2024-01-13'
+    },
+    {
+      id: '4',
+      title: 'Business Lifecycle Management',
+      content: `# Business Lifecycle Management
 
 Understand how to guide businesses through their complete lifecycle.
 
@@ -328,14 +328,14 @@ Track business progress through:
 - Revenue and growth indicators
 - Agent performance scores
 - Task completion rates`,
-        category: 'lifecycle',
-        tags: ['business', 'lifecycle', 'management'],
-        lastUpdated: '2024-01-12'
-      },
-      {
-        id: '5',
-        title: 'API Reference',
-        content: `# API Reference
+      category: 'lifecycle',
+      tags: ['business', 'lifecycle', 'management'],
+      lastUpdated: '2024-01-12'
+    },
+    {
+      id: '5',
+      title: 'API Reference',
+      content: `# API Reference
 
 Complete reference for BeeWise-AI platform APIs.
 
@@ -469,14 +469,14 @@ Rate limit headers:
 - X-RateLimit-Limit
 - X-RateLimit-Remaining
 - X-RateLimit-Reset`,
-        category: 'reference',
-        tags: ['api', 'reference', 'endpoints'],
-        lastUpdated: '2024-01-11'
-      },
-      {
-        id: '6',
-        title: 'System Architecture Overview',
-        content: `# System Architecture Overview
+      category: 'reference',
+      tags: ['api', 'reference', 'endpoints'],
+      lastUpdated: '2024-01-11'
+    },
+    {
+      id: '6',
+      title: 'System Architecture Overview',
+      content: `# System Architecture Overview
 
 Understand the underlying architecture of the BeeWise-AI platform.
 
@@ -577,14 +577,14 @@ The BeeWise-AI platform consists of several interconnected components:
 - Point-in-time recovery capabilities
 - Cross-region replication for disaster recovery
 - Regular restore testing procedures`,
-        category: 'architecture',
-        tags: ['architecture', 'system', 'infrastructure'],
-        lastUpdated: '2024-01-10'
-      },
-      {
-        id: '7',
-        title: 'Agent Types and Capabilities',
-        content: `# Agent Types and Capabilities
+      category: 'architecture',
+      tags: ['architecture', 'system', 'infrastructure'],
+      lastUpdated: '2024-01-10'
+    },
+    {
+      id: '7',
+      title: 'Agent Types and Capabilities',
+      content: `# Agent Types and Capabilities
 
 Detailed overview of all available agent types and their specific capabilities.
 
@@ -775,14 +775,14 @@ Detailed overview of all available agent types and their specific capabilities.
 - **Error Rate**: Frequency of errors or failures
 - **Resource Usage**: CPU, memory, and network utilization
 - **Queue Length**: Number of pending tasks`,
-        category: 'agents',
-        tags: ['agents', 'capabilities', 'types'],
-        lastUpdated: '2024-01-09'
-      },
-      {
-        id: '8',
-        title: 'User Manual',
-        content: `# User Manual
+      category: 'agents',
+      tags: ['agents', 'capabilities', 'types'],
+      lastUpdated: '2024-01-09'
+    },
+    {
+      id: '8',
+      title: 'User Manual',
+      content: `# User Manual
 
 Complete guide to using the BeeWise-AI platform effectively.
 
@@ -940,14 +940,14 @@ The control center provides access to three main areas:
 - Performance monitoring
 - Security updates
 - Backup and recovery procedures`,
-        category: 'guides',
-        tags: ['user', 'manual', 'guide'],
-        lastUpdated: '2024-01-08'
-      },
-      {
-        id: '9',
-        title: 'Technical Documentation',
-        content: `# Technical Documentation
+      category: 'guides',
+      tags: ['user', 'manual', 'guide'],
+      lastUpdated: '2024-01-08'
+    },
+    {
+      id: '9',
+      title: 'Technical Documentation',
+      content: `# Technical Documentation
 
 In-depth technical details for developers and system administrators.
 
@@ -1209,33 +1209,33 @@ CREATE TABLE businesses (
 - Environment-specific configurations
 - Feature flags for controlled rollouts
 - A/B testing capabilities`,
-        category: 'reference',
-        tags: ['technical', 'developer', 'api'],
-        lastUpdated: '2024-01-07'
-      }
-    ];
-    
+      category: 'reference',
+      tags: ['technical', 'developer', 'api'],
+      lastUpdated: '2024-01-07'
+    }];
+
+
     setDocumentation(sampleDocs);
   };
 
   const handleCreateDocument = async (data: DocumentFormData) => {
     try {
       setLoading(true);
-      
+
       const newDoc: DocumentationSection = {
         id: Date.now().toString(),
         title: data.title,
         content: data.content,
         category: data.category as any,
-        tags: data.tags.split(',').map(t => t.trim()),
+        tags: data.tags.split(',').map((t) => t.trim()),
         lastUpdated: new Date().toISOString().split('T')[0]
       };
 
-      setDocumentation(prev => [newDoc, ...prev]);
-      
+      setDocumentation((prev) => [newDoc, ...prev]);
+
       toast({
         title: "Success",
-        description: "Documentation created successfully",
+        description: "Documentation created successfully"
       });
 
       setIsCreateDialogOpen(false);
@@ -1245,7 +1245,7 @@ CREATE TABLE businesses (
       toast({
         title: "Error",
         description: "Failed to create documentation",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -1253,10 +1253,10 @@ CREATE TABLE businesses (
   };
 
   const handleExportDocs = () => {
-    const content = documentation
-      .map(doc => `# ${doc.title}\n\n${doc.content}\n\n---\n\n`)
-      .join('');
-    
+    const content = documentation.
+    map((doc) => `# ${doc.title}\n\n${doc.content}\n\n---\n\n`).
+    join('');
+
     const blob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -1267,7 +1267,7 @@ CREATE TABLE businesses (
 
     toast({
       title: "Success",
-      description: "Documentation exported successfully",
+      description: "Documentation exported successfully"
     });
   };
 
@@ -1275,44 +1275,44 @@ CREATE TABLE businesses (
     navigator.clipboard.writeText(content);
     toast({
       title: "Copied",
-      description: "Content copied to clipboard",
+      description: "Content copied to clipboard"
     });
   };
 
-  const filteredDocs = documentation.filter(doc => {
+  const filteredDocs = documentation.filter((doc) => {
     const matchesSearch = doc.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         doc.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         doc.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+    doc.content.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    doc.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     const matchesCategory = selectedCategory === 'all' || doc.category === selectedCategory;
-    
+
     return matchesSearch && matchesCategory;
   });
 
   const getCategoryIcon = (category: string) => {
     switch (category) {
-      case 'api': return <Code className="h-4 w-4" />;
-      case 'agents': return <Zap className="h-4 w-4" />;
-      case 'tutorials': return <Book className="h-4 w-4" />;
-      case 'guides': return <BookOpen className="h-4 w-4" />;
-      case 'reference': return <FileText className="h-4 w-4" />;
-      case 'architecture': return <Network className="h-4 w-4" />;
-      case 'lifecycle': return <GitBranch className="h-4 w-4" />;
-      case 'getting-started': return <Play className="h-4 w-4" />;
-      default: return <FileText className="h-4 w-4" />;
+      case 'api':return <Code className="h-4 w-4" />;
+      case 'agents':return <Zap className="h-4 w-4" />;
+      case 'tutorials':return <Book className="h-4 w-4" />;
+      case 'guides':return <BookOpen className="h-4 w-4" />;
+      case 'reference':return <FileText className="h-4 w-4" />;
+      case 'architecture':return <Network className="h-4 w-4" />;
+      case 'lifecycle':return <GitBranch className="h-4 w-4" />;
+      case 'getting-started':return <Play className="h-4 w-4" />;
+      default:return <FileText className="h-4 w-4" />;
     }
   };
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'api': return 'bg-blue-100 text-blue-800';
-      case 'agents': return 'bg-purple-100 text-purple-800';
-      case 'tutorials': return 'bg-green-100 text-green-800';
-      case 'guides': return 'bg-orange-100 text-orange-800';
-      case 'reference': return 'bg-gray-100 text-gray-800';
-      case 'architecture': return 'bg-cyan-100 text-cyan-800';
-      case 'lifecycle': return 'bg-teal-100 text-teal-800';
-      case 'getting-started': return 'bg-indigo-100 text-indigo-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'api':return 'bg-blue-100 text-blue-800';
+      case 'agents':return 'bg-purple-100 text-purple-800';
+      case 'tutorials':return 'bg-green-100 text-green-800';
+      case 'guides':return 'bg-orange-100 text-orange-800';
+      case 'reference':return 'bg-gray-100 text-gray-800';
+      case 'architecture':return 'bg-cyan-100 text-cyan-800';
+      case 'lifecycle':return 'bg-teal-100 text-teal-800';
+      case 'getting-started':return 'bg-indigo-100 text-indigo-800';
+      default:return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -1327,8 +1327,8 @@ CREATE TABLE businesses (
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/')}
-                className="gap-2"
-              >
+                className="gap-2">
+
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
               </Button>
@@ -1376,28 +1376,28 @@ CREATE TABLE businesses (
                           control={form.control}
                           name="title"
                           rules={{ required: 'Title is required' }}
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Title</FormLabel>
                               <FormControl>
                                 <Input placeholder="Enter documentation title" {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                         
                         <FormField
                           control={form.control}
                           name="category"
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Category</FormLabel>
-                              <select 
-                                className="w-full p-2 border rounded-md"
-                                value={field.value}
-                                onChange={field.onChange}
-                              >
+                              <select
+                              className="w-full p-2 border rounded-md"
+                              value={field.value}
+                              onChange={field.onChange}>
+
                                 <option value="getting-started">Getting Started</option>
                                 <option value="guides">Guides</option>
                                 <option value="tutorials">Tutorials</option>
@@ -1409,42 +1409,42 @@ CREATE TABLE businesses (
                               </select>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                       </div>
                       
                       <FormField
                         control={form.control}
                         name="tags"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Tags</FormLabel>
                             <FormControl>
                               <Input placeholder="Enter tags separated by commas" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
                       
                       <FormField
                         control={form.control}
                         name="content"
                         rules={{ required: 'Content is required' }}
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Content (Markdown supported)</FormLabel>
                             <FormControl>
-                              <Textarea 
-                                placeholder="Write your documentation content here..."
-                                className="min-h-[300px]"
-                                {...field} 
-                              />
+                              <Textarea
+                              placeholder="Write your documentation content here..."
+                              className="min-h-[300px]"
+                              {...field} />
+
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
                       
                       <div className="flex justify-end space-x-2">
                         <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
@@ -1475,8 +1475,8 @@ CREATE TABLE businesses (
                   placeholder="Search documentation..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-8"
-                />
+                  className="pl-8" />
+
               </div>
 
               {/* Categories */}
@@ -1489,22 +1489,22 @@ CREATE TABLE businesses (
                     variant={selectedCategory === 'all' ? 'default' : 'ghost'}
                     size="sm"
                     className="w-full justify-start"
-                    onClick={() => setSelectedCategory('all')}
-                  >
+                    onClick={() => setSelectedCategory('all')}>
+
                     All Documentation
                   </Button>
-                  {['getting-started', 'guides', 'tutorials', 'api', 'agents', 'lifecycle', 'architecture', 'reference'].map((category) => (
-                    <Button
-                      key={category}
-                      variant={selectedCategory === category ? 'default' : 'ghost'}
-                      size="sm"
-                      className="w-full justify-start gap-2 capitalize"
-                      onClick={() => setSelectedCategory(category)}
-                    >
+                  {['getting-started', 'guides', 'tutorials', 'api', 'agents', 'lifecycle', 'architecture', 'reference'].map((category) =>
+                  <Button
+                    key={category}
+                    variant={selectedCategory === category ? 'default' : 'ghost'}
+                    size="sm"
+                    className="w-full justify-start gap-2 capitalize"
+                    onClick={() => setSelectedCategory(category)}>
+
                       {getCategoryIcon(category)}
                       {category.replace('-', ' ')}
                     </Button>
-                  ))}
+                  )}
                 </CardContent>
               </Card>
 
@@ -1526,12 +1526,12 @@ CREATE TABLE businesses (
                       Testing Suite
                     </Button>
                   </Link>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
+                  <Button
+                    variant="ghost"
+                    size="sm"
                     className="w-full justify-start gap-2"
-                    onClick={handleExportDocs}
-                  >
+                    onClick={handleExportDocs}>
+
                     <Download className="h-4 w-4" />
                     Export Documentation
                   </Button>
@@ -1542,9 +1542,9 @@ CREATE TABLE businesses (
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {selectedDocument ? (
-              // Document View
-              <Card>
+            {selectedDocument ?
+            // Document View
+            <Card>
                 <CardHeader>
                   <div className="flex items-start justify-between">
                     <div>
@@ -1574,10 +1574,10 @@ CREATE TABLE businesses (
                     </pre>
                   </div>
                 </CardContent>
-              </Card>
-            ) : (
-              // Document List
-              <div className="space-y-6">
+              </Card> :
+
+            // Document List
+            <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold">
                     {selectedCategory === 'all' ? 'All Documentation' : `${selectedCategory.replace('-', ' ').charAt(0).toUpperCase()}${selectedCategory.replace('-', ' ').slice(1)} Documentation`}
@@ -1588,8 +1588,8 @@ CREATE TABLE businesses (
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {filteredDocs.map((doc) => (
-                    <Card key={doc.id} className="cursor-pointer hover:shadow-md transition-shadow">
+                  {filteredDocs.map((doc) =>
+                <Card key={doc.id} className="cursor-pointer hover:shadow-md transition-shadow">
                       <CardHeader className="pb-3">
                         <div className="flex items-start justify-between">
                           <CardTitle className="text-lg line-clamp-2">{doc.title}</CardTitle>
@@ -1606,16 +1606,16 @@ CREATE TABLE businesses (
                         </p>
                         
                         <div className="flex flex-wrap gap-1">
-                          {doc.tags.slice(0, 3).map((tag, index) => (
-                            <Badge key={index} variant="outline" className="text-xs">
+                          {doc.tags.slice(0, 3).map((tag, index) =>
+                      <Badge key={index} variant="outline" className="text-xs">
                               {tag}
                             </Badge>
-                          ))}
-                          {doc.tags.length > 3 && (
-                            <Badge variant="outline" className="text-xs">
+                      )}
+                          {doc.tags.length > 3 &&
+                      <Badge variant="outline" className="text-xs">
                               +{doc.tags.length - 3}
                             </Badge>
-                          )}
+                      }
                         </div>
                         
                         <Separator />
@@ -1624,53 +1624,53 @@ CREATE TABLE businesses (
                           <span className="text-xs text-muted-foreground">
                             Updated {doc.lastUpdated}
                           </span>
-                          <Button 
-                            size="sm" 
-                            onClick={() => setSelectedDocument(doc)}
-                            className="gap-1"
-                          >
+                          <Button
+                        size="sm"
+                        onClick={() => setSelectedDocument(doc)}
+                        className="gap-1">
+
                             <Eye className="h-3 w-3" />
                             Read
                           </Button>
                         </div>
                       </CardContent>
                     </Card>
-                  ))}
+                )}
                 </div>
 
-                {filteredDocs.length === 0 && (
-                  <Card>
+                {filteredDocs.length === 0 &&
+              <Card>
                     <CardContent className="p-8 text-center">
                       <FileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                       <h3 className="text-lg font-medium mb-2">No documentation found</h3>
                       <p className="text-muted-foreground mb-4">
-                        {searchQuery || selectedCategory !== 'all' 
-                          ? 'Try adjusting your search or filter criteria' 
-                          : 'Create your first documentation to get started.'}
+                        {searchQuery || selectedCategory !== 'all' ?
+                    'Try adjusting your search or filter criteria' :
+                    'Create your first documentation to get started.'}
                       </p>
-                      {!searchQuery && selectedCategory === 'all' && (
-                        <Button onClick={() => setIsCreateDialogOpen(true)}>
+                      {!searchQuery && selectedCategory === 'all' &&
+                  <Button onClick={() => setIsCreateDialogOpen(true)}>
                           <Plus className="h-4 w-4 mr-2" />
                           Create Documentation
                         </Button>
-                      )}
+                  }
                     </CardContent>
                   </Card>
-                )}
+              }
               </div>
-            )}
+            }
           </div>
         </div>
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 // Missing BookOpen import - add this component
-const BookOpen: React.FC<{className?: string}> = ({ className }) => (
-  <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+const BookOpen: React.FC<{className?: string;}> = ({ className }) =>
+<svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-  </svg>
-);
+  </svg>;
+
 
 export default DocumentationPage;

@@ -16,20 +16,20 @@ import { useAgents } from '@/hooks/useAgents';
 import { useTasks } from '@/hooks/useTasks';
 import { useToast } from '@/hooks/use-toast';
 import { useForm } from 'react-hook-form';
-import { 
-  Bot, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Activity, 
-  Clock, 
-  CheckCircle, 
+import {
+  Bot,
+  Plus,
+  Edit,
+  Trash2,
+  Activity,
+  Clock,
+  CheckCircle,
   XCircle,
   Settings,
   Play,
   Pause,
-  RotateCcw
-} from 'lucide-react';
+  RotateCcw } from
+'lucide-react';
 
 interface Agent {
   id: number;
@@ -60,7 +60,7 @@ const AgentDashboard: React.FC = () => {
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const { toast } = useToast();
-  
+
   const form = useForm<AgentFormData>({
     defaultValues: {
       name: '',
@@ -87,9 +87,9 @@ const AgentDashboard: React.FC = () => {
         IsAsc: false,
         Filters: []
       });
-      
+
       if (error) throw error;
-      
+
       const formattedAgents = data.List.map((agent: any) => ({
         id: agent.id,
         name: agent.name,
@@ -102,14 +102,14 @@ const AgentDashboard: React.FC = () => {
         tasks_completed: agent.tasks_completed || 0,
         created_at: agent.created_at
       }));
-      
+
       setAgents(formattedAgents);
     } catch (error) {
       console.error('Error loading agents:', error);
       toast({
         title: "Error",
         description: "Failed to load agents",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -133,7 +133,7 @@ const AgentDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Agent created successfully",
+        description: "Agent created successfully"
       });
 
       setIsCreateDialogOpen(false);
@@ -142,9 +142,9 @@ const AgentDashboard: React.FC = () => {
     } catch (error) {
       console.error('Error creating agent:', error);
       toast({
-        title: "Error", 
+        title: "Error",
         description: "Failed to create agent",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -167,7 +167,7 @@ const AgentDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Agent updated successfully",
+        description: "Agent updated successfully"
       });
 
       setIsEditDialogOpen(false);
@@ -179,7 +179,7 @@ const AgentDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update agent",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -192,7 +192,7 @@ const AgentDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Agent deleted successfully",
+        description: "Agent deleted successfully"
       });
 
       loadAgents();
@@ -200,8 +200,8 @@ const AgentDashboard: React.FC = () => {
       console.error('Error deleting agent:', error);
       toast({
         title: "Error",
-        description: "Failed to delete agent", 
-        variant: "destructive",
+        description: "Failed to delete agent",
+        variant: "destructive"
       });
     }
   };
@@ -217,7 +217,7 @@ const AgentDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: `Agent ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully`,
+        description: `Agent ${newStatus === 'active' ? 'activated' : 'deactivated'} successfully`
       });
 
       loadAgents();
@@ -226,7 +226,7 @@ const AgentDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update agent status",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -244,21 +244,21 @@ const AgentDashboard: React.FC = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-500';
-      case 'busy': return 'bg-yellow-500';
-      case 'inactive': return 'bg-gray-500';
-      case 'error': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      case 'active':return 'bg-green-500';
+      case 'busy':return 'bg-yellow-500';
+      case 'inactive':return 'bg-gray-500';
+      case 'error':return 'bg-red-500';
+      default:return 'bg-gray-500';
     }
   };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'active': return <CheckCircle className="h-4 w-4" />;
-      case 'busy': return <Activity className="h-4 w-4" />;
-      case 'inactive': return <Pause className="h-4 w-4" />;
-      case 'error': return <XCircle className="h-4 w-4" />;
-      default: return <Clock className="h-4 w-4" />;
+      case 'active':return <CheckCircle className="h-4 w-4" />;
+      case 'busy':return <Activity className="h-4 w-4" />;
+      case 'inactive':return <Pause className="h-4 w-4" />;
+      case 'error':return <XCircle className="h-4 w-4" />;
+      default:return <Clock className="h-4 w-4" />;
     }
   };
 
@@ -268,8 +268,8 @@ const AgentDashboard: React.FC = () => {
         <CardContent className="p-6">
           <div className="text-center">Loading agents...</div>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -302,37 +302,37 @@ const AgentDashboard: React.FC = () => {
                   control={form.control}
                   name="name"
                   rules={{ required: 'Name is required' }}
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Agent Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter agent name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="description"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea placeholder="Describe the agent's purpose" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="agent_type"
                   rules={{ required: 'Type is required' }}
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Agent Type</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
@@ -353,36 +353,36 @@ const AgentDashboard: React.FC = () => {
                       </Select>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="capabilities"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Capabilities</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter capabilities (comma-separated)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="tools"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Tools</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter tools (comma-separated)" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
@@ -416,7 +416,7 @@ const AgentDashboard: React.FC = () => {
               <CheckCircle className="h-5 w-5 text-green-500" />
               <div>
                 <p className="text-sm font-medium">Active</p>
-                <p className="text-2xl font-bold">{agents.filter(a => a.status === 'active').length}</p>
+                <p className="text-2xl font-bold">{agents.filter((a) => a.status === 'active').length}</p>
               </div>
             </div>
           </CardContent>
@@ -428,7 +428,7 @@ const AgentDashboard: React.FC = () => {
               <Activity className="h-5 w-5 text-yellow-500" />
               <div>
                 <p className="text-sm font-medium">Busy</p>
-                <p className="text-2xl font-bold">{agents.filter(a => a.status === 'busy').length}</p>
+                <p className="text-2xl font-bold">{agents.filter((a) => a.status === 'busy').length}</p>
               </div>
             </div>
           </CardContent>
@@ -449,8 +449,8 @@ const AgentDashboard: React.FC = () => {
 
       {/* Agents Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {agents.map((agent) => (
-          <Card key={agent.id} className="relative">
+        {agents.map((agent) =>
+        <Card key={agent.id} className="relative">
             <CardHeader className="pb-2">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -483,54 +483,54 @@ const AgentDashboard: React.FC = () => {
                 <span>{agent.tasks_completed}</span>
               </div>
               
-              {agent.capabilities.length > 0 && (
-                <div>
+              {agent.capabilities.length > 0 &&
+            <div>
                   <p className="text-sm font-medium mb-1">Capabilities</p>
                   <div className="flex flex-wrap gap-1">
-                    {agent.capabilities.slice(0, 3).map((capability, index) => (
-                      <Badge key={index} variant="outline" className="text-xs">
+                    {agent.capabilities.slice(0, 3).map((capability, index) =>
+                <Badge key={index} variant="outline" className="text-xs">
                         {capability.trim()}
                       </Badge>
-                    ))}
-                    {agent.capabilities.length > 3 && (
-                      <Badge variant="outline" className="text-xs">
+                )}
+                    {agent.capabilities.length > 3 &&
+                <Badge variant="outline" className="text-xs">
                         +{agent.capabilities.length - 3}
                       </Badge>
-                    )}
+                }
                   </div>
                 </div>
-              )}
+            }
               
               <Separator />
               
               <div className="flex justify-between">
                 <div className="flex space-x-1">
                   <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => handleStatusChange(agent.id, agent.status === 'active' ? 'inactive' : 'active')}
-                  >
+                  size="sm"
+                  variant="outline"
+                  onClick={() => handleStatusChange(agent.id, agent.status === 'active' ? 'inactive' : 'active')}>
+
                     {agent.status === 'active' ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3" />}
                   </Button>
                   <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => openEditDialog(agent)}
-                  >
+                  size="sm"
+                  variant="outline"
+                  onClick={() => openEditDialog(agent)}>
+
                     <Edit className="h-3 w-3" />
                   </Button>
                 </div>
                 <Button
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => handleDeleteAgent(agent.id)}
-                >
+                size="sm"
+                variant="destructive"
+                onClick={() => handleDeleteAgent(agent.id)}>
+
                   <Trash2 className="h-3 w-3" />
                 </Button>
               </div>
             </CardContent>
           </Card>
-        ))}
+        )}
       </div>
 
       {/* Edit Agent Dialog */}
@@ -549,37 +549,37 @@ const AgentDashboard: React.FC = () => {
                 control={form.control}
                 name="name"
                 rules={{ required: 'Name is required' }}
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Agent Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter agent name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <FormField
                 control={form.control}
                 name="description"
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Textarea placeholder="Describe the agent's purpose" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <FormField
                 control={form.control}
                 name="agent_type"
                 rules={{ required: 'Type is required' }}
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Agent Type</FormLabel>
                     <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
@@ -600,36 +600,36 @@ const AgentDashboard: React.FC = () => {
                     </Select>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <FormField
                 control={form.control}
                 name="capabilities"
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Capabilities</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter capabilities (comma-separated)" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <FormField
                 control={form.control}
                 name="tools"
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Tools</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter tools (comma-separated)" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
@@ -642,8 +642,8 @@ const AgentDashboard: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {agents.length === 0 && (
-        <Card>
+      {agents.length === 0 &&
+      <Card>
           <CardContent className="p-8 text-center">
             <Bot className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-medium mb-2">No agents found</h3>
@@ -656,9 +656,9 @@ const AgentDashboard: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
 export default AgentDashboard;

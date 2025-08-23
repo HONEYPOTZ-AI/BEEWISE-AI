@@ -18,9 +18,9 @@ export const useAgents = (params?: QueryParams) => {
 
     try {
       const [agentsResponse, agentTypesResponse] = await Promise.all([
-        apiService.getAgents(params),
-        apiService.getAgentTypes({ PageSize: 100 })
-      ]);
+      apiService.getAgents(params),
+      apiService.getAgentTypes({ PageSize: 100 })]
+      );
 
       if (agentsResponse.error) {
         throw new Error(agentsResponse.error);
@@ -44,7 +44,7 @@ export const useAgents = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
     } finally {
       setLoading(false);
@@ -54,14 +54,14 @@ export const useAgents = (params?: QueryParams) => {
   const createAgent = useCallback(async (agentData: Omit<Agent, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       const response = await apiService.createAgent(agentData);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Agent created successfully',
+        description: 'Agent created successfully'
       });
 
       fetchAgents(); // Refresh the list
@@ -71,7 +71,7 @@ export const useAgents = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
@@ -80,14 +80,14 @@ export const useAgents = (params?: QueryParams) => {
   const updateAgent = useCallback(async (agentData: Agent) => {
     try {
       const response = await apiService.updateAgent(agentData);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Agent updated successfully',
+        description: 'Agent updated successfully'
       });
 
       fetchAgents(); // Refresh the list
@@ -97,7 +97,7 @@ export const useAgents = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
@@ -106,14 +106,14 @@ export const useAgents = (params?: QueryParams) => {
   const deleteAgent = useCallback(async (id: number) => {
     try {
       const response = await apiService.deleteAgent(id);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Agent deleted successfully',
+        description: 'Agent deleted successfully'
       });
 
       fetchAgents(); // Refresh the list
@@ -123,14 +123,14 @@ export const useAgents = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
   }, [fetchAgents, toast]);
 
   const getAgentTypeName = useCallback((agentTypeId: number) => {
-    const agentType = agentTypes.find(type => type.id === agentTypeId);
+    const agentType = agentTypes.find((type) => type.id === agentTypeId);
     return agentType?.name || 'Unknown Type';
   }, [agentTypes]);
 
@@ -148,6 +148,6 @@ export const useAgents = (params?: QueryParams) => {
     updateAgent,
     deleteAgent,
     getAgentTypeName,
-    refresh: fetchAgents,
+    refresh: fetchAgents
   };
 };

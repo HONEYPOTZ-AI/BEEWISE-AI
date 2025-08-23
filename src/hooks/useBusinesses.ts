@@ -18,9 +18,9 @@ export const useBusinesses = (params?: QueryParams) => {
 
     try {
       const [businessesResponse, stagesResponse] = await Promise.all([
-        apiService.getBusinesses(params),
-        apiService.getBusinessStages({ PageSize: 100, OrderByField: 'stage_order', IsAsc: true })
-      ]);
+      apiService.getBusinesses(params),
+      apiService.getBusinessStages({ PageSize: 100, OrderByField: 'stage_order', IsAsc: true })]
+      );
 
       if (businessesResponse.error) {
         throw new Error(businessesResponse.error);
@@ -44,7 +44,7 @@ export const useBusinesses = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
     } finally {
       setLoading(false);
@@ -54,14 +54,14 @@ export const useBusinesses = (params?: QueryParams) => {
   const createBusiness = useCallback(async (businessData: Omit<Business, 'id' | 'created_at' | 'updated_at'>) => {
     try {
       const response = await apiService.createBusiness(businessData);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Business created successfully',
+        description: 'Business created successfully'
       });
 
       fetchBusinesses();
@@ -71,7 +71,7 @@ export const useBusinesses = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
@@ -80,14 +80,14 @@ export const useBusinesses = (params?: QueryParams) => {
   const updateBusiness = useCallback(async (businessData: Business) => {
     try {
       const response = await apiService.updateBusiness(businessData);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Business updated successfully',
+        description: 'Business updated successfully'
       });
 
       fetchBusinesses();
@@ -97,7 +97,7 @@ export const useBusinesses = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
@@ -106,14 +106,14 @@ export const useBusinesses = (params?: QueryParams) => {
   const deleteBusiness = useCallback(async (id: number) => {
     try {
       const response = await apiService.deleteBusiness(id);
-      
+
       if (response.error) {
         throw new Error(response.error);
       }
 
       toast({
         title: 'Success',
-        description: 'Business deleted successfully',
+        description: 'Business deleted successfully'
       });
 
       fetchBusinesses();
@@ -123,22 +123,22 @@ export const useBusinesses = (params?: QueryParams) => {
       toast({
         title: 'Error',
         description: errorMessage,
-        variant: 'destructive',
+        variant: 'destructive'
       });
       return false;
     }
   }, [fetchBusinesses, toast]);
 
   const getBusinessStageName = useCallback((stageId: number) => {
-    const stage = businessStages.find(s => s.id === stageId);
+    const stage = businessStages.find((s) => s.id === stageId);
     return stage?.name || 'Unknown Stage';
   }, [businessStages]);
 
   const getNextStage = useCallback((currentStageId: number) => {
-    const currentStage = businessStages.find(s => s.id === currentStageId);
+    const currentStage = businessStages.find((s) => s.id === currentStageId);
     if (!currentStage) return null;
-    
-    return businessStages.find(s => s.stage_order === currentStage.stage_order + 1);
+
+    return businessStages.find((s) => s.stage_order === currentStage.stage_order + 1);
   }, [businessStages]);
 
   useEffect(() => {
@@ -156,6 +156,6 @@ export const useBusinesses = (params?: QueryParams) => {
     deleteBusiness,
     getBusinessStageName,
     getNextStage,
-    refresh: fetchBusinesses,
+    refresh: fetchBusinesses
   };
 };

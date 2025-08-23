@@ -20,14 +20,14 @@ const TestingPage: React.FC = () => {
   const handleQuickTest = () => {
     toast({
       title: "Quick Test Started",
-      description: "Running basic system validation tests...",
+      description: "Running basic system validation tests..."
     });
   };
 
   const handleFullTest = () => {
     toast({
-      title: "Full Test Suite Started", 
-      description: "Running comprehensive system tests...",
+      title: "Full Test Suite Started",
+      description: "Running comprehensive system tests..."
     });
   };
 
@@ -42,8 +42,8 @@ const TestingPage: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/')}
-                className="gap-2"
-              >
+                className="gap-2">
+
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
               </Button>
@@ -177,8 +177,8 @@ const TestingPage: React.FC = () => {
           </TabsContent>
         </Tabs>
       </main>
-    </div>
-  );
+    </div>);
+
 };
 
 export default TestingPage;

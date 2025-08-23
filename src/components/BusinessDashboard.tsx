@@ -27,8 +27,8 @@ import {
   Rocket,
   Target,
   BarChart3,
-  CheckCircle2
-} from 'lucide-react';
+  CheckCircle2 } from
+'lucide-react';
 
 interface Business {
   id: number;
@@ -61,7 +61,7 @@ const BusinessDashboard: React.FC = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isLifecycleDialogOpen, setIsLifecycleDialogOpen] = useState(false);
   const { toast } = useToast();
-  
+
   const form = useForm<BusinessFormData>({
     defaultValues: {
       name: '',
@@ -86,9 +86,9 @@ const BusinessDashboard: React.FC = () => {
         IsAsc: false,
         Filters: []
       });
-      
+
       if (error) throw error;
-      
+
       const formattedBusinesses = data.List.map((business: any) => ({
         id: business.id,
         name: business.name,
@@ -103,14 +103,14 @@ const BusinessDashboard: React.FC = () => {
         target_market: business.target_market || '',
         business_model: business.business_model || ''
       }));
-      
+
       setBusinesses(formattedBusinesses);
     } catch (error) {
       console.error('Error loading businesses:', error);
       toast({
         title: "Error",
         description: "Failed to load businesses",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -136,7 +136,7 @@ const BusinessDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Business created successfully",
+        description: "Business created successfully"
       });
 
       setIsCreateDialogOpen(false);
@@ -147,7 +147,7 @@ const BusinessDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to create business",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -169,7 +169,7 @@ const BusinessDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Business updated successfully",
+        description: "Business updated successfully"
       });
 
       setIsEditDialogOpen(false);
@@ -181,7 +181,7 @@ const BusinessDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update business",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -194,7 +194,7 @@ const BusinessDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "Business deleted successfully",
+        description: "Business deleted successfully"
       });
 
       loadBusinesses();
@@ -203,7 +203,7 @@ const BusinessDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to delete business",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -220,7 +220,7 @@ const BusinessDashboard: React.FC = () => {
 
       toast({
         title: "Success",
-        description: `Business moved to ${newStage} stage`,
+        description: `Business moved to ${newStage} stage`
       });
 
       loadBusinesses();
@@ -230,7 +230,7 @@ const BusinessDashboard: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update business stage",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -273,8 +273,8 @@ const BusinessDashboard: React.FC = () => {
         <CardContent className="p-6">
           <div className="text-center">Loading businesses...</div>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -307,37 +307,37 @@ const BusinessDashboard: React.FC = () => {
                   control={form.control}
                   name="name"
                   rules={{ required: 'Business name is required' }}
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Business Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Enter business name" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="description"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Description</FormLabel>
                       <FormControl>
                         <Textarea placeholder="Describe the business concept" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="industry"
                   rules={{ required: 'Industry is required' }}
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Industry</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
@@ -358,28 +358,28 @@ const BusinessDashboard: React.FC = () => {
                       </Select>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="target_market"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Target Market</FormLabel>
                       <FormControl>
                         <Input placeholder="Define your target audience" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="business_model"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Business Model</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
@@ -399,8 +399,8 @@ const BusinessDashboard: React.FC = () => {
                       </Select>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
@@ -434,7 +434,7 @@ const BusinessDashboard: React.FC = () => {
               <TrendingUp className="h-5 w-5 text-green-500" />
               <div>
                 <p className="text-sm font-medium">Active Businesses</p>
-                <p className="text-2xl font-bold">{businesses.filter(b => b.status === 'active').length}</p>
+                <p className="text-2xl font-bold">{businesses.filter((b) => b.status === 'active').length}</p>
               </div>
             </div>
           </CardContent>
@@ -471,7 +471,7 @@ const BusinessDashboard: React.FC = () => {
           const stageInfo = getStageInfo(business.stage);
           const StageIcon = stageInfo.icon;
           const nextStage = getNextStage(business.stage);
-          
+
           return (
             <Card key={business.id} className="relative">
               <CardHeader className="pb-2">
@@ -512,55 +512,55 @@ const BusinessDashboard: React.FC = () => {
                   </div>
                 </div>
                 
-                {business.business_model && (
-                  <div>
+                {business.business_model &&
+                <div>
                     <p className="text-sm font-medium">Business Model</p>
                     <Badge variant="outline" className="text-xs">
                       {business.business_model}
                     </Badge>
                   </div>
-                )}
+                }
                 
                 <div className="flex justify-between items-center pt-2 border-t">
                   <div className="flex space-x-1">
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => openEditDialog(business)}
-                    >
+                      onClick={() => openEditDialog(business)}>
+
                       <Edit className="h-3 w-3" />
                     </Button>
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => openLifecycleDialog(business)}
-                    >
+                      onClick={() => openLifecycleDialog(business)}>
+
                       <Target className="h-3 w-3" />
                     </Button>
                   </div>
                   
-                  {nextStage && (
-                    <Button
-                      size="sm"
-                      onClick={() => handleStageTransition(business.id, nextStage, getStageInfo(nextStage).progress)}
-                      className="gap-1"
-                    >
+                  {nextStage &&
+                  <Button
+                    size="sm"
+                    onClick={() => handleStageTransition(business.id, nextStage, getStageInfo(nextStage).progress)}
+                    className="gap-1">
+
                       Next Stage
                       <ArrowRight className="h-3 w-3" />
                     </Button>
-                  )}
+                  }
                   
                   <Button
                     size="sm"
                     variant="destructive"
-                    onClick={() => handleDeleteBusiness(business.id)}
-                  >
+                    onClick={() => handleDeleteBusiness(business.id)}>
+
                     <Trash2 className="h-3 w-3" />
                   </Button>
                 </div>
               </CardContent>
-            </Card>
-          );
+            </Card>);
+
         })}
       </div>
 
@@ -579,30 +579,30 @@ const BusinessDashboard: React.FC = () => {
                 control={form.control}
                 name="name"
                 rules={{ required: 'Business name is required' }}
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Business Name</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter business name" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <FormField
                 control={form.control}
                 name="description"
-                render={({ field }) => (
-                  <FormItem>
+                render={({ field }) =>
+                <FormItem>
                     <FormLabel>Description</FormLabel>
                     <FormControl>
                       <Textarea placeholder="Describe the business concept" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
+                } />
+
               
               <div className="flex justify-end space-x-2">
                 <Button type="button" variant="outline" onClick={() => setIsEditDialogOpen(false)}>
@@ -629,25 +629,25 @@ const BusinessDashboard: React.FC = () => {
             {/* Lifecycle Stages */}
             <div className="space-y-4">
               {[
-                { stage: 'ideation', name: 'Ideation', description: 'Business concept and market validation' },
-                { stage: 'formation', name: 'Formation', description: 'Legal setup and initial structure' },
-                { stage: 'launch', name: 'Launch', description: 'Product development and market entry' },
-                { stage: 'growth', name: 'Growth', description: 'Scaling operations and expanding market' },
-                { stage: 'optimization', name: 'Optimization', description: 'Efficiency improvements and innovation' }
-              ].map(({ stage, name, description }) => {
+              { stage: 'ideation', name: 'Ideation', description: 'Business concept and market validation' },
+              { stage: 'formation', name: 'Formation', description: 'Legal setup and initial structure' },
+              { stage: 'launch', name: 'Launch', description: 'Product development and market entry' },
+              { stage: 'growth', name: 'Growth', description: 'Scaling operations and expanding market' },
+              { stage: 'optimization', name: 'Optimization', description: 'Efficiency improvements and innovation' }].
+              map(({ stage, name, description }) => {
                 const stageInfo = getStageInfo(stage);
                 const StageIcon = stageInfo.icon;
                 const isCurrentStage = selectedBusiness?.stage === stage;
                 const isCompleted = selectedBusiness && getStageInfo(selectedBusiness.stage).progress > stageInfo.progress;
-                
+
                 return (
                   <div key={stage} className={`flex items-center space-x-3 p-3 rounded-lg border ${isCurrentStage ? 'border-primary bg-primary/10' : 'border-border'}`}>
                     <div className={`p-2 rounded-full ${isCompleted ? 'bg-green-500' : isCurrentStage ? stageInfo.bg : 'bg-gray-200'}`}>
-                      {isCompleted ? (
-                        <CheckCircle2 className="h-4 w-4 text-white" />
-                      ) : (
-                        <StageIcon className={`h-4 w-4 ${isCurrentStage ? 'text-white' : 'text-gray-500'}`} />
-                      )}
+                      {isCompleted ?
+                      <CheckCircle2 className="h-4 w-4 text-white" /> :
+
+                      <StageIcon className={`h-4 w-4 ${isCurrentStage ? 'text-white' : 'text-gray-500'}`} />
+                      }
                     </div>
                     
                     <div className="flex-1">
@@ -655,33 +655,33 @@ const BusinessDashboard: React.FC = () => {
                       <p className="text-sm text-muted-foreground">{description}</p>
                     </div>
                     
-                    {!isCompleted && !isCurrentStage && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => selectedBusiness && handleStageTransition(selectedBusiness.id, stage, stageInfo.progress)}
-                      >
+                    {!isCompleted && !isCurrentStage &&
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => selectedBusiness && handleStageTransition(selectedBusiness.id, stage, stageInfo.progress)}>
+
                         Move Here
                       </Button>
-                    )}
+                    }
                     
-                    {isCurrentStage && (
-                      <Badge>Current</Badge>
-                    )}
+                    {isCurrentStage &&
+                    <Badge>Current</Badge>
+                    }
                     
-                    {isCompleted && (
-                      <Badge variant="secondary">Completed</Badge>
-                    )}
-                  </div>
-                );
+                    {isCompleted &&
+                    <Badge variant="secondary">Completed</Badge>
+                    }
+                  </div>);
+
               })}
             </div>
           </div>
         </DialogContent>
       </Dialog>
 
-      {businesses.length === 0 && (
-        <Card>
+      {businesses.length === 0 &&
+      <Card>
           <CardContent className="p-8 text-center">
             <Building2 className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-medium mb-2">No businesses found</h3>
@@ -694,9 +694,9 @@ const BusinessDashboard: React.FC = () => {
             </Button>
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
 export default BusinessDashboard;

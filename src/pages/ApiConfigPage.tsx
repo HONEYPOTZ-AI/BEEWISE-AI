@@ -37,8 +37,8 @@ import {
   TestTube,
   Copy,
   Eye,
-  EyeOff
-} from 'lucide-react';
+  EyeOff } from
+'lucide-react';
 
 interface ApiConfig {
   id: number;
@@ -70,10 +70,10 @@ const ApiConfigPage: React.FC = () => {
   const [selectedConfig, setSelectedConfig] = useState<ApiConfig | null>(null);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
-  const [showApiKeys, setShowApiKeys] = useState<{[key: number]: boolean}>({});
-  const [testResults, setTestResults] = useState<{[key: number]: {success: boolean, message: string}}>({});
+  const [showApiKeys, setShowApiKeys] = useState<{[key: number]: boolean;}>({});
+  const [testResults, setTestResults] = useState<{[key: number]: {success: boolean;message: string;};}>({});
   const { toast } = useToast();
-  
+
   const form = useForm<ApiFormData>({
     defaultValues: {
       name: '',
@@ -100,9 +100,9 @@ const ApiConfigPage: React.FC = () => {
         IsAsc: false,
         Filters: []
       });
-      
+
       if (error) throw error;
-      
+
       const formattedConfigs = data.List.map((config: any) => ({
         id: config.id,
         name: config.name,
@@ -115,14 +115,14 @@ const ApiConfigPage: React.FC = () => {
         headers: config.headers || '{}',
         created_at: config.created_at
       }));
-      
+
       setConfigs(formattedConfigs);
     } catch (error) {
       console.error('Error loading API configurations:', error);
       toast({
         title: "Error",
         description: "Failed to load API configurations",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -146,7 +146,7 @@ const ApiConfigPage: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "API configuration created successfully",
+        description: "API configuration created successfully"
       });
 
       setIsCreateDialogOpen(false);
@@ -157,7 +157,7 @@ const ApiConfigPage: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to create API configuration",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -181,7 +181,7 @@ const ApiConfigPage: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "API configuration updated successfully",
+        description: "API configuration updated successfully"
       });
 
       setIsEditDialogOpen(false);
@@ -193,7 +193,7 @@ const ApiConfigPage: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to update API configuration",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -206,7 +206,7 @@ const ApiConfigPage: React.FC = () => {
 
       toast({
         title: "Success",
-        description: "API configuration deleted successfully",
+        description: "API configuration deleted successfully"
       });
 
       loadConfigs();
@@ -215,7 +215,7 @@ const ApiConfigPage: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to delete API configuration",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -231,7 +231,7 @@ const ApiConfigPage: React.FC = () => {
 
       toast({
         title: "Success",
-        description: `Configuration ${!isActive ? 'activated' : 'deactivated'} successfully`,
+        description: `Configuration ${!isActive ? 'activated' : 'deactivated'} successfully`
       });
 
       loadConfigs();
@@ -240,15 +240,15 @@ const ApiConfigPage: React.FC = () => {
       toast({
         title: "Error",
         description: "Failed to toggle configuration status",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
 
   const handleTestConnection = async (config: ApiConfig) => {
     try {
-      setTestResults(prev => ({...prev, [config.id]: {success: false, message: 'Testing...'}}));
-      
+      setTestResults((prev) => ({ ...prev, [config.id]: { success: false, message: 'Testing...' } }));
+
       // Simulate API test - in real implementation, this would test the actual connection
       const response = await fetch(config.endpoint, {
         method: 'GET',
@@ -259,8 +259,8 @@ const ApiConfigPage: React.FC = () => {
       }).catch(() => null);
 
       const success = response?.ok || Math.random() > 0.3; // Simulate test result
-      
-      setTestResults(prev => ({
+
+      setTestResults((prev) => ({
         ...prev,
         [config.id]: {
           success,
@@ -271,21 +271,21 @@ const ApiConfigPage: React.FC = () => {
       toast({
         title: success ? "Success" : "Warning",
         description: success ? "API connection test passed" : "API connection test failed",
-        variant: success ? "default" : "destructive",
+        variant: success ? "default" : "destructive"
       });
     } catch (error) {
-      setTestResults(prev => ({
+      setTestResults((prev) => ({
         ...prev,
         [config.id]: {
           success: false,
           message: 'Test failed - network error'
         }
       }));
-      
+
       toast({
         title: "Error",
         description: "Failed to test API connection",
-        variant: "destructive",
+        variant: "destructive"
       });
     }
   };
@@ -311,12 +311,12 @@ const ApiConfigPage: React.FC = () => {
     navigator.clipboard.writeText(text);
     toast({
       title: "Copied",
-      description: "Text copied to clipboard",
+      description: "Text copied to clipboard"
     });
   };
 
   const toggleApiKeyVisibility = (configId: number) => {
-    setShowApiKeys(prev => ({...prev, [configId]: !prev[configId]}));
+    setShowApiKeys((prev) => ({ ...prev, [configId]: !prev[configId] }));
   };
 
   if (loading) {
@@ -329,8 +329,8 @@ const ApiConfigPage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -344,8 +344,8 @@ const ApiConfigPage: React.FC = () => {
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate('/')}
-                className="gap-2"
-              >
+                className="gap-2">
+
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
               </Button>
@@ -388,22 +388,22 @@ const ApiConfigPage: React.FC = () => {
                           control={form.control}
                           name="name"
                           rules={{ required: 'Name is required' }}
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Configuration Name</FormLabel>
                               <FormControl>
                                 <Input placeholder="e.g., OpenAI GPT-4" {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                         
                         <FormField
                           control={form.control}
                           name="provider"
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Provider</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
@@ -422,46 +422,46 @@ const ApiConfigPage: React.FC = () => {
                               </Select>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                       </div>
                       
                       <FormField
                         control={form.control}
                         name="endpoint"
                         rules={{ required: 'Endpoint URL is required' }}
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>API Endpoint URL</FormLabel>
                             <FormControl>
                               <Input placeholder="https://api.example.com/v1" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
                       
                       <div className="grid grid-cols-2 gap-4">
                         <FormField
                           control={form.control}
                           name="api_key"
                           rules={{ required: 'API key is required' }}
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>API Key</FormLabel>
                               <FormControl>
                                 <Input type="password" placeholder="Enter API key" {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                         
                         <FormField
                           control={form.control}
                           name="auth_type"
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Authentication Type</FormLabel>
                               <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
@@ -478,37 +478,37 @@ const ApiConfigPage: React.FC = () => {
                               </Select>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                       </div>
                       
                       <FormField
                         control={form.control}
                         name="description"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
                               <Textarea placeholder="Describe this API integration..." {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
                       
                       <FormField
                         control={form.control}
                         name="headers"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Custom Headers (JSON)</FormLabel>
                             <FormControl>
                               <Textarea placeholder='{"Content-Type": "application/json"}' {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
                       
                       <div className="flex justify-end space-x-2">
                         <Button type="button" variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
@@ -555,7 +555,7 @@ const ApiConfigPage: React.FC = () => {
                     <CheckCircle className="h-5 w-5 text-green-500" />
                     <div>
                       <p className="text-sm font-medium">Active</p>
-                      <p className="text-2xl font-bold">{configs.filter(c => c.is_active).length}</p>
+                      <p className="text-2xl font-bold">{configs.filter((c) => c.is_active).length}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -567,7 +567,7 @@ const ApiConfigPage: React.FC = () => {
                     <XCircle className="h-5 w-5 text-red-500" />
                     <div>
                       <p className="text-sm font-medium">Inactive</p>
-                      <p className="text-2xl font-bold">{configs.filter(c => !c.is_active).length}</p>
+                      <p className="text-2xl font-bold">{configs.filter((c) => !c.is_active).length}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -579,7 +579,7 @@ const ApiConfigPage: React.FC = () => {
                     <Globe className="h-5 w-5 text-blue-500" />
                     <div>
                       <p className="text-sm font-medium">Providers</p>
-                      <p className="text-2xl font-bold">{new Set(configs.map(c => c.provider)).size}</p>
+                      <p className="text-2xl font-bold">{new Set(configs.map((c) => c.provider)).size}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -590,7 +590,7 @@ const ApiConfigPage: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {configs.map((config) => {
                 const testResult = testResults[config.id];
-                
+
                 return (
                   <Card key={config.id} className={`relative ${config.is_active ? 'border-green-200' : 'border-gray-200'}`}>
                     <CardHeader className="pb-3">
@@ -615,8 +615,8 @@ const ApiConfigPage: React.FC = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            onClick={() => copyToClipboard(config.endpoint)}
-                          >
+                            onClick={() => copyToClipboard(config.endpoint)}>
+
                             <Copy className="h-3 w-3" />
                           </Button>
                         </div>
@@ -635,15 +635,15 @@ const ApiConfigPage: React.FC = () => {
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => toggleApiKeyVisibility(config.id)}
-                            >
+                              onClick={() => toggleApiKeyVisibility(config.id)}>
+
                               {showApiKeys[config.id] ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                             </Button>
                             <Button
                               variant="ghost"
                               size="sm"
-                              onClick={() => copyToClipboard(config.api_key)}
-                            >
+                              onClick={() => copyToClipboard(config.api_key)}>
+
                               <Copy className="h-3 w-3" />
                             </Button>
                           </div>
@@ -656,18 +656,18 @@ const ApiConfigPage: React.FC = () => {
                         </div>
                       </div>
                       
-                      {testResult && (
-                        <Alert className={testResult.success ? 'border-green-200' : 'border-red-200'}>
-                          {testResult.success ? (
-                            <CheckCircle className="h-4 w-4 text-green-600" />
-                          ) : (
-                            <AlertCircle className="h-4 w-4 text-red-600" />
-                          )}
+                      {testResult &&
+                      <Alert className={testResult.success ? 'border-green-200' : 'border-red-200'}>
+                          {testResult.success ?
+                        <CheckCircle className="h-4 w-4 text-green-600" /> :
+
+                        <AlertCircle className="h-4 w-4 text-red-600" />
+                        }
                           <AlertDescription className={testResult.success ? 'text-green-700' : 'text-red-700'}>
                             {testResult.message}
                           </AlertDescription>
                         </Alert>
-                      )}
+                      }
                       
                       <Separator />
                       
@@ -675,8 +675,8 @@ const ApiConfigPage: React.FC = () => {
                         <div className="flex items-center space-x-2">
                           <Switch
                             checked={config.is_active}
-                            onCheckedChange={() => handleToggleActive(config.id, config.is_active)}
-                          />
+                            onCheckedChange={() => handleToggleActive(config.id, config.is_active)} />
+
                           <span className="text-sm">
                             {config.is_active ? 'Active' : 'Inactive'}
                           </span>
@@ -686,34 +686,34 @@ const ApiConfigPage: React.FC = () => {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => handleTestConnection(config)}
-                          >
+                            onClick={() => handleTestConnection(config)}>
+
                             <TestTube className="h-3 w-3" />
                           </Button>
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => openEditDialog(config)}
-                          >
+                            onClick={() => openEditDialog(config)}>
+
                             <Edit className="h-3 w-3" />
                           </Button>
                           <Button
                             size="sm"
                             variant="destructive"
-                            onClick={() => handleDeleteConfig(config.id)}
-                          >
+                            onClick={() => handleDeleteConfig(config.id)}>
+
                             <Trash2 className="h-3 w-3" />
                           </Button>
                         </div>
                       </div>
                     </CardContent>
-                  </Card>
-                );
+                  </Card>);
+
               })}
             </div>
 
-            {configs.length === 0 && (
-              <Card>
+            {configs.length === 0 &&
+            <Card>
                 <CardContent className="p-8 text-center">
                   <Settings className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
                   <h3 className="text-lg font-medium mb-2">No API configurations</h3>
@@ -726,7 +726,7 @@ const ApiConfigPage: React.FC = () => {
                   </Button>
                 </CardContent>
               </Card>
-            )}
+            }
           </TabsContent>
 
           {/* Settings Tab */}
@@ -747,8 +747,8 @@ const ApiConfigPage: React.FC = () => {
                         id="default-timeout"
                         type="number"
                         defaultValue="30"
-                        className="mt-1"
-                      />
+                        className="mt-1" />
+
                     </div>
                     
                     <div>
@@ -757,8 +757,8 @@ const ApiConfigPage: React.FC = () => {
                         id="max-retries"
                         type="number"
                         defaultValue="3"
-                        className="mt-1"
-                      />
+                        className="mt-1" />
+
                     </div>
                     
                     <div className="flex items-center space-x-2">
@@ -774,8 +774,8 @@ const ApiConfigPage: React.FC = () => {
                         id="rate-limit"
                         type="number"
                         defaultValue="60"
-                        className="mt-1"
-                      />
+                        className="mt-1" />
+
                     </div>
                     
                     <div>
@@ -784,8 +784,8 @@ const ApiConfigPage: React.FC = () => {
                         id="cache-duration"
                         type="number"
                         defaultValue="5"
-                        className="mt-1"
-                      />
+                        className="mt-1" />
+
                     </div>
                     
                     <div className="flex items-center space-x-2">
@@ -832,22 +832,22 @@ const ApiConfigPage: React.FC = () => {
                   control={form.control}
                   name="name"
                   rules={{ required: 'Name is required' }}
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Configuration Name</FormLabel>
                       <FormControl>
                         <Input placeholder="e.g., OpenAI GPT-4" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
                 
                 <FormField
                   control={form.control}
                   name="provider"
-                  render={({ field }) => (
-                    <FormItem>
+                  render={({ field }) =>
+                  <FormItem>
                       <FormLabel>Provider</FormLabel>
                       <Select onValueChange={field.onChange} value={field.value}>
                         <FormControl>
@@ -866,8 +866,8 @@ const ApiConfigPage: React.FC = () => {
                       </Select>
                       <FormMessage />
                     </FormItem>
-                  )}
-                />
+                  } />
+
               </div>
               
               <div className="flex justify-end space-x-2">
@@ -880,8 +880,8 @@ const ApiConfigPage: React.FC = () => {
           </Form>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>);
+
 };
 
 export default ApiConfigPage;
