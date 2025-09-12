@@ -33,7 +33,7 @@ const Footer: React.FC<FooterProps> = ({ className, children }) => {
             <div className="flex flex-col items-center space-y-2 md:items-end">
               {children}
               <p className="text-sm text-muted-foreground text-center md:text-right">
-                © {new Date().getFullYear()} All rights reserved.
+                Developed with love by Honeypotz Inc in Greenwich CT
               </p>
             </div>
           </div>
