@@ -6,22 +6,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  Building2, 
-  Plus, 
-  Search, 
-  Filter, 
-  TrendingUp, 
-  Users, 
-  Target, 
+import {
+  Building2,
+  Plus,
+  Search,
+  Filter,
+  TrendingUp,
+  Users,
+  Target,
   Clock,
   DollarSign,
   BarChart3,
   Settings,
   Edit,
   Trash2,
-  Activity
-} from 'lucide-react';
+  Activity } from
+'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import BusinessStageVisualizer from '@/components/BusinessStageVisualizer';
 import BusinessForm from '@/components/BusinessForm';
@@ -113,17 +113,17 @@ const BusinessDashboard: React.FC = () => {
   const [agents, setAgents] = useState<Agent[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
   const [transitions, setTransitions] = useState<LifecycleTransition[]>([]);
-  
+
   const [selectedBusiness, setSelectedBusiness] = useState<Business | null>(null);
   const [isBusinessFormOpen, setIsBusinessFormOpen] = useState(false);
   const [editingBusiness, setEditingBusiness] = useState<Business | null>(null);
   const [activeTab, setActiveTab] = useState('overview');
-  
+
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
-  
+
   const { toast } = useToast();
 
   // Load initial data
@@ -135,11 +135,11 @@ const BusinessDashboard: React.FC = () => {
     setLoading(true);
     try {
       await Promise.all([
-        loadBusinesses(),
-        loadStages(),
-        loadAgents(),
-        loadTransitions()
-      ]);
+      loadBusinesses(),
+      loadStages(),
+      loadAgents(),
+      loadTransitions()]
+      );
     } catch (error) {
       console.error('Error loading data:', error);
       toast({
@@ -224,8 +224,8 @@ const BusinessDashboard: React.FC = () => {
         OrderByField: "created_at",
         IsAsc: false,
         Filters: [
-          { name: "business_id", op: "Equal", value: businessId }
-        ]
+        { name: "business_id", op: "Equal", value: businessId }]
+
       });
       if (error) throw error;
       setTasks(data?.List || []);
@@ -245,15 +245,15 @@ const BusinessDashboard: React.FC = () => {
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString()
       });
-      
+
       if (error) throw error;
-      
+
       toast({
         title: "Business Created",
         description: `${businessData.name} has been created successfully.`,
         variant: "default"
       });
-      
+
       await loadBusinesses();
       setIsBusinessFormOpen(false);
     } catch (error) {
@@ -269,7 +269,7 @@ const BusinessDashboard: React.FC = () => {
 
   const handleUpdateBusiness = async (businessData: any) => {
     if (!editingBusiness) return;
-    
+
     setActionLoading(true);
     try {
       const { error } = await window.ezsite.apis.tableUpdate(37247, {
@@ -277,15 +277,15 @@ const BusinessDashboard: React.FC = () => {
         ...businessData,
         updated_at: new Date().toISOString()
       });
-      
+
       if (error) throw error;
-      
+
       toast({
         title: "Business Updated",
         description: `${businessData.name} has been updated successfully.`,
         variant: "default"
       });
-      
+
       await loadBusinesses();
       setEditingBusiness(null);
       setIsBusinessFormOpen(false);
@@ -302,7 +302,7 @@ const BusinessDashboard: React.FC = () => {
 
   const handleStageTransition = async (transitionData: any) => {
     if (!selectedBusiness) return;
-    
+
     setActionLoading(true);
     try {
       // Create transition record
@@ -312,26 +312,26 @@ const BusinessDashboard: React.FC = () => {
         transitioned_by: "current_user", // This should be actual user ID
         transitioned_at: new Date().toISOString()
       });
-      
+
       if (transitionError) throw transitionError;
-      
+
       // Update business current stage
       const { error: updateError } = await window.ezsite.apis.tableUpdate(37247, {
         ID: selectedBusiness.id,
         current_stage_id: transitionData.to_stage_id,
         updated_at: new Date().toISOString()
       });
-      
+
       if (updateError) throw updateError;
-      
+
       await Promise.all([loadBusinesses(), loadTransitions()]);
-      
+
       // Update selected business
-      const updatedBusiness = businesses.find(b => b.id === selectedBusiness.id);
+      const updatedBusiness = businesses.find((b) => b.id === selectedBusiness.id);
       if (updatedBusiness) {
         setSelectedBusiness({ ...updatedBusiness, current_stage_id: transitionData.to_stage_id });
       }
-      
+
     } catch (error) {
       throw error; // Let the component handle the error
     } finally {
@@ -342,45 +342,45 @@ const BusinessDashboard: React.FC = () => {
   const handleAssignAgent = async (stageId: number, agentId: number) => {
     // In a real implementation, you would have an agent_assignments table
     // For now, we'll simulate success
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
   const handleUnassignAgent = async (stageId: number, agentId: number) => {
     // In a real implementation, you would remove from agent_assignments table
     // For now, we'll simulate success
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   };
 
-  const filteredBusinesses = businesses.filter(business => {
+  const filteredBusinesses = businesses.filter((business) => {
     const matchesSearch = business.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         business.industry.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === 'all' || 
-                         (statusFilter === 'active' && business.is_active) ||
-                         (statusFilter === 'inactive' && !business.is_active);
+    business.industry.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === 'all' ||
+    statusFilter === 'active' && business.is_active ||
+    statusFilter === 'inactive' && !business.is_active;
     return matchesSearch && matchesStatus;
   });
 
   const getBusinessProgress = (business: Business): number => {
     // Calculate progress based on current stage and tasks completion
-    const stageIndex = stages.findIndex(s => s.id === business.current_stage_id);
-    const baseProgress = stageIndex >= 0 ? (stageIndex / Math.max(stages.length - 1, 1)) * 100 : 0;
-    
+    const stageIndex = stages.findIndex((s) => s.id === business.current_stage_id);
+    const baseProgress = stageIndex >= 0 ? stageIndex / Math.max(stages.length - 1, 1) * 100 : 0;
+
     // Add task completion bonus
-    const businessTasks = tasks.filter(t => t.business_id === business.id);
-    const completedTasks = businessTasks.filter(t => t.status === 'completed').length;
-    const taskBonus = businessTasks.length > 0 ? (completedTasks / businessTasks.length) * 20 : 0;
-    
+    const businessTasks = tasks.filter((t) => t.business_id === business.id);
+    const completedTasks = businessTasks.filter((t) => t.status === 'completed').length;
+    const taskBonus = businessTasks.length > 0 ? completedTasks / businessTasks.length * 20 : 0;
+
     return Math.min(baseProgress + taskBonus, 100);
   };
 
   const getCurrentStageObjectives = (business: Business) => {
-    const currentStage = stages.find(s => s.id === business.current_stage_id);
+    const currentStage = stages.find((s) => s.id === business.current_stage_id);
     if (!currentStage) return [];
-    
-    const objectives = Array.isArray(currentStage.key_objectives) 
-      ? currentStage.key_objectives 
-      : JSON.parse(currentStage.key_objectives || '[]');
-    
+
+    const objectives = Array.isArray(currentStage.key_objectives) ?
+    currentStage.key_objectives :
+    JSON.parse(currentStage.key_objectives || '[]');
+
     return objectives.map((obj: string, index: number) => ({
       id: `${business.id}-${index}`,
       name: obj,
@@ -390,13 +390,13 @@ const BusinessDashboard: React.FC = () => {
   };
 
   const getStageAssignments = () => {
-    return stages.map(stage => ({
+    return stages.map((stage) => ({
       stageId: stage.id,
       stageName: stage.name,
       assignedAgents: agents.slice(0, Math.floor(Math.random() * 3)), // Mock assignments
-      recommendedAgentTypes: Array.isArray(stage.recommended_agents) 
-        ? stage.recommended_agents 
-        : JSON.parse(stage.recommended_agents || '[]')
+      recommendedAgentTypes: Array.isArray(stage.recommended_agents) ?
+      stage.recommended_agents :
+      JSON.parse(stage.recommended_agents || '[]')
     }));
   };
 
@@ -404,8 +404,8 @@ const BusinessDashboard: React.FC = () => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
+      </div>);
+
   }
 
   return (
@@ -444,7 +444,7 @@ const BusinessDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Active Stages</p>
-                <p className="text-2xl font-bold text-primary">{stages.filter(s => s.is_active).length}</p>
+                <p className="text-2xl font-bold text-primary">{stages.filter((s) => s.is_active).length}</p>
               </div>
               <Target className="w-8 h-8 text-primary/60" />
             </div>
@@ -456,7 +456,7 @@ const BusinessDashboard: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Available Agents</p>
-                <p className="text-2xl font-bold text-primary">{agents.filter(a => a.status === 'active').length}</p>
+                <p className="text-2xl font-bold text-primary">{agents.filter((a) => a.status === 'active').length}</p>
               </div>
               <Users className="w-8 h-8 text-primary/60" />
             </div>
@@ -469,8 +469,8 @@ const BusinessDashboard: React.FC = () => {
               <div>
                 <p className="text-sm text-muted-foreground">Transitions Today</p>
                 <p className="text-2xl font-bold text-primary">
-                  {transitions.filter(t => 
-                    new Date(t.transitioned_at).toDateString() === new Date().toDateString()
+                  {transitions.filter((t) =>
+                  new Date(t.transitioned_at).toDateString() === new Date().toDateString()
                   ).length}
                 </p>
               </div>
@@ -492,8 +492,8 @@ const BusinessDashboard: React.FC = () => {
               <Button
                 onClick={() => setIsBusinessFormOpen(true)}
                 size="sm"
-                className="beewise-gradient"
-              >
+                className="beewise-gradient">
+
                 <Plus className="w-4 h-4 mr-2" />
                 Add
               </Button>
@@ -508,8 +508,8 @@ const BusinessDashboard: React.FC = () => {
                   placeholder="Search businesses..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+                  className="pl-10" />
+
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger>
@@ -527,10 +527,10 @@ const BusinessDashboard: React.FC = () => {
             {/* Business List */}
             <ScrollArea className="h-96">
               <div className="p-4 space-y-3">
-                {filteredBusinesses.map(business => {
+                {filteredBusinesses.map((business) => {
                   const progress = getBusinessProgress(business);
-                  const currentStage = stages.find(s => s.id === business.current_stage_id);
-                  
+                  const currentStage = stages.find((s) => s.id === business.current_stage_id);
+
                   return (
                     <div
                       key={business.id}
@@ -541,8 +541,8 @@ const BusinessDashboard: React.FC = () => {
                       onClick={() => {
                         setSelectedBusiness(business);
                         loadBusinessTasks(business.id);
-                      }}
-                    >
+                      }}>
+
                       <div className="flex items-start justify-between mb-2">
                         <div>
                           <h3 className="font-medium">{business.name}</h3>
@@ -558,8 +558,8 @@ const BusinessDashboard: React.FC = () => {
                               e.stopPropagation();
                               setEditingBusiness(business);
                               setIsBusinessFormOpen(true);
-                            }}
-                          >
+                            }}>
+
                             <Edit className="w-3 h-3" />
                           </Button>
                         </div>
@@ -579,15 +579,15 @@ const BusinessDashboard: React.FC = () => {
                             <span>{Math.round(progress)}%</span>
                           </div>
                           <div className="w-full bg-muted rounded-full h-2">
-                            <div 
-                              className="h-2 rounded-full stage-progress-bar transition-all duration-300" 
-                              style={{ width: `${progress}%` }}
-                            />
+                            <div
+                              className="h-2 rounded-full stage-progress-bar transition-all duration-300"
+                              style={{ width: `${progress}%` }} />
+
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
+                    </div>);
+
                 })}
               </div>
             </ScrollArea>
@@ -596,8 +596,8 @@ const BusinessDashboard: React.FC = () => {
 
         {/* Main Content */}
         <div className="lg:col-span-2">
-          {selectedBusiness ? (
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+          {selectedBusiness ?
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
               <TabsList className="grid w-full grid-cols-5">
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="stages">Stages</TabsTrigger>
@@ -608,55 +608,55 @@ const BusinessDashboard: React.FC = () => {
 
               <TabsContent value="overview" className="space-y-4">
                 <BusinessStageVisualizer
-                  business={selectedBusiness}
-                  stages={stages}
-                  currentProgress={getBusinessProgress(selectedBusiness)}
-                  onStageTransition={handleStageTransition}
-                  loading={actionLoading}
-                />
+                business={selectedBusiness}
+                stages={stages}
+                currentProgress={getBusinessProgress(selectedBusiness)}
+                onStageTransition={handleStageTransition}
+                loading={actionLoading} />
+
               </TabsContent>
 
               <TabsContent value="stages" className="space-y-4">
                 <BusinessStageVisualizer
-                  business={selectedBusiness}
-                  stages={stages}
-                  currentProgress={getBusinessProgress(selectedBusiness)}
-                  onStageTransition={handleStageTransition}
-                  loading={actionLoading}
-                />
+                business={selectedBusiness}
+                stages={stages}
+                currentProgress={getBusinessProgress(selectedBusiness)}
+                onStageTransition={handleStageTransition}
+                loading={actionLoading} />
+
               </TabsContent>
 
               <TabsContent value="transitions" className="space-y-4">
                 <StageTransitionControls
-                  businessId={selectedBusiness.id}
-                  currentStage={stages.find(s => s.id === selectedBusiness.current_stage_id)!}
-                  nextStage={stages.find(s => s.stage_order === (stages.find(s => s.id === selectedBusiness.current_stage_id)?.stage_order || 0) + 1)}
-                  currentProgress={getBusinessProgress(selectedBusiness)}
-                  objectives={getCurrentStageObjectives(selectedBusiness)}
-                  onTransition={handleStageTransition}
-                  recentTransitions={transitions.filter(t => t.business_id === selectedBusiness.id)}
-                  loading={actionLoading}
-                />
+                businessId={selectedBusiness.id}
+                currentStage={stages.find((s) => s.id === selectedBusiness.current_stage_id)!}
+                nextStage={stages.find((s) => s.stage_order === (stages.find((s) => s.id === selectedBusiness.current_stage_id)?.stage_order || 0) + 1)}
+                currentProgress={getBusinessProgress(selectedBusiness)}
+                objectives={getCurrentStageObjectives(selectedBusiness)}
+                onTransition={handleStageTransition}
+                recentTransitions={transitions.filter((t) => t.business_id === selectedBusiness.id)}
+                loading={actionLoading} />
+
               </TabsContent>
 
               <TabsContent value="agents" className="space-y-4">
                 <AgentAssignmentInterface
-                  businessId={selectedBusiness.id}
-                  stages={stages}
-                  availableAgents={agents}
-                  currentAssignments={getStageAssignments()}
-                  onAssignAgent={handleAssignAgent}
-                  onUnassignAgent={handleUnassignAgent}
-                  loading={actionLoading}
-                />
+                businessId={selectedBusiness.id}
+                stages={stages}
+                availableAgents={agents}
+                currentAssignments={getStageAssignments()}
+                onAssignAgent={handleAssignAgent}
+                onUnassignAgent={handleUnassignAgent}
+                loading={actionLoading} />
+
               </TabsContent>
 
               <TabsContent value="tasks" className="space-y-4">
                 <TaskManager />
               </TabsContent>
-            </Tabs>
-          ) : (
-            <Card className="business-card h-96">
+            </Tabs> :
+
+          <Card className="business-card h-96">
               <CardContent className="flex items-center justify-center h-full">
                 <div className="text-center">
                   <Building2 className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
@@ -665,16 +665,16 @@ const BusinessDashboard: React.FC = () => {
                     Choose a business from the list to view its lifecycle management details
                   </p>
                   <Button
-                    onClick={() => setIsBusinessFormOpen(true)}
-                    className="beewise-gradient"
-                  >
+                  onClick={() => setIsBusinessFormOpen(true)}
+                  className="beewise-gradient">
+
                     <Plus className="w-4 h-4 mr-2" />
                     Create New Business
                   </Button>
                 </div>
               </CardContent>
             </Card>
-          )}
+          }
         </div>
       </div>
 
@@ -688,10 +688,10 @@ const BusinessDashboard: React.FC = () => {
         onSubmit={editingBusiness ? handleUpdateBusiness : handleCreateBusiness}
         initialData={editingBusiness || undefined}
         isEditing={!!editingBusiness}
-        loading={actionLoading}
-      />
-    </div>
-  );
+        loading={actionLoading} />
+
+    </div>);
+
 };
 
 export default BusinessDashboard;

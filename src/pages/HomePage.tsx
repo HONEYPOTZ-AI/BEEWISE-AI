@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import ThemeToggle from  '@/components/ThemeToggle';
+import ThemeToggle from '@/components/ThemeToggle';
 import BusinessDashboard from '@/components/BusinessDashboard';
 import AgentDashboard from '@/components/AgentDashboard';
 import EnhancedTaskManager from '@/components/EnhancedTaskManager';
@@ -23,45 +23,45 @@ import {
   Activity,
   BarChart3,
   Settings,
-  Workflow
-} from 'lucide-react';
+  Workflow } from
+'lucide-react';
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
 
   const features = [
-    {
-      icon: <Building2 className="w-8 h-8 text-primary" />,
-      title: "Business Lifecycle Management",
-      description: "Visualize and manage complete business lifecycles with intelligent stage transitions and progress tracking.",
-      features: ["Interactive stage visualization", "Automated workflow management", "Progress indicators", "Success criteria tracking"]
-    },
-    {
-      icon: <Bot className="w-8 h-8 text-primary" />,
-      title: "Intelligent Agent Assignment",
-      description: "Assign AI agents to specific business stages based on requirements and recommendations.",
-      features: ["Smart agent matching", "Performance monitoring", "Cost optimization", "Multi-stage assignments"]
-    },
-    {
-      icon: <Target className="w-8 h-8 text-primary" />,
-      title: "Task Management Integration",
-      description: "Seamlessly integrate task management with lifecycle stages for complete workflow automation.",
-      features: ["Stage-specific tasks", "Automated assignments", "Progress tracking", "Performance analytics"]
-    },
-    {
-      icon: <TrendingUp className="w-8 h-8 text-primary" />,
-      title: "Advanced Analytics",
-      description: "Get insights into business performance, agent efficiency, and lifecycle optimization opportunities.",
-      features: ["Performance metrics", "Predictive analytics", "ROI tracking", "Custom dashboards"]
-    }
-  ];
+  {
+    icon: <Building2 className="w-8 h-8 text-primary" />,
+    title: "Business Lifecycle Management",
+    description: "Visualize and manage complete business lifecycles with intelligent stage transitions and progress tracking.",
+    features: ["Interactive stage visualization", "Automated workflow management", "Progress indicators", "Success criteria tracking"]
+  },
+  {
+    icon: <Bot className="w-8 h-8 text-primary" />,
+    title: "Intelligent Agent Assignment",
+    description: "Assign AI agents to specific business stages based on requirements and recommendations.",
+    features: ["Smart agent matching", "Performance monitoring", "Cost optimization", "Multi-stage assignments"]
+  },
+  {
+    icon: <Target className="w-8 h-8 text-primary" />,
+    title: "Task Management Integration",
+    description: "Seamlessly integrate task management with lifecycle stages for complete workflow automation.",
+    features: ["Stage-specific tasks", "Automated assignments", "Progress tracking", "Performance analytics"]
+  },
+  {
+    icon: <TrendingUp className="w-8 h-8 text-primary" />,
+    title: "Advanced Analytics",
+    description: "Get insights into business performance, agent efficiency, and lifecycle optimization opportunities.",
+    features: ["Performance metrics", "Predictive analytics", "ROI tracking", "Custom dashboards"]
+  }];
+
 
   const quickStats = [
-    { label: "Active Businesses", value: "24", icon: <Building2 className="w-5 h-5" />, trend: "+12%" },
-    { label: "Available Agents", value: "156", icon: <Bot className="w-5 h-5" />, trend: "+8%" },
-    { label: "Completed Tasks", value: "2,847", icon: <CheckCircle className="w-5 h-5" />, trend: "+23%" },
-    { label: "Success Rate", value: "94.2%", icon: <Star className="w-5 h-5" />, trend: "+2.1%" }
-  ];
+  { label: "Active Businesses", value: "24", icon: <Building2 className="w-5 h-5" />, trend: "+12%" },
+  { label: "Available Agents", value: "156", icon: <Bot className="w-5 h-5" />, trend: "+8%" },
+  { label: "Completed Tasks", value: "2,847", icon: <CheckCircle className="w-5 h-5" />, trend: "+23%" },
+  { label: "Success Rate", value: "94.2%", icon: <Star className="w-5 h-5" />, trend: "+2.1%" }];
+
 
   return (
     <div className="min-h-screen bg-background">
@@ -107,18 +107,18 @@ const HomePage: React.FC = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button 
-                size="lg" 
-                className="beewise-gradient text-lg px-8 py-6 h-auto"
-              >
+              <Button
+                size="lg"
+                className="beewise-gradient text-lg px-8 py-6 h-auto">
+
                 <Activity className="w-5 h-5 mr-2" />
                 Start Managing Lifecycles
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
-                className="text-lg px-8 py-6 h-auto border-primary/20 hover:border-primary/40"
-              >
+                className="text-lg px-8 py-6 h-auto border-primary/20 hover:border-primary/40">
+
                 <BarChart3 className="w-5 h-5 mr-2" />
                 View Analytics
               </Button>
@@ -126,8 +126,8 @@ const HomePage: React.FC = () => {
 
             {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-              {quickStats.map((stat, index) => (
-                <Card key={index} className="business-card">
+              {quickStats.map((stat, index) =>
+              <Card key={index} className="business-card">
                   <CardContent className="p-4 text-center">
                     <div className="flex items-center justify-center mb-2">
                       {stat.icon}
@@ -139,7 +139,7 @@ const HomePage: React.FC = () => {
                     </Badge>
                   </CardContent>
                 </Card>
-              ))}
+              )}
             </div>
           </div>
         </div>
@@ -156,8 +156,8 @@ const HomePage: React.FC = () => {
           </div>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            {features.map((feature, index) => (
-              <Card key={index} className="business-card workflow-transition">
+            {features.map((feature, index) =>
+            <Card key={index} className="business-card workflow-transition">
                 <CardHeader>
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-lg bg-primary/10">
@@ -171,16 +171,16 @@ const HomePage: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <ul className="space-y-2">
-                    {feature.features.map((item, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm">
+                    {feature.features.map((item, i) =>
+                  <li key={i} className="flex items-center gap-2 text-sm">
                         <CheckCircle className="w-4 h-4 text-primary flex-shrink-0" />
                         {item}
                       </li>
-                    ))}
+                  )}
                   </ul>
                 </CardContent>
               </Card>
-            ))}
+            )}
           </div>
         </div>
       </section>
@@ -235,20 +235,20 @@ const HomePage: React.FC = () => {
               improve efficiency, and achieve unprecedented growth.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                size="lg" 
-                className="beewise-gradient text-lg px-8 py-6 h-auto"
-              >
+              <Button
+                size="lg"
+                className="beewise-gradient text-lg px-8 py-6 h-auto">
+
                 <Workflow className="w-5 h-5 mr-2" />
                 Start Your Journey
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 className="text-lg px-8 py-6 h-auto"
-                onClick={() => navigate('/documentation')}
-              >
+                onClick={() => navigate('/documentation')}>
+
                 <Settings className="w-5 h-5 mr-2" />
                 View Documentation
               </Button>
@@ -307,8 +307,8 @@ const HomePage: React.FC = () => {
           </div>
         </div>
       </footer>
-    </div>
-  );
+    </div>);
+
 };
 
 export default HomePage;

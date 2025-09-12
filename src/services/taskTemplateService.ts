@@ -20,7 +20,7 @@ export class TaskTemplateService {
       }
 
       const stages = stagesResult.data?.List || [];
-      
+
       // Check if templates already exist
       const templatesResult = await window.ezsite.apis.tablePage(TASK_TEMPLATES_TABLE_ID, {
         PageNo: 1,
@@ -40,7 +40,7 @@ export class TaskTemplateService {
       }
 
       // Create stage name to ID mapping
-      const stageNameToId: { [key: string]: number } = {};
+      const stageNameToId: {[key: string]: number;} = {};
       stages.forEach((stage: any) => {
         stageNameToId[stage.name] = stage.id;
       });
@@ -79,7 +79,7 @@ export class TaskTemplateService {
 
       const results = await Promise.all(templatePromises);
       const successCount = results.filter(Boolean).length;
-      
+
       console.log(`Successfully initialized ${successCount} task templates`);
       return true;
 
@@ -97,17 +97,17 @@ export class TaskTemplateService {
         OrderByField: "name",
         IsAsc: true,
         Filters: [
-          {
-            name: "business_stage_id",
-            op: "Equal",
-            value: stageId
-          },
-          {
-            name: "is_active",
-            op: "Equal",
-            value: true
-          }
-        ]
+        {
+          name: "business_stage_id",
+          op: "Equal",
+          value: stageId
+        },
+        {
+          name: "is_active",
+          op: "Equal",
+          value: true
+        }]
+
       });
 
       if (result.error) {

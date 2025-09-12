@@ -16,14 +16,14 @@ import { Separator } from '@/components/ui/separator';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useToast } from '@/hooks/use-toast';
 import { useForm } from 'react-hook-form';
-import { 
-  Plus, 
-  Calendar, 
-  Clock, 
-  Users, 
-  CheckCircle, 
-  XCircle, 
-  PlayCircle, 
+import {
+  Plus,
+  Calendar,
+  Clock,
+  Users,
+  CheckCircle,
+  XCircle,
+  PlayCircle,
   PauseCircle,
   AlertTriangle,
   Target,
@@ -36,8 +36,8 @@ import {
   Layers,
   GitBranch,
   ArrowRight,
-  Star
-} from 'lucide-react';
+  Star } from
+'lucide-react';
 
 const EnhancedTaskManager: React.FC = () => {
   const { toast } = useToast();
@@ -102,19 +102,19 @@ const EnhancedTaskManager: React.FC = () => {
 
   // Memoized business analytics
   const businessAnalytics = useMemo(() => {
-    return businesses.map(business => {
+    return businesses.map((business) => {
       const businessTasks = getTasksByBusiness(business.id);
-      const completedCount = businessTasks.filter(t => t.status === 'completed').length;
-      const inProgressCount = businessTasks.filter(t => ['assigned', 'in_progress'].includes(t.status)).length;
-      const pendingCount = businessTasks.filter(t => t.status === 'pending').length;
-      
+      const completedCount = businessTasks.filter((t) => t.status === 'completed').length;
+      const inProgressCount = businessTasks.filter((t) => ['assigned', 'in_progress'].includes(t.status)).length;
+      const pendingCount = businessTasks.filter((t) => t.status === 'pending').length;
+
       return {
         ...business,
         totalTasks: businessTasks.length,
         completedTasks: completedCount,
         inProgressTasks: inProgressCount,
         pendingTasks: pendingCount,
-        progressPercentage: businessTasks.length > 0 ? Math.round((completedCount / businessTasks.length) * 100) : 0
+        progressPercentage: businessTasks.length > 0 ? Math.round(completedCount / businessTasks.length * 100) : 0
       };
     });
   }, [businesses, getTasksByBusiness]);
@@ -122,24 +122,24 @@ const EnhancedTaskManager: React.FC = () => {
   // Priority colors
   const getPriorityColor = (priority: string) => {
     switch (priority) {
-      case 'urgent': return 'bg-red-500';
-      case 'high': return 'bg-orange-500';
-      case 'medium': return 'bg-yellow-500';
-      case 'low': return 'bg-green-500';
-      default: return 'bg-gray-500';
+      case 'urgent':return 'bg-red-500';
+      case 'high':return 'bg-orange-500';
+      case 'medium':return 'bg-yellow-500';
+      case 'low':return 'bg-green-500';
+      default:return 'bg-gray-500';
     }
   };
 
   // Status colors
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'bg-green-100 text-green-800';
-      case 'in_progress': return 'bg-blue-100 text-blue-800';
-      case 'assigned': return 'bg-purple-100 text-purple-800';
-      case 'pending': return 'bg-gray-100 text-gray-800';
-      case 'failed': return 'bg-red-100 text-red-800';
-      case 'cancelled': return 'bg-gray-100 text-gray-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case 'completed':return 'bg-green-100 text-green-800';
+      case 'in_progress':return 'bg-blue-100 text-blue-800';
+      case 'assigned':return 'bg-purple-100 text-purple-800';
+      case 'pending':return 'bg-gray-100 text-gray-800';
+      case 'failed':return 'bg-red-100 text-red-800';
+      case 'cancelled':return 'bg-gray-100 text-gray-800';
+      default:return 'bg-gray-100 text-gray-800';
     }
   };
 
@@ -179,8 +179,8 @@ const EnhancedTaskManager: React.FC = () => {
     return (
       <div className="flex items-center justify-center h-64">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-      </div>
-    );
+      </div>);
+
   }
 
   if (error) {
@@ -192,8 +192,8 @@ const EnhancedTaskManager: React.FC = () => {
             <p className="text-red-600">Error loading tasks: {error}</p>
           </div>
         </CardContent>
-      </Card>
-    );
+      </Card>);
+
   }
 
   return (
@@ -269,29 +269,29 @@ const EnhancedTaskManager: React.FC = () => {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">All Businesses</SelectItem>
-                  {businesses.map((business) => (
-                    <SelectItem key={business.id} value={business.id.toString()}>
+                  {businesses.map((business) =>
+                  <SelectItem key={business.id} value={business.id.toString()}>
                       {business.name}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
 
-              {selectedBusiness && (
-                <Select value={selectedStage?.toString() || ''} onValueChange={(value) => setSelectedStage(value ? parseInt(value) : null)}>
+              {selectedBusiness &&
+              <Select value={selectedStage?.toString() || ''} onValueChange={(value) => setSelectedStage(value ? parseInt(value) : null)}>
                   <SelectTrigger className="w-[200px]">
                     <SelectValue placeholder="Select stage" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="">All Stages</SelectItem>
-                    {businessStages.map((stage) => (
-                      <SelectItem key={stage.id} value={stage.id.toString()}>
+                    {businessStages.map((stage) =>
+                  <SelectItem key={stage.id} value={stage.id.toString()}>
                         {stage.name}
                       </SelectItem>
-                    ))}
+                  )}
                   </SelectContent>
                 </Select>
-              )}
+              }
             </div>
 
             <div className="flex space-x-2">
@@ -312,37 +312,37 @@ const EnhancedTaskManager: React.FC = () => {
                       <FormField
                         control={createTaskForm.control}
                         name="title"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Title</FormLabel>
                             <FormControl>
                               <Input {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
                       
                       <FormField
                         control={createTaskForm.control}
                         name="description"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Description</FormLabel>
                             <FormControl>
                               <Textarea {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
 
                       <div className="grid grid-cols-2 gap-4">
                         <FormField
                           control={createTaskForm.control}
                           name="business_id"
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Business</FormLabel>
                               <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
                                 <FormControl>
@@ -351,23 +351,23 @@ const EnhancedTaskManager: React.FC = () => {
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  {businesses.map((business) => (
-                                    <SelectItem key={business.id} value={business.id.toString()}>
+                                  {businesses.map((business) =>
+                                <SelectItem key={business.id} value={business.id.toString()}>
                                       {business.name}
                                     </SelectItem>
-                                  ))}
+                                )}
                                 </SelectContent>
                               </Select>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
 
                         <FormField
                           control={createTaskForm.control}
                           name="priority"
-                          render={({ field }) => (
-                            <FormItem>
+                          render={({ field }) =>
+                          <FormItem>
                               <FormLabel>Priority</FormLabel>
                               <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
@@ -384,8 +384,8 @@ const EnhancedTaskManager: React.FC = () => {
                               </Select>
                               <FormMessage />
                             </FormItem>
-                          )}
-                        />
+                          } />
+
                       </div>
 
                       <div className="flex justify-end space-x-2">
@@ -416,8 +416,8 @@ const EnhancedTaskManager: React.FC = () => {
                       <FormField
                         control={templateForm.control}
                         name="template_id"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Template</FormLabel>
                             <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
                               <FormControl>
@@ -426,23 +426,23 @@ const EnhancedTaskManager: React.FC = () => {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {taskTemplates.map((template) => (
-                                  <SelectItem key={template.id} value={template.id.toString()}>
+                                {taskTemplates.map((template) =>
+                              <SelectItem key={template.id} value={template.id.toString()}>
                                     {template.name} ({template.stageName})
                                   </SelectItem>
-                                ))}
+                              )}
                               </SelectContent>
                             </Select>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
 
                       <FormField
                         control={templateForm.control}
                         name="business_id"
-                        render={({ field }) => (
-                          <FormItem>
+                        render={({ field }) =>
+                        <FormItem>
                             <FormLabel>Business</FormLabel>
                             <Select onValueChange={(value) => field.onChange(parseInt(value))} value={field.value.toString()}>
                               <FormControl>
@@ -451,17 +451,17 @@ const EnhancedTaskManager: React.FC = () => {
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                {businesses.map((business) => (
-                                  <SelectItem key={business.id} value={business.id.toString()}>
+                                {businesses.map((business) =>
+                              <SelectItem key={business.id} value={business.id.toString()}>
                                     {business.name}
                                   </SelectItem>
-                                ))}
+                              )}
                               </SelectContent>
                             </Select>
                             <FormMessage />
                           </FormItem>
-                        )}
-                      />
+                        } />
+
 
                       <div className="flex justify-end space-x-2">
                         <Button type="button" variant="outline" onClick={() => setIsTemplateDialogOpen(false)}>
@@ -478,8 +478,8 @@ const EnhancedTaskManager: React.FC = () => {
 
           {/* Task List */}
           <div className="grid gap-4">
-            {filteredTasks.map((task) => (
-              <Card key={task.id} className="hover:shadow-md transition-shadow">
+            {filteredTasks.map((task) =>
+            <Card key={task.id} className="hover:shadow-md transition-shadow">
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
@@ -508,45 +508,45 @@ const EnhancedTaskManager: React.FC = () => {
                           <Clock className="h-4 w-4" />
                           <span>{task.estimated_duration}m</span>
                         </div>
-                        {task.assignedAgents && task.assignedAgents.length > 0 && (
-                          <div className="flex items-center space-x-1">
+                        {task.assignedAgents && task.assignedAgents.length > 0 &&
+                      <div className="flex items-center space-x-1">
                             <Users className="h-4 w-4" />
                             <span>{task.assignedAgents.length} assigned</span>
                           </div>
-                        )}
+                      }
                       </div>
                     </div>
 
                     <div className="flex items-center space-x-2 ml-4">
-                      {task.status === 'pending' && (
-                        <Button
-                          size="sm"
-                          onClick={() => handleStatusUpdate(task.id, 'in_progress')}
-                        >
+                      {task.status === 'pending' &&
+                    <Button
+                      size="sm"
+                      onClick={() => handleStatusUpdate(task.id, 'in_progress')}>
+
                           <PlayCircle className="h-4 w-4" />
                         </Button>
-                      )}
-                      {task.status === 'in_progress' && (
-                        <Button
-                          size="sm"
-                          onClick={() => handleStatusUpdate(task.id, 'completed')}
-                          className="bg-green-600 hover:bg-green-700"
-                        >
+                    }
+                      {task.status === 'in_progress' &&
+                    <Button
+                      size="sm"
+                      onClick={() => handleStatusUpdate(task.id, 'completed')}
+                      className="bg-green-600 hover:bg-green-700">
+
                           <CheckCircle className="h-4 w-4" />
                         </Button>
-                      )}
+                    }
                       <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setSelectedTask(task)}
-                      >
+                      size="sm"
+                      variant="outline"
+                      onClick={() => setSelectedTask(task)}>
+
                         <Settings className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
 
-                  {task.dependencies && task.dependencies.length > 0 && (
-                    <div className="mt-3 pt-3 border-t">
+                  {task.dependencies && task.dependencies.length > 0 &&
+                <div className="mt-3 pt-3 border-t">
                       <div className="flex items-center space-x-2 text-sm">
                         <GitBranch className="h-4 w-4 text-gray-400" />
                         <span className="text-gray-600">
@@ -554,28 +554,28 @@ const EnhancedTaskManager: React.FC = () => {
                         </span>
                       </div>
                     </div>
-                  )}
+                }
                 </CardContent>
               </Card>
-            ))}
+            )}
 
-            {filteredTasks.length === 0 && (
-              <Card>
+            {filteredTasks.length === 0 &&
+            <Card>
                 <CardContent className="p-8 text-center">
                   <FileText className="h-12 w-12 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600">No tasks found</p>
                   <p className="text-sm text-gray-500">Create a new task or adjust your filters</p>
                 </CardContent>
               </Card>
-            )}
+            }
           </div>
         </TabsContent>
 
         {/* Business View Tab */}
         <TabsContent value="business-view" className="space-y-4">
           <div className="grid gap-4">
-            {businessAnalytics.map((business) => (
-              <Card key={business.id}>
+            {businessAnalytics.map((business) =>
+            <Card key={business.id}>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
@@ -610,8 +610,8 @@ const EnhancedTaskManager: React.FC = () => {
                         <AccordionTrigger>View Tasks ({business.totalTasks})</AccordionTrigger>
                         <AccordionContent>
                           <div className="space-y-2">
-                            {getTasksByBusiness(business.id).slice(0, 5).map((task) => (
-                              <div key={task.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                            {getTasksByBusiness(business.id).slice(0, 5).map((task) =>
+                          <div key={task.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                                 <div className="flex items-center space-x-2">
                                   <Badge className={getStatusColor(task.status)} variant="secondary">
                                     {task.status}
@@ -622,12 +622,12 @@ const EnhancedTaskManager: React.FC = () => {
                                   {task.priority}
                                 </Badge>
                               </div>
-                            ))}
-                            {getTasksByBusiness(business.id).length > 5 && (
-                              <p className="text-sm text-gray-500 text-center">
+                          )}
+                            {getTasksByBusiness(business.id).length > 5 &&
+                          <p className="text-sm text-gray-500 text-center">
                                 +{getTasksByBusiness(business.id).length - 5} more tasks...
                               </p>
-                            )}
+                          }
                           </div>
                         </AccordionContent>
                       </AccordionItem>
@@ -635,7 +635,7 @@ const EnhancedTaskManager: React.FC = () => {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            )}
           </div>
         </TabsContent>
 
@@ -661,8 +661,8 @@ const EnhancedTaskManager: React.FC = () => {
         {/* Templates Tab */}
         <TabsContent value="templates" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {taskTemplates.map((template) => (
-              <Card key={template.id}>
+            {taskTemplates.map((template) =>
+            <Card key={template.id}>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
                     <span>{template.name}</span>
@@ -679,18 +679,18 @@ const EnhancedTaskManager: React.FC = () => {
                       </Badge>
                     </div>
                     <Button
-                      size="sm"
-                      onClick={() => {
-                        templateForm.setValue('template_id', template.id);
-                        setIsTemplateDialogOpen(true);
-                      }}
-                    >
+                    size="sm"
+                    onClick={() => {
+                      templateForm.setValue('template_id', template.id);
+                      setIsTemplateDialogOpen(true);
+                    }}>
+
                       Use Template
                     </Button>
                   </div>
                 </CardContent>
               </Card>
-            ))}
+            )}
           </div>
         </TabsContent>
 
@@ -706,7 +706,7 @@ const EnhancedTaskManager: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold text-green-600">
-                  {totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0}%
+                  {totalTasks > 0 ? Math.round(completedTasks / totalTasks * 100) : 0}%
                 </div>
                 <p className="text-sm text-gray-600">
                   {completedTasks} of {totalTasks} tasks completed
@@ -723,20 +723,20 @@ const EnhancedTaskManager: React.FC = () => {
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
-                  {agents.slice(0, 3).map((agent) => (
-                    <div key={agent.id} className="flex items-center justify-between text-sm">
+                  {agents.slice(0, 3).map((agent) =>
+                  <div key={agent.id} className="flex items-center justify-between text-sm">
                       <span>{agent.display_name}</span>
                       <div className="flex items-center space-x-2">
                         <span>{agent.currentTaskCount || 0}/{agent.max_concurrent_tasks}</span>
                         <div className="w-16 bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-blue-600 h-2 rounded-full"
-                            style={{ width: `${((agent.currentTaskCount || 0) / agent.max_concurrent_tasks) * 100}%` }}
-                          ></div>
+                          <div
+                          className="bg-blue-600 h-2 rounded-full"
+                          style={{ width: `${(agent.currentTaskCount || 0) / agent.max_concurrent_tasks * 100}%` }}>
+                        </div>
                         </div>
                       </div>
                     </div>
-                  ))}
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -745,8 +745,8 @@ const EnhancedTaskManager: React.FC = () => {
       </Tabs>
 
       {/* Task Detail Dialog */}
-      {selectedTask && (
-        <Dialog open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
+      {selectedTask &&
+      <Dialog open={!!selectedTask} onOpenChange={() => setSelectedTask(null)}>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
               <DialogTitle>{selectedTask.title}</DialogTitle>
@@ -790,12 +790,12 @@ const EnhancedTaskManager: React.FC = () => {
                       <span className="text-gray-600">Created:</span>
                       <span>{new Date(selectedTask.created_at).toLocaleDateString()}</span>
                     </div>
-                    {selectedTask.completed_at && (
-                      <div className="flex justify-between">
+                    {selectedTask.completed_at &&
+                  <div className="flex justify-between">
                         <span className="text-gray-600">Completed:</span>
                         <span>{new Date(selectedTask.completed_at).toLocaleDateString()}</span>
                       </div>
-                    )}
+                  }
                   </div>
                 </div>
               </div>
@@ -807,14 +807,14 @@ const EnhancedTaskManager: React.FC = () => {
                 <p className="text-sm text-gray-600">{selectedTask.description}</p>
               </div>
 
-              {selectedTask.assignedAgents && selectedTask.assignedAgents.length > 0 && (
-                <>
+              {selectedTask.assignedAgents && selectedTask.assignedAgents.length > 0 &&
+            <>
                   <Separator />
                   <div>
                     <h4 className="font-semibold mb-2">Assigned Agents</h4>
                     <div className="space-y-2">
-                      {selectedTask.assignedAgents.map((assignment) => (
-                        <div key={assignment.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                      {selectedTask.assignedAgents.map((assignment) =>
+                  <div key={assignment.id} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                           <div className="flex items-center space-x-2">
                             <User className="h-4 w-4" />
                             <span className="text-sm">{assignment.agentDisplayName}</span>
@@ -827,36 +827,36 @@ const EnhancedTaskManager: React.FC = () => {
                             <span className="text-sm text-gray-500">{assignment.progress_percentage}%</span>
                           </div>
                         </div>
-                      ))}
+                  )}
                     </div>
                   </div>
                 </>
-              )}
+            }
 
-              {selectedTask.dependencies && selectedTask.dependencies.length > 0 && (
-                <>
+              {selectedTask.dependencies && selectedTask.dependencies.length > 0 &&
+            <>
                   <Separator />
                   <div>
                     <h4 className="font-semibold mb-2">Dependencies</h4>
                     <div className="space-y-2">
-                      {selectedTask.dependencies.map((dependency) => (
-                        <div key={dependency.id} className="flex items-center space-x-2 p-2 bg-gray-50 rounded text-sm">
+                      {selectedTask.dependencies.map((dependency) =>
+                  <div key={dependency.id} className="flex items-center space-x-2 p-2 bg-gray-50 rounded text-sm">
                           <GitBranch className="h-4 w-4 text-gray-400" />
                           <span>{dependency.dependency_type.replace('_', ' ')}</span>
                           <ArrowRight className="h-4 w-4 text-gray-400" />
                           <span>{dependency.parentTaskTitle || dependency.dependentTaskTitle}</span>
                         </div>
-                      ))}
+                  )}
                     </div>
                   </div>
                 </>
-              )}
+            }
             </div>
           </DialogContent>
         </Dialog>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
 export default EnhancedTaskManager;

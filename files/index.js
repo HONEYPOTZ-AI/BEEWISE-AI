@@ -2,12 +2,12 @@
 export const teaser = {
   version: "1.0.0",
   message: "Welcome to BeeWise-AI Teaser Package!",
-  
-  greet: function() {
+
+  greet: function () {
     return "Hello from the local teaser package!";
   },
-  
-  getInfo: function() {
+
+  getInfo: function () {
     return {
       name: "teaser",
       version: this.version,

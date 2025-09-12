@@ -8,19 +8,19 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { 
-  Users, 
-  Plus, 
-  Search, 
-  Filter, 
-  UserPlus, 
-  CheckCircle2, 
-  Clock, 
+import {
+  Users,
+  Plus,
+  Search,
+  Filter,
+  UserPlus,
+  CheckCircle2,
+  Clock,
   AlertCircle,
   Bot,
   Zap,
-  Star
-} from 'lucide-react';
+  Star } from
+'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Agent {
@@ -73,7 +73,7 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [isAssigning, setIsAssigning] = useState<{ [key: string]: boolean }>({});
+  const [isAssigning, setIsAssigning] = useState<{[key: string]: boolean;}>({});
   const { toast } = useToast();
 
   const parseRecommendedAgents = (agents: string | string[]): string[] => {
@@ -86,45 +86,45 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
     }
   };
 
-  const filteredAgents = availableAgents.filter(agent => {
+  const filteredAgents = availableAgents.filter((agent) => {
     const matchesSearch = agent.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         agent.display_name.toLowerCase().includes(searchTerm.toLowerCase());
+    agent.display_name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || agent.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
   const getAgentStatusColor = (status: string) => {
     switch (status) {
-      case 'active': return 'bg-green-100 text-green-800';
-      case 'inactive': return 'bg-gray-100 text-gray-800';
-      case 'maintenance': return 'bg-yellow-100 text-yellow-800';
-      case 'deprecated': return 'bg-red-100 text-red-800';
-      default: return 'bg-blue-100 text-blue-800';
+      case 'active':return 'bg-green-100 text-green-800';
+      case 'inactive':return 'bg-gray-100 text-gray-800';
+      case 'maintenance':return 'bg-yellow-100 text-yellow-800';
+      case 'deprecated':return 'bg-red-100 text-red-800';
+      default:return 'bg-blue-100 text-blue-800';
     }
   };
 
   const isAgentRecommended = (agent: Agent, stage: BusinessStage): boolean => {
     const recommended = parseRecommendedAgents(stage.recommended_agents);
-    return recommended.some(rec => 
-      agent.name.toLowerCase().includes(rec.toLowerCase()) ||
-      agent.display_name.toLowerCase().includes(rec.toLowerCase())
+    return recommended.some((rec) =>
+    agent.name.toLowerCase().includes(rec.toLowerCase()) ||
+    agent.display_name.toLowerCase().includes(rec.toLowerCase())
     );
   };
 
   const isAgentAssigned = (stageId: number, agentId: number): boolean => {
-    const assignment = currentAssignments.find(a => a.stageId === stageId);
-    return assignment?.assignedAgents.some(agent => agent.id === agentId) || false;
+    const assignment = currentAssignments.find((a) => a.stageId === stageId);
+    return assignment?.assignedAgents.some((agent) => agent.id === agentId) || false;
   };
 
   const handleAssignAgent = async (stageId: number, agentId: number) => {
     const key = `${stageId}-${agentId}`;
-    setIsAssigning(prev => ({ ...prev, [key]: true }));
-    
+    setIsAssigning((prev) => ({ ...prev, [key]: true }));
+
     try {
       await onAssignAgent(stageId, agentId);
-      const agent = availableAgents.find(a => a.id === agentId);
-      const stage = stages.find(s => s.id === stageId);
-      
+      const agent = availableAgents.find((a) => a.id === agentId);
+      const stage = stages.find((s) => s.id === stageId);
+
       toast({
         title: "Agent Assigned",
         description: `${agent?.display_name} assigned to ${stage?.name}`,
@@ -137,19 +137,19 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
         variant: "destructive"
       });
     } finally {
-      setIsAssigning(prev => ({ ...prev, [key]: false }));
+      setIsAssigning((prev) => ({ ...prev, [key]: false }));
     }
   };
 
   const handleUnassignAgent = async (stageId: number, agentId: number) => {
     const key = `${stageId}-${agentId}`;
-    setIsAssigning(prev => ({ ...prev, [key]: true }));
-    
+    setIsAssigning((prev) => ({ ...prev, [key]: true }));
+
     try {
       await onUnassignAgent(stageId, agentId);
-      const agent = availableAgents.find(a => a.id === agentId);
-      const stage = stages.find(s => s.id === stageId);
-      
+      const agent = availableAgents.find((a) => a.id === agentId);
+      const stage = stages.find((s) => s.id === stageId);
+
       toast({
         title: "Agent Unassigned",
         description: `${agent?.display_name} removed from ${stage?.name}`,
@@ -162,7 +162,7 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
         variant: "destructive"
       });
     } finally {
-      setIsAssigning(prev => ({ ...prev, [key]: false }));
+      setIsAssigning((prev) => ({ ...prev, [key]: false }));
     }
   };
 
@@ -183,8 +183,8 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
             <Button
               onClick={() => setIsAssignDialogOpen(true)}
               className="beewise-gradient"
-              size="sm"
-            >
+              size="sm">
+
               <Plus className="w-4 h-4 mr-2" />
               Assign Agents
             </Button>
@@ -192,8 +192,8 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
-            {stages.map(stage => {
-              const assignment = currentAssignments.find(a => a.stageId === stage.id);
+            {stages.map((stage) => {
+              const assignment = currentAssignments.find((a) => a.stageId === stage.id);
               const assignedAgents = assignment?.assignedAgents || [];
               const recommended = parseRecommendedAgents(stage.recommended_agents);
 
@@ -212,41 +212,41 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
                       onClick={() => {
                         setSelectedStage(stage.id);
                         setIsAssignDialogOpen(true);
-                      }}
-                    >
+                      }}>
+
                       <UserPlus className="w-4 h-4 mr-2" />
                       Manage
                     </Button>
                   </div>
 
                   {/* Recommended Agent Types */}
-                  {recommended.length > 0 && (
-                    <div className="mb-3">
+                  {recommended.length > 0 &&
+                  <div className="mb-3">
                       <p className="text-xs font-medium mb-2">Recommended Agent Types:</p>
                       <div className="flex flex-wrap gap-1">
-                        {recommended.map((type, index) => (
-                          <Badge key={index} variant="outline" className="text-xs">
+                        {recommended.map((type, index) =>
+                      <Badge key={index} variant="outline" className="text-xs">
                             {type}
                           </Badge>
-                        ))}
+                      )}
                       </div>
                     </div>
-                  )}
+                  }
 
                   {/* Assigned Agents */}
                   <div className="space-y-2">
-                    {assignedAgents.length === 0 ? (
-                      <div className="text-center py-6 text-muted-foreground">
+                    {assignedAgents.length === 0 ?
+                    <div className="text-center py-6 text-muted-foreground">
                         <Bot className="w-8 h-8 mx-auto mb-2 opacity-50" />
                         <p className="text-sm">No agents assigned to this stage</p>
-                      </div>
-                    ) : (
-                      assignedAgents.map(agent => (
-                        <div key={agent.id} className="flex items-center justify-between p-3 rounded-lg border agent-assigned">
+                      </div> :
+
+                    assignedAgents.map((agent) =>
+                    <div key={agent.id} className="flex items-center justify-between p-3 rounded-lg border agent-assigned">
                           <div className="flex items-center gap-3">
                             <Avatar className="h-8 w-8">
                               <AvatarFallback className="bg-primary/10 text-primary text-xs">
-                                {agent.display_name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                {agent.display_name.split(' ').map((n) => n[0]).join('').toUpperCase()}
                               </AvatarFallback>
                             </Avatar>
                             <div>
@@ -255,34 +255,34 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
                                 <Badge className={`text-xs ${getAgentStatusColor(agent.status)}`}>
                                   {agent.status}
                                 </Badge>
-                                {isAgentRecommended(agent, stage) && (
-                                  <Badge variant="secondary" className="text-xs">
+                                {isAgentRecommended(agent, stage) &&
+                            <Badge variant="secondary" className="text-xs">
                                     <Star className="w-3 h-3 mr-1" />
                                     Recommended
                                   </Badge>
-                                )}
+                            }
                               </div>
                               <p className="text-xs text-muted-foreground">{agent.description}</p>
                             </div>
                           </div>
                           <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => handleUnassignAgent(stage.id, agent.id)}
-                            disabled={isAssigning[`${stage.id}-${agent.id}`]}
-                          >
-                            {isAssigning[`${stage.id}-${agent.id}`] ? (
-                              <Clock className="w-4 h-4 animate-spin" />
-                            ) : (
-                              'Remove'
-                            )}
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleUnassignAgent(stage.id, agent.id)}
+                        disabled={isAssigning[`${stage.id}-${agent.id}`]}>
+
+                            {isAssigning[`${stage.id}-${agent.id}`] ?
+                        <Clock className="w-4 h-4 animate-spin" /> :
+
+                        'Remove'
+                        }
                           </Button>
                         </div>
-                      ))
-                    )}
+                    )
+                    }
                   </div>
-                </div>
-              );
+                </div>);
+
             })}
           </div>
         </CardContent>
@@ -308,8 +308,8 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
                     placeholder="Search agents..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10"
-                  />
+                    className="pl-10" />
+
                 </div>
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
@@ -331,13 +331,13 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
             {/* Available Agents */}
             <ScrollArea className="h-96">
               <div className="space-y-3">
-                {filteredAgents.map(agent => (
-                  <div key={agent.id} className="border rounded-lg p-4">
+                {filteredAgents.map((agent) =>
+                <div key={agent.id} className="border rounded-lg p-4">
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex items-start gap-3">
                         <Avatar className="h-10 w-10">
                           <AvatarFallback className="bg-primary/10 text-primary">
-                            {agent.display_name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            {agent.display_name.split(' ').map((n) => n[0]).join('').toUpperCase()}
                           </AvatarFallback>
                         </Avatar>
                         <div>
@@ -362,60 +362,60 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
 
                     {/* Stage Assignment Options */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-                      {stages.map(stage => {
-                        const isAssigned = isAgentAssigned(stage.id, agent.id);
-                        const isRecommended = isAgentRecommended(agent, stage);
-                        const key = `${stage.id}-${agent.id}`;
+                      {stages.map((stage) => {
+                      const isAssigned = isAgentAssigned(stage.id, agent.id);
+                      const isRecommended = isAgentRecommended(agent, stage);
+                      const key = `${stage.id}-${agent.id}`;
 
-                        return (
-                          <div 
-                            key={stage.id}
-                            className={`
+                      return (
+                        <div
+                          key={stage.id}
+                          className={`
                               p-2 rounded border text-sm flex items-center justify-between
                               ${isAssigned ? 'border-green-200 bg-green-50' : 'border-gray-200'}
                               ${isRecommended ? 'border-primary/30 bg-primary/5' : ''}
-                            `}
-                          >
+                            `}>
+
                             <div className="flex items-center gap-2">
                               <span className="font-medium">{stage.name}</span>
-                              {isRecommended && (
-                                <Star className="w-3 h-3 text-primary" />
-                              )}
+                              {isRecommended &&
+                            <Star className="w-3 h-3 text-primary" />
+                            }
                             </div>
-                            {isAssigned ? (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => handleUnassignAgent(stage.id, agent.id)}
-                                disabled={isAssigning[key]}
-                                className="text-xs h-6"
-                              >
-                                {isAssigning[key] ? (
-                                  <Clock className="w-3 h-3 animate-spin" />
-                                ) : (
-                                  'Remove'
-                                )}
+                            {isAssigned ?
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => handleUnassignAgent(stage.id, agent.id)}
+                            disabled={isAssigning[key]}
+                            className="text-xs h-6">
+
+                                {isAssigning[key] ?
+                            <Clock className="w-3 h-3 animate-spin" /> :
+
+                            'Remove'
+                            }
+                              </Button> :
+
+                          <Button
+                            size="sm"
+                            onClick={() => handleAssignAgent(stage.id, agent.id)}
+                            disabled={agent.status !== 'active' || isAssigning[key]}
+                            className="text-xs h-6 beewise-gradient">
+
+                                {isAssigning[key] ?
+                            <Clock className="w-3 h-3 animate-spin" /> :
+
+                            'Assign'
+                            }
                               </Button>
-                            ) : (
-                              <Button
-                                size="sm"
-                                onClick={() => handleAssignAgent(stage.id, agent.id)}
-                                disabled={agent.status !== 'active' || isAssigning[key]}
-                                className="text-xs h-6 beewise-gradient"
-                              >
-                                {isAssigning[key] ? (
-                                  <Clock className="w-3 h-3 animate-spin" />
-                                ) : (
-                                  'Assign'
-                                )}
-                              </Button>
-                            )}
-                          </div>
-                        );
-                      })}
+                          }
+                          </div>);
+
+                    })}
                     </div>
                   </div>
-                ))}
+                )}
               </div>
             </ScrollArea>
           </div>
@@ -423,15 +423,15 @@ const AgentAssignmentInterface: React.FC<AgentAssignmentInterfaceProps> = ({
           <DialogFooter>
             <Button
               variant="outline"
-              onClick={() => setIsAssignDialogOpen(false)}
-            >
+              onClick={() => setIsAssignDialogOpen(false)}>
+
               Close
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>);
+
 };
 
 export default AgentAssignmentInterface;

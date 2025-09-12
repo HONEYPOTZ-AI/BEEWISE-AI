@@ -40,8 +40,8 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
   loading = false
 }) => {
   const sortedStages = [...stages].sort((a, b) => a.stage_order - b.stage_order);
-  const currentStageIndex = sortedStages.findIndex(stage => stage.id === business.current_stage_id);
-  
+  const currentStageIndex = sortedStages.findIndex((stage) => stage.id === business.current_stage_id);
+
   const getStageStatus = (index: number) => {
     if (index < currentStageIndex) return 'completed';
     if (index === currentStageIndex) return 'current';
@@ -86,12 +86,12 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
           <div className="space-y-4">
             <div className="flex justify-between text-sm text-muted-foreground mb-2">
               <span>Stage {currentStageIndex + 1} of {sortedStages.length}</span>
-              <span>{Math.round(((currentStageIndex + currentProgress / 100) / sortedStages.length) * 100)}% Complete</span>
+              <span>{Math.round((currentStageIndex + currentProgress / 100) / sortedStages.length * 100)}% Complete</span>
             </div>
-            <Progress 
-              value={((currentStageIndex + currentProgress / 100) / sortedStages.length) * 100} 
-              className="h-3"
-            />
+            <Progress
+              value={(currentStageIndex + currentProgress / 100) / sortedStages.length * 100}
+              className="h-3" />
+
             
             {/* Stage Timeline */}
             <div className="flex items-center justify-between mt-6 overflow-x-auto">
@@ -110,10 +110,10 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
                       </div>
                       <div className="text-center">
                         <div className={`text-sm font-medium ${
-                          status === 'current' ? 'text-primary' : 
-                          status === 'completed' ? 'text-green-600' : 
-                          'text-muted-foreground'
-                        }`}>
+                        status === 'current' ? 'text-primary' :
+                        status === 'completed' ? 'text-green-600' :
+                        'text-muted-foreground'}`
+                        }>
                           {stage.name}
                         </div>
                         <div className="text-xs text-muted-foreground mt-1">
@@ -121,11 +121,11 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
                         </div>
                       </div>
                     </div>
-                    {index < sortedStages.length - 1 && (
-                      <ArrowRight className="w-4 h-4 text-muted-foreground mx-2" />
-                    )}
-                  </div>
-                );
+                    {index < sortedStages.length - 1 &&
+                    <ArrowRight className="w-4 h-4 text-muted-foreground mx-2" />
+                    }
+                  </div>);
+
               })}
             </div>
           </div>
@@ -133,8 +133,8 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
       </Card>
 
       {/* Current Stage Details */}
-      {currentStage && (
-        <Card className="business-card">
+      {currentStage &&
+      <Card className="business-card">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
               <span className="flex items-center gap-2">
@@ -157,12 +157,12 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
                   Key Objectives
                 </h4>
                 <ul className="space-y-1">
-                  {parseJsonField(currentStage.key_objectives).map((objective, index) => (
-                    <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
+                  {parseJsonField(currentStage.key_objectives).map((objective, index) =>
+                <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
                       <Circle className="w-3 h-3 mt-1 flex-shrink-0" />
                       {objective}
                     </li>
-                  ))}
+                )}
                 </ul>
               </div>
 
@@ -173,12 +173,12 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
                   Success Criteria
                 </h4>
                 <ul className="space-y-1">
-                  {parseJsonField(currentStage.success_criteria).map((criteria, index) => (
-                    <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
+                  {parseJsonField(currentStage.success_criteria).map((criteria, index) =>
+                <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
                       <Circle className="w-3 h-3 mt-1 flex-shrink-0" />
                       {criteria}
                     </li>
-                  ))}
+                )}
                 </ul>
               </div>
             </div>
@@ -190,11 +190,11 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
                 Recommended Agents
               </h4>
               <div className="flex flex-wrap gap-2">
-                {parseJsonField(currentStage.recommended_agents).map((agent, index) => (
-                  <Badge key={index} variant="outline" className="text-xs">
+                {parseJsonField(currentStage.recommended_agents).map((agent, index) =>
+              <Badge key={index} variant="outline" className="text-xs">
                     {agent}
                   </Badge>
-                ))}
+              )}
               </div>
             </div>
 
@@ -208,33 +208,33 @@ const BusinessStageVisualizer: React.FC<BusinessStageVisualizerProps> = ({
             </div>
 
             {/* Transition Button */}
-            {nextStage && (
-              <div className="pt-4 border-t">
+            {nextStage &&
+          <div className="pt-4 border-t">
                 <Button
-                  onClick={() => onStageTransition(currentStage.id, nextStage.id)}
-                  disabled={loading || currentProgress < 80}
-                  className="w-full beewise-gradient"
-                >
-                  {loading ? (
-                    "Processing..."
-                  ) : currentProgress < 80 ? (
-                    `Complete ${80 - currentProgress}% more to advance`
-                  ) : (
-                    `Advance to ${nextStage.name}`
-                  )}
+              onClick={() => onStageTransition(currentStage.id, nextStage.id)}
+              disabled={loading || currentProgress < 80}
+              className="w-full beewise-gradient">
+
+                  {loading ?
+              "Processing..." :
+              currentProgress < 80 ?
+              `Complete ${80 - currentProgress}% more to advance` :
+
+              `Advance to ${nextStage.name}`
+              }
                 </Button>
-                {currentProgress < 80 && (
-                  <p className="text-xs text-muted-foreground mt-2 text-center">
+                {currentProgress < 80 &&
+            <p className="text-xs text-muted-foreground mt-2 text-center">
                     Minimum 80% completion required for stage transition
                   </p>
-                )}
+            }
               </div>
-            )}
+          }
           </CardContent>
         </Card>
-      )}
-    </div>
-  );
+      }
+    </div>);
+
 };
 
 export default BusinessStageVisualizer;

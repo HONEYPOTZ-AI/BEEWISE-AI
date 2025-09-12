@@ -182,22 +182,22 @@ export const useEnhancedTasks = () => {
     try {
       // Fetch all data in parallel
       const [
-        tasksResult,
-        assignmentsResult,
-        dependenciesResult,
-        templatesResult,
-        businessesResult,
-        stagesResult,
-        agentsResult
-      ] = await Promise.all([
-        window.ezsite.apis.tablePage(TASKS_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "created_at", IsAsc: false }),
-        window.ezsite.apis.tablePage(TASK_ASSIGNMENTS_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "assigned_at", IsAsc: false }),
-        window.ezsite.apis.tablePage(TASK_DEPENDENCIES_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "created_at", IsAsc: false }),
-        window.ezsite.apis.tablePage(TASK_TEMPLATES_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "name", IsAsc: true }),
-        window.ezsite.apis.tablePage(BUSINESSES_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "name", IsAsc: true }),
-        window.ezsite.apis.tablePage(BUSINESS_STAGES_TABLE_ID, { PageNo: 1, PageSize: 100, OrderByField: "stage_order", IsAsc: true }),
-        window.ezsite.apis.tablePage(AGENTS_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "name", IsAsc: true })
-      ]);
+      tasksResult,
+      assignmentsResult,
+      dependenciesResult,
+      templatesResult,
+      businessesResult,
+      stagesResult,
+      agentsResult] =
+      await Promise.all([
+      window.ezsite.apis.tablePage(TASKS_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "created_at", IsAsc: false }),
+      window.ezsite.apis.tablePage(TASK_ASSIGNMENTS_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "assigned_at", IsAsc: false }),
+      window.ezsite.apis.tablePage(TASK_DEPENDENCIES_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "created_at", IsAsc: false }),
+      window.ezsite.apis.tablePage(TASK_TEMPLATES_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "name", IsAsc: true }),
+      window.ezsite.apis.tablePage(BUSINESSES_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "name", IsAsc: true }),
+      window.ezsite.apis.tablePage(BUSINESS_STAGES_TABLE_ID, { PageNo: 1, PageSize: 100, OrderByField: "stage_order", IsAsc: true }),
+      window.ezsite.apis.tablePage(AGENTS_TABLE_ID, { PageNo: 1, PageSize: 1000, OrderByField: "name", IsAsc: true })]
+      );
 
       if (tasksResult.error) throw new Error(tasksResult.error);
       if (assignmentsResult.error) throw new Error(assignmentsResult.error);
@@ -220,8 +220,8 @@ export const useEnhancedTasks = () => {
         const business = fetchedBusinesses.find((b: any) => b.id === task.business_id);
         const stage = business ? fetchedStages.find((s: any) => s.id === business.current_stage_id) : null;
         const assignments = fetchedAssignments.filter((a: any) => a.task_id === task.id);
-        const dependencies = fetchedDependencies.filter((d: any) => 
-          d.parent_task_id === task.id || d.dependent_task_id === task.id
+        const dependencies = fetchedDependencies.filter((d: any) =>
+        d.parent_task_id === task.id || d.dependent_task_id === task.id
         );
 
         return {
@@ -252,13 +252,13 @@ export const useEnhancedTasks = () => {
         const stage = fetchedStages.find((s: any) => s.id === business.current_stage_id);
         const businessTasks = fetchedTasks.filter((t: any) => t.business_id === business.id);
         const completedTasks = businessTasks.filter((t: any) => t.status === 'completed');
-        
+
         return {
           ...business,
           currentStageName: stage?.name || 'Unknown Stage',
           taskCount: businessTasks.length,
           completedTaskCount: completedTasks.length,
-          progressPercentage: businessTasks.length > 0 ? Math.round((completedTasks.length / businessTasks.length) * 100) : 0
+          progressPercentage: businessTasks.length > 0 ? Math.round(completedTasks.length / businessTasks.length * 100) : 0
         };
       });
 
@@ -271,8 +271,8 @@ export const useEnhancedTasks = () => {
       });
 
       const enhancedAgents = fetchedAgents.map((agent: any) => {
-        const currentTasks = fetchedAssignments.filter((a: any) => 
-          a.agent_id === agent.id && ['assigned', 'accepted', 'in_progress'].includes(a.status)
+        const currentTasks = fetchedAssignments.filter((a: any) =>
+        a.agent_id === agent.id && ['assigned', 'accepted', 'in_progress'].includes(a.status)
         );
         return {
           ...agent,
@@ -295,7 +295,7 @@ export const useEnhancedTasks = () => {
       toast({
         title: "Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
@@ -305,7 +305,7 @@ export const useEnhancedTasks = () => {
   // Create task from template
   const createTaskFromTemplate = async (templateId: number, businessId: number, customData?: Partial<Task>) => {
     try {
-      const template = taskTemplates.find(t => t.id === templateId);
+      const template = taskTemplates.find((t) => t.id === templateId);
       if (!template) {
         throw new Error('Template not found');
       }
@@ -338,7 +338,7 @@ export const useEnhancedTasks = () => {
 
       toast({
         title: "Success",
-        description: "Task created from template successfully",
+        description: "Task created from template successfully"
       });
 
       await fetchAllData(); // Refresh data
@@ -348,7 +348,7 @@ export const useEnhancedTasks = () => {
       toast({
         title: "Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
       return false;
     }
@@ -381,7 +381,7 @@ export const useEnhancedTasks = () => {
 
       toast({
         title: "Success",
-        description: "Task created successfully",
+        description: "Task created successfully"
       });
 
       await fetchAllData();
@@ -391,7 +391,7 @@ export const useEnhancedTasks = () => {
       toast({
         title: "Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
       return false;
     }
@@ -417,7 +417,7 @@ export const useEnhancedTasks = () => {
 
       toast({
         title: "Success",
-        description: "Task assigned to agent successfully",
+        description: "Task assigned to agent successfully"
       });
 
       await fetchAllData();
@@ -427,7 +427,7 @@ export const useEnhancedTasks = () => {
       toast({
         title: "Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
       return false;
     }
@@ -459,7 +459,7 @@ export const useEnhancedTasks = () => {
 
       toast({
         title: "Success",
-        description: "Task status updated successfully",
+        description: "Task status updated successfully"
       });
 
       await fetchAllData();
@@ -469,7 +469,7 @@ export const useEnhancedTasks = () => {
       toast({
         title: "Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
       return false;
     }
@@ -478,15 +478,15 @@ export const useEnhancedTasks = () => {
   // Check stage progression based on task completion
   const checkStageProgression = async (completedTaskId: number) => {
     try {
-      const completedTask = tasks.find(t => t.id === completedTaskId);
+      const completedTask = tasks.find((t) => t.id === completedTaskId);
       if (!completedTask) return;
 
-      const business = businesses.find(b => b.id === completedTask.business_id);
+      const business = businesses.find((b) => b.id === completedTask.business_id);
       if (!business) return;
 
-      const businessTasks = tasks.filter(t => t.business_id === business.id);
-      const completedTasks = businessTasks.filter(t => t.status === 'completed');
-      const stageTasks = businessTasks.filter(t => {
+      const businessTasks = tasks.filter((t) => t.business_id === business.id);
+      const completedTasks = businessTasks.filter((t) => t.status === 'completed');
+      const stageTasks = businessTasks.filter((t) => {
         try {
           const metadata = JSON.parse(t.metadata || '{}');
           return metadata.stage_id === business.current_stage_id;
@@ -494,19 +494,19 @@ export const useEnhancedTasks = () => {
           return false;
         }
       });
-      
-      const completedStageTasks = stageTasks.filter(t => t.status === 'completed');
+
+      const completedStageTasks = stageTasks.filter((t) => t.status === 'completed');
       const stageCompletionRate = stageTasks.length > 0 ? completedStageTasks.length / stageTasks.length : 0;
 
       // If stage is 80% complete, suggest stage progression
       if (stageCompletionRate >= 0.8) {
-        const currentStage = businessStages.find(s => s.id === business.current_stage_id);
-        const nextStage = businessStages.find(s => s.stage_order === (currentStage?.stage_order || 0) + 1);
-        
+        const currentStage = businessStages.find((s) => s.id === business.current_stage_id);
+        const nextStage = businessStages.find((s) => s.stage_order === (currentStage?.stage_order || 0) + 1);
+
         if (nextStage) {
           toast({
             title: "Stage Progression Available",
-            description: `Business "${business.name}" is ready to progress from "${currentStage?.name}" to "${nextStage.name}"`,
+            description: `Business "${business.name}" is ready to progress from "${currentStage?.name}" to "${nextStage.name}"`
           });
         }
       }
@@ -531,7 +531,7 @@ export const useEnhancedTasks = () => {
 
       toast({
         title: "Success",
-        description: "Task dependency created successfully",
+        description: "Task dependency created successfully"
       });
 
       await fetchAllData();
@@ -541,7 +541,7 @@ export const useEnhancedTasks = () => {
       toast({
         title: "Error",
         description: errorMessage,
-        variant: "destructive",
+        variant: "destructive"
       });
       return false;
     }
@@ -549,12 +549,12 @@ export const useEnhancedTasks = () => {
 
   // Get tasks by business
   const getTasksByBusiness = (businessId: number) => {
-    return tasks.filter(task => task.business_id === businessId);
+    return tasks.filter((task) => task.business_id === businessId);
   };
 
   // Get tasks by business and stage
   const getTasksByBusinessAndStage = (businessId: number, stageId: number) => {
-    return tasks.filter(task => {
+    return tasks.filter((task) => {
       if (task.business_id !== businessId) return false;
       try {
         const metadata = JSON.parse(task.metadata || '{}');
@@ -567,10 +567,10 @@ export const useEnhancedTasks = () => {
 
   // Get available agents for task type
   const getAvailableAgentsForTaskType = (taskType: string) => {
-    return agents.filter(agent => {
+    return agents.filter((agent) => {
       if (agent.status !== 'active') return false;
       if (!agent.isAvailable) return false;
-      
+
       try {
         const config = JSON.parse(agent.configuration || '{}');
         const supportedTypes = config.supported_task_types || [];
@@ -612,8 +612,8 @@ export const useEnhancedTasks = () => {
 
     // Computed values
     totalTasks: tasks.length,
-    completedTasks: tasks.filter(t => t.status === 'completed').length,
-    pendingTasks: tasks.filter(t => t.status === 'pending').length,
-    inProgressTasks: tasks.filter(t => ['assigned', 'in_progress'].includes(t.status)).length
+    completedTasks: tasks.filter((t) => t.status === 'completed').length,
+    pendingTasks: tasks.filter((t) => t.status === 'pending').length,
+    inProgressTasks: tasks.filter((t) => ['assigned', 'in_progress'].includes(t.status)).length
   };
 };

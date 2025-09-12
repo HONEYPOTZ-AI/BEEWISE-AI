@@ -34,15 +34,15 @@ interface BusinessFormProps {
 }
 
 const INDUSTRY_OPTIONS = [
-  'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
-  'Real Estate', 'Entertainment', 'Food & Beverage', 'Transportation', 'Energy',
-  'Construction', 'Agriculture', 'Legal Services', 'Consulting', 'Other'
-];
+'Technology', 'Healthcare', 'Finance', 'Education', 'Retail', 'Manufacturing',
+'Real Estate', 'Entertainment', 'Food & Beverage', 'Transportation', 'Energy',
+'Construction', 'Agriculture', 'Legal Services', 'Consulting', 'Other'];
+
 
 const BUSINESS_TYPE_OPTIONS = [
-  'Startup', 'Small Business (SME)', 'Medium Enterprise', 'Large Enterprise',
-  'Non-Profit', 'Freelance', 'Consulting', 'E-commerce', 'SaaS', 'Other'
-];
+'Startup', 'Small Business (SME)', 'Medium Enterprise', 'Large Enterprise',
+'Non-Profit', 'Freelance', 'Consulting', 'E-commerce', 'SaaS', 'Other'];
+
 
 const BusinessForm: React.FC<BusinessFormProps> = ({
   isOpen,
@@ -73,7 +73,7 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
       address: initialData?.address || '',
       revenue_target: initialData?.revenue_target || 0,
       current_revenue: initialData?.current_revenue || 0,
-      employee_count: initialData?.employee_count || 1,
+      employee_count: initialData?.employee_count || 1
     }
   });
 
@@ -119,8 +119,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 id="name"
                 {...register('name', { required: 'Business name is required' })}
                 placeholder="Enter business name"
-                className="mt-1"
-              />
+                className="mt-1" />
+
               {errors.name && <p className="text-sm text-destructive mt-1">{errors.name.message}</p>}
             </div>
 
@@ -131,44 +131,44 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 {...register('description')}
                 placeholder="Describe your business..."
                 rows={3}
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div>
               <Label htmlFor="industry">Industry</Label>
-              <Select 
-                value={watchedValues.industry} 
-                onValueChange={(value) => setValue('industry', value)}
-              >
+              <Select
+                value={watchedValues.industry}
+                onValueChange={(value) => setValue('industry', value)}>
+
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Select industry" />
                 </SelectTrigger>
                 <SelectContent>
-                  {INDUSTRY_OPTIONS.map((industry) => (
-                    <SelectItem key={industry} value={industry}>
+                  {INDUSTRY_OPTIONS.map((industry) =>
+                  <SelectItem key={industry} value={industry}>
                       {industry}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
             </div>
 
             <div>
               <Label htmlFor="business_type">Business Type</Label>
-              <Select 
-                value={watchedValues.business_type} 
-                onValueChange={(value) => setValue('business_type', value)}
-              >
+              <Select
+                value={watchedValues.business_type}
+                onValueChange={(value) => setValue('business_type', value)}>
+
                 <SelectTrigger className="mt-1">
                   <SelectValue placeholder="Select business type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {BUSINESS_TYPE_OPTIONS.map((type) => (
-                    <SelectItem key={type} value={type}>
+                  {BUSINESS_TYPE_OPTIONS.map((type) =>
+                  <SelectItem key={type} value={type}>
                       {type}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -184,8 +184,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 type="email"
                 {...register('contact_email')}
                 placeholder="contact@business.com"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div>
@@ -197,8 +197,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 id="phone_number"
                 {...register('phone_number')}
                 placeholder="+1 (555) 123-4567"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div>
@@ -211,8 +211,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 type="url"
                 {...register('website_url')}
                 placeholder="https://business.com"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div>
@@ -224,8 +224,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 id="address"
                 {...register('address')}
                 placeholder="Business address"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             {/* Financial Information */}
@@ -239,8 +239,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 type="number"
                 {...register('revenue_target', { min: 0 })}
                 placeholder="1000000"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div>
@@ -253,8 +253,8 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 type="number"
                 {...register('current_revenue', { min: 0 })}
                 placeholder="250000"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div className="md:col-span-2">
@@ -267,14 +267,14 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                 type="number"
                 {...register('employee_count', { min: 1 })}
                 placeholder="10"
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
           </div>
 
           {/* Preview */}
-          {watchedValues.name && (
-            <Card className="business-card">
+          {watchedValues.name &&
+          <Card className="business-card">
               <CardHeader>
                 <CardTitle className="text-sm">Preview</CardTitle>
               </CardHeader>
@@ -283,60 +283,60 @@ const BusinessForm: React.FC<BusinessFormProps> = ({
                   <div className="flex items-center justify-between">
                     <h3 className="font-medium">{watchedValues.name}</h3>
                     <div className="flex gap-2">
-                      {watchedValues.industry && (
-                        <Badge variant="secondary" className="text-xs">
+                      {watchedValues.industry &&
+                    <Badge variant="secondary" className="text-xs">
                           {watchedValues.industry}
                         </Badge>
-                      )}
-                      {watchedValues.business_type && (
-                        <Badge variant="outline" className="text-xs">
+                    }
+                      {watchedValues.business_type &&
+                    <Badge variant="outline" className="text-xs">
                           {watchedValues.business_type}
                         </Badge>
-                      )}
+                    }
                     </div>
                   </div>
-                  {watchedValues.description && (
-                    <p className="text-sm text-muted-foreground line-clamp-2">
+                  {watchedValues.description &&
+                <p className="text-sm text-muted-foreground line-clamp-2">
                       {watchedValues.description}
                     </p>
-                  )}
+                }
                   <div className="grid grid-cols-2 gap-4 text-xs text-muted-foreground">
-                    {watchedValues.employee_count > 0 && (
-                      <div className="flex items-center gap-1">
+                    {watchedValues.employee_count > 0 &&
+                  <div className="flex items-center gap-1">
                         <Users className="w-3 h-3" />
                         {watchedValues.employee_count} employees
                       </div>
-                    )}
-                    {watchedValues.revenue_target > 0 && (
-                      <div className="flex items-center gap-1">
+                  }
+                    {watchedValues.revenue_target > 0 &&
+                  <div className="flex items-center gap-1">
                         <DollarSign className="w-3 h-3" />
                         ${(watchedValues.revenue_target / 100).toLocaleString()} target
                       </div>
-                    )}
+                  }
                   </div>
                 </div>
               </CardContent>
             </Card>
-          )}
+          }
 
           <DialogFooter>
             <Button type="button" variant="outline" onClick={handleClose}>
               <X className="w-4 h-4 mr-2" />
               Cancel
             </Button>
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={isSubmitting || loading}
-              className="beewise-gradient"
-            >
+              className="beewise-gradient">
+
               <Save className="w-4 h-4 mr-2" />
               {isSubmitting ? 'Saving...' : isEditing ? 'Update Business' : 'Create Business'}
             </Button>
           </DialogFooter>
         </form>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>);
+
 };
 
 export default BusinessForm;

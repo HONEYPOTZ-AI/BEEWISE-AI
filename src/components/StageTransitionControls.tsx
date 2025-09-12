@@ -39,7 +39,7 @@ interface StageTransitionControlsProps {
   currentStage: BusinessStage;
   nextStage?: BusinessStage;
   currentProgress: number;
-  objectives: Array<{ id: string; name: string; completed: boolean; progress: number }>;
+  objectives: Array<{id: string;name: string;completed: boolean;progress: number;}>;
   onTransition: (transitionData: {
     from_stage_id: number;
     to_stage_id: number;
@@ -72,14 +72,14 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const completedObjectives = objectives.filter(obj => obj.completed).length;
+  const completedObjectives = objectives.filter((obj) => obj.completed).length;
   const totalObjectives = objectives.length;
-  const objectiveProgress = totalObjectives > 0 ? (completedObjectives / totalObjectives) * 100 : 0;
-  
+  const objectiveProgress = totalObjectives > 0 ? completedObjectives / totalObjectives * 100 : 0;
+
   const canTransition = currentProgress >= 80 && objectiveProgress >= 70 && nextStage;
-  const averageObjectiveProgress = totalObjectives > 0 
-    ? objectives.reduce((sum, obj) => sum + obj.progress, 0) / totalObjectives 
-    : 0;
+  const averageObjectiveProgress = totalObjectives > 0 ?
+  objectives.reduce((sum, obj) => sum + obj.progress, 0) / totalObjectives :
+  0;
 
   const handleTransition = async () => {
     if (!nextStage || !transitionReason.trim()) {
@@ -129,9 +129,9 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
 
   const getTransitionTypeColor = (type: string) => {
     switch (type) {
-      case 'automatic': return 'bg-green-100 text-green-800';
-      case 'triggered': return 'bg-blue-100 text-blue-800';
-      default: return 'bg-orange-100 text-orange-800';
+      case 'automatic':return 'bg-green-100 text-green-800';
+      case 'triggered':return 'bg-blue-100 text-blue-800';
+      default:return 'bg-orange-100 text-orange-800';
     }
   };
 
@@ -177,14 +177,14 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
           {/* Objectives List */}
           <div className="space-y-2">
             <Label className="text-sm font-medium">Key Objectives Status</Label>
-            {objectives.map((objective) => (
-              <div key={objective.id} className="flex items-center justify-between p-2 rounded-lg border">
+            {objectives.map((objective) =>
+            <div key={objective.id} className="flex items-center justify-between p-2 rounded-lg border">
                 <div className="flex items-center gap-2">
-                  {objective.completed ? (
-                    <CheckCircle2 className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <Circle className="w-4 h-4 text-muted-foreground" />
-                  )}
+                  {objective.completed ?
+                <CheckCircle2 className="w-4 h-4 text-green-500" /> :
+
+                <Circle className="w-4 h-4 text-muted-foreground" />
+                }
                   <span className={`text-sm ${objective.completed ? 'line-through text-muted-foreground' : ''}`}>
                     {objective.name}
                   </span>
@@ -198,35 +198,35 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                   </span>
                 </div>
               </div>
-            ))}
+            )}
           </div>
 
           {/* Transition Readiness */}
           <div className="flex items-center justify-between p-3 rounded-lg border">
             <div className="flex items-center gap-2">
-              {canTransition ? (
-                <CheckCircle2 className="w-5 h-5 text-green-500" />
-              ) : (
-                <AlertCircle className="w-5 h-5 text-orange-500" />
-              )}
+              {canTransition ?
+              <CheckCircle2 className="w-5 h-5 text-green-500" /> :
+
+              <AlertCircle className="w-5 h-5 text-orange-500" />
+              }
               <span className="font-medium">
                 {canTransition ? 'Ready for Transition' : 'Transition Requirements Not Met'}
               </span>
             </div>
-            {nextStage && (
-              <Button
-                onClick={() => setIsTransitionDialogOpen(true)}
-                disabled={!canTransition || loading}
-                className="beewise-gradient"
-              >
+            {nextStage &&
+            <Button
+              onClick={() => setIsTransitionDialogOpen(true)}
+              disabled={!canTransition || loading}
+              className="beewise-gradient">
+
                 <ArrowRight className="w-4 h-4 mr-2" />
                 Advance to {nextStage.name}
               </Button>
-            )}
+            }
           </div>
 
-          {!canTransition && (
-            <div className="text-xs text-muted-foreground space-y-1">
+          {!canTransition &&
+          <div className="text-xs text-muted-foreground space-y-1">
               <p>Requirements for stage transition:</p>
               <ul className="list-disc list-inside ml-2 space-y-1">
                 <li className={currentProgress >= 80 ? 'text-green-600' : ''}>
@@ -237,13 +237,13 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                 </li>
               </ul>
             </div>
-          )}
+          }
         </CardContent>
       </Card>
 
       {/* Recent Transitions */}
-      {recentTransitions.length > 0 && (
-        <Card className="business-card">
+      {recentTransitions.length > 0 &&
+      <Card className="business-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="w-5 h-5 text-primary" />
@@ -252,8 +252,8 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
-              {recentTransitions.slice(0, 5).map((transition) => (
-                <div key={transition.id} className="flex items-center justify-between p-3 rounded-lg border">
+              {recentTransitions.slice(0, 5).map((transition) =>
+            <div key={transition.id} className="flex items-center justify-between p-3 rounded-lg border">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <Badge className={`text-xs ${getTransitionTypeColor(transition.transition_type)}`}>
@@ -264,9 +264,9 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                       </span>
                     </div>
                     <p className="text-xs text-muted-foreground">{transition.transition_reason}</p>
-                    {transition.notes && (
-                      <p className="text-xs text-muted-foreground mt-1 italic">{transition.notes}</p>
-                    )}
+                    {transition.notes &&
+                <p className="text-xs text-muted-foreground mt-1 italic">{transition.notes}</p>
+                }
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-medium">Score: {transition.success_score}/10</div>
@@ -278,11 +278,11 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                     </div>
                   </div>
                 </div>
-              ))}
+            )}
             </div>
           </CardContent>
         </Card>
-      )}
+      }
 
       {/* Transition Dialog */}
       <Dialog open={isTransitionDialogOpen} onOpenChange={setIsTransitionDialogOpen}>
@@ -316,8 +316,8 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                 onChange={(e) => setTransitionReason(e.target.value)}
                 placeholder="Explain why this transition is appropriate..."
                 rows={3}
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div>
@@ -341,11 +341,11 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {[...Array(10)].map((_, i) => (
-                    <SelectItem key={i + 1} value={(i + 1).toString()}>
+                  {[...Array(10)].map((_, i) =>
+                  <SelectItem key={i + 1} value={(i + 1).toString()}>
                       {i + 1} {i + 1 <= 3 ? '(Poor)' : i + 1 <= 6 ? '(Average)' : i + 1 <= 8 ? '(Good)' : '(Excellent)'}
                     </SelectItem>
-                  ))}
+                  )}
                 </SelectContent>
               </Select>
             </div>
@@ -358,8 +358,8 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Any additional observations or notes..."
                 rows={2}
-                className="mt-1"
-              />
+                className="mt-1" />
+
             </div>
 
             <div className="p-3 rounded-lg bg-muted/50">
@@ -375,32 +375,32 @@ const StageTransitionControls: React.FC<StageTransitionControlsProps> = ({
             <Button
               variant="outline"
               onClick={() => setIsTransitionDialogOpen(false)}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
+
               Cancel
             </Button>
             <Button
               onClick={handleTransition}
               disabled={isSubmitting || !transitionReason.trim()}
-              className="beewise-gradient"
-            >
-              {isSubmitting ? (
-                <>
+              className="beewise-gradient">
+
+              {isSubmitting ?
+              <>
                   <Clock className="w-4 h-4 mr-2 animate-spin" />
                   Processing...
-                </>
-              ) : (
-                <>
+                </> :
+
+              <>
                   <ArrowRight className="w-4 h-4 mr-2" />
                   Confirm Transition
                 </>
-              )}
+              }
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
-    </div>
-  );
+    </div>);
+
 };
 
 export default StageTransitionControls;
