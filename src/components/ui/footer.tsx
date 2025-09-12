@@ -20,7 +20,12 @@ const Footer: React.FC<FooterProps> = ({ className, children }) => {
               <img 
                 src="https://cdn.ezsite.ai/AutoDev/59275/72517020-a4c6-4049-b29e-6cb8f90cd76e.png" 
                 alt="Company Logo" 
-                className="h-8 w-auto md:h-12 transition-all duration-200 hover:scale-105"
+                className="h-12 w-auto md:h-16 object-contain transition-all duration-200 hover:scale-105"
+                onError={(e) => {
+                  console.error('Footer logo failed to load:', e);
+                  e.currentTarget.style.display = 'none';
+                }}
+                onLoad={() => console.log('Footer logo loaded successfully')}
               />
             </div>
             

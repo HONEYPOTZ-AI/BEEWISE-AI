@@ -19,7 +19,12 @@ const Header: React.FC<HeaderProps> = ({ className, children }) => {
             <img 
               src="https://cdn.ezsite.ai/AutoDev/59275/c920ee72-30b1-4d8f-9649-12f3723944be.png" 
               alt="Company Logo" 
-              className="h-8 w-auto md:h-10 transition-all duration-200 hover:scale-105"
+              className="h-10 w-auto md:h-12 object-contain transition-all duration-200 hover:scale-105"
+              onError={(e) => {
+                console.error('Logo failed to load:', e);
+                e.currentTarget.style.display = 'none';
+              }}
+              onLoad={() => console.log('Header logo loaded successfully')}
             />
           </div>
           
