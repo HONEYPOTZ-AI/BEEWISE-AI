@@ -640,7 +640,7 @@ const EnhancedTaskManager: React.FC = () => {
         </TabsContent>
 
         {/* Workflow Tab */}
-        <TabsContent value="workflow" className="space-y-4">
+        <TabsContent value="workflow" className="space-y-4" data-tour="task-workflow">
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">

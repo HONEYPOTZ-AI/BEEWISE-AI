@@ -6,7 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { TourProvider } from '@/contexts/TourContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
-import { TourOverlay } from '@/components/TourOverlay';
+import OnboardingTour from '@/components/OnboardingTour';
 
 // Page imports
 import HomePage from '@/pages/HomePage';
@@ -53,24 +53,24 @@ function App() {
       <ThemeProvider>
         <TourProvider>
           <TooltipProvider>
-          <BrowserRouter>
-            <ErrorBoundary>
-              <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
-                <Routes>
-                  <Route path="/" element={<HomePage />} />
-                  <Route path="/apiconfig" element={<ApiConfigPage />} />
-                  <Route path="/apitesting" element={<ApiTestingPage />} />
-                  <Route path="/testing" element={<TestingPage />} />
-                  <Route path="/documentation" element={<DocumentationPage />} />
-                  <Route path="/docs" element={<DocumentationIndexPage />} />
-                  <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Suspense>
-            </ErrorBoundary>
-          </BrowserRouter>
-          <Toaster />
-          <TourOverlay />
-        </TooltipProvider>
+            <BrowserRouter>
+              <ErrorBoundary>
+                <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
+                  <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/apiconfig" element={<ApiConfigPage />} />
+                    <Route path="/apitesting" element={<ApiTestingPage />} />
+                    <Route path="/testing" element={<TestingPage />} />
+                    <Route path="/documentation" element={<DocumentationPage />} />
+                    <Route path="/docs" element={<DocumentationIndexPage />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </Suspense>
+                <OnboardingTour />
+              </ErrorBoundary>
+            </BrowserRouter>
+            <Toaster />
+          </TooltipProvider>
         </TourProvider>
       </ThemeProvider>
     </QueryClientProvider>);

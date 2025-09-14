@@ -10,6 +10,7 @@ import BusinessDashboard from '@/components/BusinessDashboard';
 import AgentDashboard from '@/components/AgentDashboard';
 import EnhancedTaskManager from '@/components/EnhancedTaskManager';
 import NavigationMenuComponent from '@/components/NavigationMenu';
+import TourRestartButton from '@/components/TourRestartButton';
 import {
   Building2,
   Bot,
@@ -64,11 +65,11 @@ const HomePage: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" id="main-content">
-      <ParticleBackground />
+    <div className="min-h-screen bg-background">
+      {/* Navigation */}
       <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16" id="header-content">
+          <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg beewise-gradient">
@@ -81,8 +82,11 @@ const HomePage: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center gap-4">
-              <NavigationMenuComponent />
-              <div id="theme-toggle">
+              <TourRestartButton />
+              <div data-tour="navigation-menu">
+                <NavigationMenuComponent />
+              </div>
+              <div data-tour="theme-toggle">
                 <ThemeToggle />
               </div>
             </div>
@@ -212,16 +216,22 @@ const HomePage: React.FC = () => {
               </TabsList>
             </div>
 
-            <TabsContent value="businesses" className="fade-in" id="business-dashboard">
-              <BusinessDashboard />
+            <TabsContent value="businesses" className="fade-in">
+              <div data-tour="business-dashboard">
+                <BusinessDashboard />
+              </div>
             </TabsContent>
 
-            <TabsContent value="agents" className="fade-in" id="agent-dashboard">
-              <AgentDashboard />
+            <TabsContent value="agents" className="fade-in">
+              <div data-tour="agent-dashboard">
+                <AgentDashboard />
+              </div>
             </TabsContent>
 
-            <TabsContent value="tasks" className="fade-in" id="task-manager">
-              <EnhancedTaskManager />
+            <TabsContent value="tasks" className="fade-in">
+              <div data-tour="task-manager">
+                <EnhancedTaskManager />
+              </div>
             </TabsContent>
           </Tabs>
         </div>

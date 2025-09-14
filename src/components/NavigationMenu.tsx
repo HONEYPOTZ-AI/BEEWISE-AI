@@ -25,13 +25,11 @@ import {
   NavigationMenuTrigger } from
 '@/components/ui/navigation-menu';
 import { cn } from '@/lib/utils';
-import { TourTrigger } from '@/components/TourTrigger';
 
 const NavigationMenuComponent: React.FC = () => {
   return (
-    <div className="hidden md:flex items-center space-x-4" id="main-navigation">
-      <NavigationMenu>
-        <NavigationMenuList>
+    <NavigationMenu className="hidden md:flex">
+      <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuLink asChild>
             <Link to="/" className="flex items-center gap-2 px-3 py-2 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">
@@ -133,15 +131,7 @@ const NavigationMenuComponent: React.FC = () => {
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
-    </NavigationMenu>
-    
-    {/* Tour trigger button */}
-    <TourTrigger 
-      variant="outline" 
-      size="sm" 
-    />
-  </div>
-);
+    </NavigationMenu>);
 
 };
 
