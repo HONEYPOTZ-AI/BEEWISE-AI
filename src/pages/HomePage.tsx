@@ -64,11 +64,11 @@ const HomePage: React.FC = () => {
 
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" id="main-content">
+      <ParticleBackground />
       <nav className="border-b bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center justify-between h-16" id="header-content">
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg beewise-gradient">
@@ -82,7 +82,9 @@ const HomePage: React.FC = () => {
             </div>
             <div className="flex items-center gap-4">
               <NavigationMenuComponent />
-              <ThemeToggle />
+              <div id="theme-toggle">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
         </div>
@@ -210,15 +212,15 @@ const HomePage: React.FC = () => {
               </TabsList>
             </div>
 
-            <TabsContent value="businesses" className="fade-in">
+            <TabsContent value="businesses" className="fade-in" id="business-dashboard">
               <BusinessDashboard />
             </TabsContent>
 
-            <TabsContent value="agents" className="fade-in">
+            <TabsContent value="agents" className="fade-in" id="agent-dashboard">
               <AgentDashboard />
             </TabsContent>
 
-            <TabsContent value="tasks" className="fade-in">
+            <TabsContent value="tasks" className="fade-in" id="task-manager">
               <EnhancedTaskManager />
             </TabsContent>
           </Tabs>

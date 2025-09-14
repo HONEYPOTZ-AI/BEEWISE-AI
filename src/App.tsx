@@ -4,7 +4,9 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { TourProvider } from '@/contexts/TourContext';
 import ErrorBoundary from '@/components/ErrorBoundary';
+import { TourOverlay } from '@/components/TourOverlay';
 
 // Page imports
 import HomePage from '@/pages/HomePage';
@@ -49,7 +51,8 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <TooltipProvider>
+        <TourProvider>
+          <TooltipProvider>
           <BrowserRouter>
             <ErrorBoundary>
               <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
@@ -66,7 +69,9 @@ function App() {
             </ErrorBoundary>
           </BrowserRouter>
           <Toaster />
+          <TourOverlay />
         </TooltipProvider>
+        </TourProvider>
       </ThemeProvider>
     </QueryClientProvider>);
 
